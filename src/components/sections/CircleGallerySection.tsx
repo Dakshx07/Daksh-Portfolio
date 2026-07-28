@@ -1,16 +1,16 @@
 import Image from "next/image";
-import { PROJECTS_DATA } from "@/data/projectsData";
+import { CIRCLE_GALLERY_IMAGES } from "@/data/projectsData";
 
 export default function CircleGallerySection() {
   return (
     <section className="circle-gallery" id="circle-gallery">
       <div className="circle-gallery-pin" id="circle-gallery-pin">
-        {PROJECTS_DATA.map((proj) => (
+        {CIRCLE_GALLERY_IMAGES.map((img) => (
           <Image
-            key={proj.id}
+            key={img.id}
             className="cg-img"
-            src={proj.coverImage}
-            alt={proj.alt}
+            src={img.src}
+            alt={img.alt}
             width={1200}
             height={900}
             style={{ width: "auto", height: "auto" }}

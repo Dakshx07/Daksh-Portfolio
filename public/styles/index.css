@@ -640,17 +640,22 @@ a.chr-hover {
 
 .proj-card {
   position: relative;
-  width: min(30vw, 440px);
+  width: min(32vw, 420px);
+  max-width: 420px;
+  overflow: hidden;
+  border-radius: 10px;
   transition: opacity 0.4s ease;
   will-change: transform;
   transform-style: preserve-3d;
 }
 
 .proj-card img {
-  width: 100%;
-  height: auto;
+  width: 100% !important;
+  max-width: 100% !important;
+  height: auto !important;
   display: block;
   object-fit: cover;
+  border-radius: 8px;
   cursor: none;
 }
 

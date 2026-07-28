@@ -14,9 +14,9 @@ export default function ProjectDetailDrawer() {
             id="proj-cover"
             src="/assets/images/projects/Covers/CyberDiag.avif"
             alt="Project Preview"
-            width={1333}
-            height={1000}
-            style={{ width: "auto", height: "auto" }}
+            width={440}
+            height={300}
+            style={{ width: "100%", height: "auto", objectFit: "cover" }}
             unoptimized
           />
         </div>
