@@ -792,19 +792,36 @@ function setupAboutSection() {
   
   const photo = photoWrap.querySelector('.about-photo');
   function initPhotoScroll() {
+    if (!photo) return;
     
     var tl = gsap.timeline({
       scrollTrigger: {
         trigger: photoWrap,
-        start: 'top bottom',
-        end: 'bottom top',
-        scrub: true,
+        start: 'top 85%',
+        end: 'bottom 20%',
+        scrub: 1,
       },
     });
     
-    tl.fromTo(photo, { y: '-50%' }, { y: '50%', ease: 'none' }, 0);
-    
-    tl.fromTo(photo, { opacity: 0, filter: 'blur(20px)' }, { opacity: 1, filter: 'blur(0px)', ease: 'none', duration: 0.3 }, 0);
+    tl.fromTo(
+      photo,
+      {
+        y: '-30%',
+        scale: 0.7,
+        opacity: 0,
+        filter: 'blur(25px)',
+        clipPath: 'inset(15% 15% 15% 15% round 140px)',
+      },
+      {
+        y: '20%',
+        scale: 1,
+        opacity: 1,
+        filter: 'blur(0px)',
+        clipPath: 'inset(0% 0% 0% 0% round 240px 0px 0px 240px)',
+        ease: 'power2.out',
+      },
+      0
+    );
   }
   initPhotoScroll();
 
