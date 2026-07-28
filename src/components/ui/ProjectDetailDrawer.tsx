@@ -21,7 +21,7 @@ export default function ProjectDetailDrawer() {
       </div>
 
       {/* Floating Cursor & Overlay Effects */}
-      <div className="proj-cursor" id="proj-cursor">See project</div>
+      <div className="proj-cursor" id="proj-cursor"><span>Visit</span></div>
       <div className="page-fade" id="page-fade"></div>
       <div className="flying-title" id="flying-title"></div>
       <div className="work-transition-overlay" id="work-transition-overlay"></div>

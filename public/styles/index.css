@@ -669,22 +669,28 @@ a.chr-hover {
   pointer-events: none;
   z-index: 30006;
   opacity: 0;
-  transform: translate(-50%, -50%);
-  background: #f0f0f0;
-  color: #0a0a0a;
+  transform: translate(-50%, -50%) scale(0.6);
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: #000000;
+  color: #ffffff;
   font-family: 'Inter', sans-serif;
-  font-size: 0.7rem;
+  font-size: 0.65rem;
   font-weight: 700;
   letter-spacing: 0.08em;
-  text-transform: uppercase;
-  padding: 1em 1.6em;
-  border-radius: 50px;
-  transition: opacity 0.3s ease, transform 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.8);
+  transition: opacity 0.25s ease, transform 0.25s cubic-bezier(0.2, 1, 0.3, 1);
   white-space: nowrap;
 }
 
 .proj-cursor.active {
   opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
 }
 
 
