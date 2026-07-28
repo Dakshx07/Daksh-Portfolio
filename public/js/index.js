@@ -851,7 +851,7 @@ function setupProjectsSection() {
   const projectsEl = document.getElementById('projects');
   ScrollTrigger.create({
     trigger: projectsEl,
-    start: 'top 80%',
+    start: 'top 50%',
     end: 'bottom 20%',
     onEnter: () => { preview.classList.add('visible'); _projectsVisible = true; },
     onLeave: () => { preview.classList.remove('visible'); _projectsVisible = false; },
@@ -1030,7 +1030,7 @@ function setupProjectsSection() {
     ease: 'none',
     scrollTrigger: {
       trigger: '#projects',
-      start: 'top 70%',
+      start: 'top 95%',
       end: 'bottom 20%',
       scrub: 1,
     },
