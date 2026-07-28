@@ -7,6 +7,11 @@ export const metadata: Metadata = {
   description: "Creative developer & software engineer specializing in modern web interfaces, motion design, interactive architecture, and full-stack software engineering.",
   keywords: ["Daksh Hiran", "Creative Developer", "Software Engineer", "Web Design", "GSAP", "WebGL", "Next.js", "React"],
   authors: [{ name: "Daksh Hiran" }],
+  icons: {
+    icon: "/favicon.png",
+    shortcut: "/favicon.ico",
+    apple: "/favicon.png",
+  },
   openGraph: {
     title: "Daksh Hiran — Creative Developer & Software Engineer",
     description: "Creative developer & software engineer specializing in modern web interfaces, motion design, interactive architecture, and full-stack software engineering.",
@@ -29,6 +34,9 @@ export default function RootLayout({
   return (
     <html lang="en" data-lang="en" suppressHydrationWarning>
       <head>
+        <link rel="icon" href="/favicon.png" type="image/png" />
+        <link rel="shortcut icon" href="/favicon.ico" />
+        <link rel="apple-touch-icon" href="/favicon.png" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" />
