@@ -63,8 +63,8 @@ export const CIRCLE_GALLERY_IMAGES = [
   { id: "orbies", src: "/assets/images/projects/Covers/Orbies.avif", alt: "Orbies project preview" },
   { id: "sentinel", src: "/assets/images/projects/Covers/Sentinel.avif", alt: "Sentinel project preview" },
   { id: "ayuchain", src: "/assets/images/projects/Covers/AyuChain.avif", alt: "AyuChain project preview" },
-  { id: "cyberdiag", src: "/assets/images/projects/Covers/cyberDiag_web.avif", alt: "CyberDiag website project preview" },
-  { id: "anima", src: "/assets/images/projects/Covers/Anima.avif", alt: "Anima interactive web showcase" },
-  { id: "cyberdiag-app", src: "/assets/images/projects/Covers/CyberDiag.avif", alt: "CyberDiag desktop app preview" },
-  { id: "zenith", src: "/assets/images/projects/Covers/Zenith.avif", alt: "Zenith browser concept preview" },
+  { id: "city-night", src: "/assets/images/projects/Covers/CityNight.jpg", alt: "Anime City Night Artwork" },
+  { id: "synthwave", src: "/assets/images/projects/Covers/Synthwave1984.jpg", alt: "1984 Synthwave Delorean Artwork" },
+  { id: "liquid-chrome", src: "/assets/images/projects/Covers/LiquidChrome.jpg", alt: "3D Liquid Chrome Glass Artwork" },
+  { id: "autumn-sunset", src: "/assets/images/projects/Covers/AutumnSunset.jpg", alt: "Watercolor Autumn Landscape Artwork" },
 ];
