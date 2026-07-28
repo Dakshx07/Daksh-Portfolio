@@ -8,7 +8,7 @@ export default function AboutSection() {
       {/* About Section Container */}
       <div className="about" id="about">
         <div className="about-text" id="about-text" data-i18n="index.about.text">
-          As a <span className="other-accent">creative developer</span>, I craft tailor-made web experiences, blending technical precision and <span className="other-accent">design emotion</span>.
+          I engineer <span className="other-accent">experiences</span>, not just websites — where <span className="other-accent">design meets emotion</span>, and every scroll, click, and pixel is built to <span className="other-accent">move people</span>.
         </div>
 
         <div className="about-sub" id="about-sub" data-i18n="index.about.sub">

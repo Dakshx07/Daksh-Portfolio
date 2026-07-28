@@ -24,7 +24,7 @@
     'index.title': 'Daksh Hiran, Creative Developer',
     'index.h1': 'Daksh Hiran, Creative Developer & Software Engineer specialized in web development, animation and interactive design.',
     'index.hero.tagline': 'Creative developer, <span class="other-accent">bringing ideas to life</span>,<br>through movement, detail, and finesse.',
-    'index.about.text': 'As a <span class="other-accent">creative developer</span>, I craft tailor-made web experiences, blending technical precision and <span class="other-accent">design emotion</span>.',
+    'index.about.text': 'I engineer <span class="other-accent">experiences</span>, not just websites — where <span class="other-accent">design meets emotion</span>, and every scroll, click, and pixel is built to <span class="other-accent">move people</span>.',
     'index.about.sub': 'My name is Daksh Hiran. A passionate creator and software engineer, building memorable digital experiences, always seeking the symbiosis between art and information.',
     'index.cg.phrase': 'Each project is a chance to <span class="other-accent">learn</span>, <span class="other-accent">experiment</span>, and push boundaries.',
     'index.skills.subtitle': 'Skills',
