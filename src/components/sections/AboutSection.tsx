@@ -15,9 +15,9 @@ export default function AboutSection() {
           My name is Daksh Hiran. A passionate creator and software engineer, building memorable digital experiences, always seeking the symbiosis between art and information.
         </div>
 
-        
 
-        
+
+
 
         <div className="about-photo-wrap" id="about-photo-wrap">
           <Image
