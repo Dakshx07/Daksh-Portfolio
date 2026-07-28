@@ -6,10 +6,8 @@ export default function ProjectDetailDrawer() {
       {/* Project Card Preview */}
       <div className="proj-preview" id="proj-preview">
         <div className="proj-card" id="proj-card">
-          <div className="proj-meta">
-            <span className="proj-date" id="proj-date">01 2025</span>
-            <span className="proj-label">Preview</span>
-          </div>
+          <span id="proj-date" style={{ display: "none" }}></span>
+          <span id="proj-label" style={{ display: "none" }}></span>
           <Image
             id="proj-cover"
             src="/assets/images/projects/Covers/CyberDiag.avif"

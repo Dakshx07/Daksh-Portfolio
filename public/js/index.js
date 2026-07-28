@@ -922,8 +922,8 @@ function setupProjectsSection() {
 
     if (currentIdx === -1) {
       
-      cover.src = items[i].dataset.img;
-      dateEl.textContent = items[i].dataset.date;
+      if (cover) cover.src = items[i].dataset.img;
+      if (dateEl) dateEl.textContent = items[i].dataset.date;
       gsap.to(card, { opacity: 1, duration: 0.4, ease: 'power2.out' });
     } else {
       
@@ -932,8 +932,8 @@ function setupProjectsSection() {
         duration: 0.18,
         ease: 'power2.in',
         onComplete: () => {
-          cover.src = items[i].dataset.img;
-          dateEl.textContent = items[i].dataset.date;
+          if (cover) cover.src = items[i].dataset.img;
+          if (dateEl) dateEl.textContent = items[i].dataset.date;
           gsap.to(card, { opacity: 1, duration: 0.3, ease: 'power2.out' });
         },
       });
