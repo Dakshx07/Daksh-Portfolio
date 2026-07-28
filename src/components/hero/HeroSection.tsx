@@ -24,36 +24,33 @@ export default function HeroSection() {
 
             <nav className="hero-bar-center" aria-label="Social Links">
               <a
-                className="chr-hover"
-                data-chr="Twitter"
-                href="https://twitter.com"
+                className="hero-social-link"
+                href="https://x.com/DakshHiran7"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Twitter"
               >
-                Twitter
+                TWITTER
               </a>
               <span className="sep" aria-hidden="true">/</span>
               <a
-                className="chr-hover"
-                data-chr="LinkedIn"
-                href="https://linkedin.com"
+                className="hero-social-link"
+                href="https://www.linkedin.com/in/daksh-hiran-9534b930b/"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="LinkedIn"
               >
-                LinkedIn
+                LINKEDIN
               </a>
               <span className="sep" aria-hidden="true">/</span>
               <a
-                className="chr-hover"
-                data-chr="GitHub"
-                href="https://github.com"
+                className="hero-social-link"
+                href="https://github.com/Dakshx07"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="GitHub"
               >
-                GitHub
+                GITHUB
               </a>
             </nav>
 

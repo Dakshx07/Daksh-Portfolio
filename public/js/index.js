@@ -1715,6 +1715,7 @@ function setupProjectsSection() {
     document.querySelectorAll('[data-chr-footer]').forEach(function (el) {
       var text = el.getAttribute('data-chr-footer');
       el.removeAttribute('data-chr-footer');
+      el.innerHTML = '';
       Array.from(text).forEach(function (ch, i) {
         if (ch === ' ') {
           el.insertAdjacentHTML('beforeend', '<span style="width:0.35em;display:inline-block">&nbsp;</span>');

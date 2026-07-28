@@ -17,9 +17,9 @@ export default function FooterSection() {
               <span className="chr-hover footer-date" data-chr-footer="© 2026">© 2026</span>
             </div>
             <nav className="footer-top-col" aria-label="Social Links">
-              <a className="chr-hover" data-chr-footer="Twitter" href="https://twitter.com" target="_blank" rel="noopener noreferrer" aria-label="Twitter">Twitter</a>
-              <a className="chr-hover" data-chr-footer="LinkedIn" href="https://linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">LinkedIn</a>
-              <a className="chr-hover" data-chr-footer="GitHub" href="https://github.com" target="_blank" rel="noopener noreferrer" aria-label="GitHub">GitHub</a>
+              <a className="chr-hover" data-chr-footer="Twitter" href="https://x.com/DakshHiran7" target="_blank" rel="noopener noreferrer" aria-label="Twitter">Twitter</a>
+              <a className="chr-hover" data-chr-footer="LinkedIn" href="https://www.linkedin.com/in/daksh-hiran-9534b930b/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">LinkedIn</a>
+              <a className="chr-hover" data-chr-footer="GitHub" href="https://github.com/Dakshx07" target="_blank" rel="noopener noreferrer" aria-label="GitHub">GitHub</a>
             </nav>
           </div>
 
