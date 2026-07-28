@@ -55,6 +55,7 @@ export default function AboutSection() {
                 data-id={proj.id}
                 data-img={proj.coverImage}
                 data-date={proj.date}
+                data-url={proj.liveUrl || proj.githubUrl}
               >
                 {proj.title}
               </div>

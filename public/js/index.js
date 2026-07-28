@@ -868,20 +868,25 @@ function setupProjectsSection() {
   
   items.forEach((item, i) => {
     item.addEventListener('click', () => {
-      if (item.classList.contains('active')) {
-        openProject(item.dataset.id, item);
+      const targetUrl = item.dataset.url;
+      if (targetUrl) {
+        window.open(targetUrl, '_blank');
       } else {
         activateProject(i);
-        
-        let docTop = 0, el = item;
-        while (el) { docTop += el.offsetTop; el = el.offsetParent; }
-        lenis.scrollTo(docTop - window.innerHeight / 2 + item.offsetHeight / 2, { duration: 1.2 });
       }
     });
   });
-  cover.addEventListener('click', () => {
-    if (currentIdx >= 0) openProject(items[currentIdx].dataset.id, items[currentIdx]);
-  });
+
+  if (cover) {
+    cover.addEventListener('click', () => {
+      if (currentIdx >= 0 && items[currentIdx]) {
+        const targetUrl = items[currentIdx].dataset.url;
+        if (targetUrl) {
+          window.open(targetUrl, '_blank');
+        }
+      }
+    });
+  }
 
   function onProjectsScroll() {
     if (!_projectsVisible) {
