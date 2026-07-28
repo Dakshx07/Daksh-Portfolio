@@ -9,25 +9,24 @@ import ProjectDetailDrawer from "@/components/ui/ProjectDetailDrawer";
 export default function Home() {
   return (
     <main className="relative min-h-screen bg-[#0a0a0a] text-white">
-      {/* Preloader Intro Sequence */}
+     
       <Preloader />
 
-      {/* Hero Section Page */}
+     
       <HeroSection />
 
-      {/* Hero Frame Sequence Canvas */}
+     
       <HeroSequenceCanvas />
 
-      {/* About Section & Project List */}
+     
       <AboutSection />
 
-      {/* Interactive Circle Gallery */}
+      
       <CircleGallerySection />
 
-      {/* Footer & ASCII Art Canvas */}
+     
       <FooterSection />
-
-      {/* Project Detail Modal & Interactive Drawer */}
+      
       <ProjectDetailDrawer />
     </main>
   );
