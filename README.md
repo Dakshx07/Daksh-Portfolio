@@ -25,3 +25,9 @@ npm run build
 
 - **Domain**: [daksh-hiran.vercel.app](https://daksh-hiran.vercel.app)
 - **Developer**: [Daksh Hiran](https://github.com/Dakshx07)
+
+## ⚡ Performance & Optimization
+
+- WebGL Shader Canvas background
+- Lenis Smooth Scroll integration
+- Dynamic asset compression & lazy loading
