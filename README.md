@@ -21,4 +21,7 @@ npm run dev
 # Production build
 npm run build
 ```
-# new-portfolio
+## 🌐 Live Portfolio
+
+- **Domain**: [daksh-hiran.vercel.app](https://daksh-hiran.vercel.app)
+- **Developer**: [Daksh Hiran](https://github.com/Dakshx07)
