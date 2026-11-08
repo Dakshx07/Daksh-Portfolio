@@ -29,6 +29,13 @@
   --inspect-badge: #1d4ed8;
   --font-sans: var(--font-geist-pixel-square), 'Geist Pixel Square', monospace;
   --font-mono: var(--font-geist-pixel-square), 'Geist Pixel Square', monospace;
+  --notch-bg: #FFFFFF;
+  --notch-border: rgba(0, 0, 0, 0.08);
+  --notch-text: #090A0B;
+  --notch-shadow: 0 10px 35px rgba(0, 0, 0, 0.35);
+  --notch-pill-bg: #090A0B;
+  --notch-pill-text: #FFFFFF;
+  --notch-pill-hover: #27272A;
 }
 
 html.light {
@@ -45,6 +52,13 @@ html.light {
   --inspect-border: #2563eb;
   --inspect-bg: rgba(37, 99, 235, 0.08);
   --inspect-badge: #2563eb;
+  --notch-bg: #000000;
+  --notch-border: rgba(255, 255, 255, 0.1);
+  --notch-text: #FFFFFF;
+  --notch-shadow: 0 10px 35px rgba(0, 0, 0, 0.15);
+  --notch-pill-bg: #FFFFFF;
+  --notch-pill-text: #000000;
+  --notch-pill-hover: #E4E4E7;
 }
 
 * {

@@ -105,10 +105,10 @@ export default function HeroText() {
           <SnapWord id="nhost">Nhost</SnapWord>, <SnapWord id="career-ops">Career-Ops</SnapWord>,{" "}
           <SnapWord id="supercompress">Supercompress</SnapWord>). Say hi at{" "}
           <a
-            href="mailto:contact@dakshhiran.dev"
+            href="mailto:daksh.hiran@gmail.com"
             className="text-[var(--text-primary)] underline underline-offset-4 decoration-[var(--border)] hover:decoration-blue-500 transition-colors duration-150"
           >
-            contact@dakshhiran.dev
+            daksh.hiran@gmail.com
           </a>
           , or find me on{" "}
           <a
