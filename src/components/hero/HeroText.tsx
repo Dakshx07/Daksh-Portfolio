@@ -60,7 +60,7 @@ export default function HeroText() {
   };
 
   return (
-    <header className="relative mx-auto w-full max-w-[720px] px-6 pt-16 sm:pt-20 pb-6">
+    <header className="relative mx-auto w-full max-w-[720px] px-6 pt-28 sm:pt-32 pb-6">
       {/* Centered Editorial Bio Column with Figma Selection Box System */}
       <div
         ref={containerRef}
