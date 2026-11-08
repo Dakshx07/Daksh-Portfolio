@@ -1,32 +1,18 @@
-import Preloader from "@/components/preloader/Preloader";
-import HeroSection from "@/components/hero/HeroSection";
-import HeroSequenceCanvas from "@/components/hero/HeroSequenceCanvas";
-import AboutSection from "@/components/sections/AboutSection";
-import CircleGallerySection from "@/components/sections/CircleGallerySection";
-import FooterSection from "@/components/sections/FooterSection";
-import ProjectDetailDrawer from "@/components/ui/ProjectDetailDrawer";
-import AntiInspectProtection from "@/components/ui/AntiInspectProtection";
+import AmbientGlow from "@/components/ui/AmbientGlow";
+import HeroText from "@/components/hero/HeroText";
+import CenterpieceArtwork from "@/components/hero/CenterpieceArtwork";
 
 export default function Home() {
   return (
-    <main className="relative min-h-screen bg-[#0a0a0a] text-white">
-      {/* Anti-Inspect & Asset Copy Protection */}
-      <AntiInspectProtection />
+    <main className="relative min-h-screen bg-[var(--bg)] text-[var(--text-primary)] transition-colors duration-250 selection:bg-blue-500/20">
+      {/* Ambient Blue Edge Glow (Top & Bottom subtle vignette) */}
+      <AmbientGlow />
 
-      <Preloader />
+      {/* Section 1: Hero Text with DevTools [Width × Height] Inspector Box & Dual Theme Switcher */}
+      <HeroText />
 
-      <HeroSection />
-
-      <HeroSequenceCanvas />
-
-      <AboutSection />
-
-      <CircleGallerySection />
-
-      <FooterSection />
-      
-      <ProjectDetailDrawer />
+      {/* Section 2: Centerpiece Artwork with Feathered Dither Vignette & Day ↔ Night Scrub Slider */}
+      <CenterpieceArtwork />
     </main>
   );
 }
-

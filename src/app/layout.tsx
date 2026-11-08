@@ -1,30 +1,29 @@
 import type { Metadata, Viewport } from "next";
-import Script from "next/script";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Daksh Hiran — Creative Developer & Software Engineer",
-  description: "Creative developer & software engineer specializing in modern web interfaces, motion design, interactive architecture, and full-stack software engineering.",
-  keywords: ["Daksh Hiran", "Creative Developer", "Software Engineer", "Web Design", "GSAP", "WebGL", "Next.js", "React"],
-  authors: [{ name: "Daksh Hiran" }],
+  title: "Daksh Hiran — Design Engineer & Systems Developer",
+  description: "Design engineer & systems developer specializing in modern web interfaces, motion architecture, WebGL shaders, and high-performance software engineering.",
+  keywords: ["Daksh Hiran", "Design Engineer", "Creative Developer", "Software Engineer", "Next.js", "React", "TypeScript", "WebGL"],
+  authors: [{ name: "Daksh Hiran", url: "https://x.com/DakshHiran7" }],
   icons: {
     icon: [
       { url: "/icon.png?v=2", type: "image/png" },
-      { url: "/favicon.ico?v=2" }
+      { url: "/favicon.ico?v=2" },
     ],
     shortcut: "/icon.png?v=2",
     apple: "/icon.png?v=2",
   },
   openGraph: {
-    title: "Daksh Hiran — Creative Developer & Software Engineer",
-    description: "Creative developer & software engineer specializing in modern web interfaces, motion design, interactive architecture, and full-stack software engineering.",
+    title: "Daksh Hiran — Design Engineer & Systems Developer",
+    description: "Design engineer & systems developer specializing in modern web interfaces, motion architecture, WebGL shaders, and high-performance software engineering.",
     type: "website",
     locale: "en_US",
   },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0a0a0a",
+  themeColor: "#090A0B",
   width: "device-width",
   initialScale: 1,
 };
@@ -35,26 +34,28 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" data-lang="en" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning>
       <head>
-        <link rel="icon" href="/icon.png?v=2" type="image/png" />
-        <link rel="shortcut icon" href="/favicon.ico?v=2" />
-        <link rel="apple-touch-icon" href="/icon.png?v=2" />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" />
-        <link rel="preload" href="/assets/images/hero%20sequence/0001.jpg?v=20260416-r2" as="image" />
-        <link rel="stylesheet" href="/styles/index.css" />
-        <Script src="/js/i18n.js" strategy="beforeInteractive" />
-        <Script src="/js/core-renderer.js" strategy="beforeInteractive" />
-        <Script src="/js/hero-project.js" strategy="beforeInteractive" />
-        <Script src="/js/vendor/gsap.min.js" strategy="beforeInteractive" />
-        <Script src="/js/vendor/ScrollTrigger.min.js" strategy="beforeInteractive" />
-        <Script src="/js/vendor/lenis.min.js" strategy="beforeInteractive" />
+        {/* Anti-FOUC Theme Script: Sets html class before first paint */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                try {
+                  const stored = localStorage.getItem('theme');
+                  if (stored === 'light' || (!stored && window.matchMedia('(prefers-color-scheme: light)').matches)) {
+                    document.documentElement.classList.add('light');
+                  } else {
+                    document.documentElement.classList.remove('light');
+                  }
+                } catch (e) {}
+              })();
+            `,
+          }}
+        />
       </head>
-      <body className="bg-[#0a0a0a] text-white font-sans" suppressHydrationWarning>
+      <body className="antialiased min-h-screen relative overflow-x-hidden">
         {children}
-        <Script src="/js/index.js" strategy="afterInteractive" />
       </body>
     </html>
   );

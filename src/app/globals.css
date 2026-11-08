@@ -1,19 +1,123 @@
+@import "tailwindcss";
+
 :root {
-  --background: #0a0a0a;
-  --foreground: #ffffff;
+  --bg: #090A0B;
+  --text-primary: #FAFAFA;
+  --text-secondary: #A1A1AA;
+  --text-muted: #71717A;
+  --border: rgba(255, 255, 255, 0.08);
+  --border-hover: rgba(255, 255, 255, 0.18);
+  --card-bg: rgba(255, 255, 255, 0.02);
+  --card-hover: rgba(255, 255, 255, 0.05);
+  --ambient-glow: rgba(37, 99, 235, 0.12);
+  --inspect-border: #3b82f6;
+  --inspect-bg: rgba(59, 130, 246, 0.08);
+  --inspect-badge: #1d4ed8;
+  --font-sans: 'Geist', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-mono: 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+html.light {
+  --bg: #FAFAFA;
+  --text-primary: #090A0B;
+  --text-secondary: #52525B;
+  --text-muted: #71717A;
+  --border: rgba(0, 0, 0, 0.08);
+  --border-hover: rgba(0, 0, 0, 0.18);
+  --card-bg: #FFFFFF;
+  --card-hover: #F4F4F5;
+  --ambient-glow: rgba(37, 99, 235, 0.06);
+  --inspect-border: #2563eb;
+  --inspect-bg: rgba(37, 99, 235, 0.08);
+  --inspect-badge: #2563eb;
 }
 
 * {
   box-sizing: border-box;
-  margin: 0;
-  padding: 0;
 }
 
-html, body {
-  background: #0a0a0a;
-  color: #ffffff;
-  width: 100%;
-  min-height: 100%;
+html {
+  background-color: var(--bg);
+  color: var(--text-primary);
+  color-scheme: dark;
+  scroll-behavior: smooth;
+  font-family: var(--font-sans);
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+html.light {
+  color-scheme: light;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text-primary);
+  min-height: 100vh;
   overflow-x: hidden;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
+code, kbd, samp, pre, .font-mono {
+  font-family: var(--font-mono);
+}
+
+::selection {
+  background-color: #27272a;
+  color: #fafafa;
+}
+
+html.light ::selection {
+  background-color: #e4e4e7;
+  color: #090a0b;
+}
+
+:focus-visible {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+/* =========================================================================
+   Keshav Scenery Stipple Dither Mask & Indian Postage Stamp System
+   ========================================================================= */
+
+.scenery {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 400' preserveAspectRatio='none'%3E%3Cfilter id='f' x='-10%25' y='-10%25' width='120%25' height='120%25' color-interpolation-filters='sRGB'%3E%3CfeGaussianBlur in='SourceGraphic' stdDeviation='15' result='b'/%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2' seed='4' result='n'/%3E%3CfeColorMatrix in='n' type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1.4 0 0 0 -.2' result='g'/%3E%3CfeComposite in='b' in2='g' operator='arithmetic' k1='1.2' k2='.74' k3='0' k4='0'/%3E%3C/filter%3E%3Crect x='32' y='32' width='536' height='336' rx='48' filter='url(%23f)'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 400' preserveAspectRatio='none'%3E%3Cfilter id='f' x='-10%25' y='-10%25' width='120%25' height='120%25' color-interpolation-filters='sRGB'%3E%3CfeGaussianBlur in='SourceGraphic' stdDeviation='15' result='b'/%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2' seed='4' result='n'/%3E%3CfeColorMatrix in='n' type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1.4 0 0 0 -.2' result='g'/%3E%3CfeComposite in='b' in2='g' operator='arithmetic' k1='1.2' k2='.74' k3='0' k4='0'/%3E%3C/filter%3E%3Crect x='32' y='32' width='536' height='336' rx='48' filter='url(%23f)'/%3E%3C/svg%3E");
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+}
+
+.stamp-control {
+  isolation: isolate;
+  filter: drop-shadow(0 1px 1px rgba(30, 20, 0, 0.2)) drop-shadow(0 3px 8px rgba(30, 20, 0, 0.15));
+}
+
+.stamp-paper {
+  background: var(--stamp-paper, #fff3da);
+  --r: 2.2px;
+  --p: 7.5px;
+  -webkit-mask-image: linear-gradient(#000 0 0), radial-gradient(circle at center, transparent var(--r), #000 calc(var(--r) + 0.4px));
+  mask-image: linear-gradient(#000 0 0), radial-gradient(circle at center, transparent var(--r), #000 calc(var(--r) + 0.4px));
+  -webkit-mask-size: calc(100% - 7px) calc(100% - 7px), var(--p) var(--p);
+  mask-size: calc(100% - 7px) calc(100% - 7px), var(--p) var(--p);
+  position: absolute;
+  inset: 0;
+  -webkit-mask-position: 50%;
+  mask-position: 50%;
+  -webkit-mask-repeat: no-repeat, round;
+  mask-repeat: no-repeat, round;
+}
+
+.stamp-arch {
+  border-radius: 50% 50% 3px 3px / 42% 42% 3px 3px;
+}
+
+.sky-rail {
+  background: linear-gradient(to right, #6fb0dc, #ffc65a 36%, #f0663a 48%, #e8487a 58%, #4a2a96 76%, #6a78d8);
+  -webkit-mask-image: repeating-linear-gradient(90deg, #000 0 1.5px, transparent 1.5px 6px);
+  mask-image: repeating-linear-gradient(90deg, #000 0 1.5px, transparent 1.5px 6px);
+}
