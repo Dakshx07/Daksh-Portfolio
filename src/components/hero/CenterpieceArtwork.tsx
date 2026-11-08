@@ -25,9 +25,65 @@ function interpolateColor(t: number): string {
   return `rgb(${r}, ${g}, ${b})`;
 }
 
-export default function CenterpieceArtwork() {
+// Die-Cut Pixel Sticker Slider Handle (Stick It Up aesthetic)
+function PixelStickerThumb({
+  progress,
+  isScrubbing,
+  dragDirection,
+}: {
+  progress: number;
+  isScrubbing: boolean;
+  dragDirection: number;
+}) {
+  const isNight = progress >= 0.5;
+  const tiltDeg = isScrubbing ? (dragDirection >= 0 ? 8 : -8) : 0;
+
+  return (
+    <div
+      className={`relative select-none pointer-events-none transition-transform duration-200 ${
+        isScrubbing ? "scale-110" : "group-hover:scale-105"
+      }`}
+      style={{
+        width: 44,
+        height: 44,
+        transform: `rotate(${tiltDeg}deg)`,
+        filter: "drop-shadow(0 4px 8px rgba(0, 0, 0, 0.35)) drop-shadow(0 1px 2px rgba(0, 0, 0, 0.2))",
+      }}
+    >
+      {/* Day Pixel Mascot: nori-cool (sunglasses) */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src="/stickers/nori-cool.svg"
+        alt="Day Mascot"
+        draggable={false}
+        className={`absolute inset-0 w-full h-full object-contain transition-opacity duration-250 ease-out ${
+          isNight ? "opacity-0 scale-95" : "opacity-100 scale-100"
+        }`}
+      />
+
+      {/* Night Pixel Mascot: pip-wizard (wizard hat & wand) */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src="/stickers/pip-wizard.svg"
+        alt="Night Mascot"
+        draggable={false}
+        className={`absolute inset-0 w-full h-full object-contain transition-opacity duration-250 ease-out ${
+          isNight ? "opacity-100 scale-100" : "opacity-0 scale-95"
+        }`}
+      />
+    </div>
+  );
+}
+
+interface CenterpieceArtworkProps {
+  onProgressChange?: (progress: number) => void;
+}
+
+export default function CenterpieceArtwork({ onProgressChange }: CenterpieceArtworkProps = {}) {
   const [progress, setProgress] = useState(0.5); // 0.0 (દિન) to 1.0 (રાત)
   const [isScrubbing, setIsScrubbing] = useState(false);
+  const [dragDirection, setDragDirection] = useState(0); // 1 = right, -1 = left
+  const lastXRef = useRef(0);
   const videoRef = useRef<HTMLVideoElement>(null);
   const isDragging = useRef(false);
   const trackRef = useRef<HTMLDivElement>(null);
@@ -45,6 +101,7 @@ export default function CenterpieceArtwork() {
     if (!isDragging.current && video && Number.isFinite(video.duration) && video.duration > 0) {
       const p = Math.max(0, Math.min(1, video.currentTime / video.duration));
       setProgress(p);
+      onProgressChange?.(p);
     }
   };
 
@@ -54,40 +111,56 @@ export default function CenterpieceArtwork() {
     const clampedX = Math.max(0, Math.min(clientX - rect.left, rect.width));
     const p = Math.max(0, Math.min(1, clampedX / rect.width));
     setProgress(p);
+    onProgressChange?.(p);
+
+    // Track direction for dynamic vinyl tilt
+    if (clientX > lastXRef.current) setDragDirection(1);
+    else if (clientX < lastXRef.current) setDragDirection(-1);
+    lastXRef.current = clientX;
 
     if (videoRef.current && Number.isFinite(videoRef.current.duration) && videoRef.current.duration > 0) {
       videoRef.current.currentTime = p * videoRef.current.duration;
     }
-  }, []);
+  }, [onProgressChange]);
+
+  const onMouseMove = useCallback((e: MouseEvent) => {
+    if (isDragging.current) {
+      handleScrub(e.clientX);
+    }
+  }, [handleScrub]);
+
+  const onMouseUp = useCallback(() => {
+    isDragging.current = false;
+    setIsScrubbing(false);
+    setDragDirection(0);
+    window.removeEventListener("mousemove", onMouseMove);
+    window.removeEventListener("mouseup", onMouseUp);
+    if (videoRef.current) {
+      videoRef.current.play().catch(() => {});
+    }
+  }, [onMouseMove]);
 
   const onMouseDown = (e: React.MouseEvent) => {
     isDragging.current = true;
     setIsScrubbing(true);
+    lastXRef.current = e.clientX;
     if (videoRef.current) videoRef.current.pause();
     handleScrub(e.clientX);
     window.addEventListener("mousemove", onMouseMove);
     window.addEventListener("mouseup", onMouseUp);
   };
 
-  const onMouseMove = (e: MouseEvent) => {
-    if (isDragging.current) {
-      handleScrub(e.clientX);
-    }
-  };
-
-  const onMouseUp = () => {
-    isDragging.current = false;
-    setIsScrubbing(false);
-    window.removeEventListener("mousemove", onMouseMove);
-    window.removeEventListener("mouseup", onMouseUp);
-    if (videoRef.current) {
-      videoRef.current.play().catch(() => {});
-    }
-  };
+  useEffect(() => {
+    return () => {
+      window.removeEventListener("mousemove", onMouseMove);
+      window.removeEventListener("mouseup", onMouseUp);
+    };
+  }, [onMouseMove, onMouseUp]);
 
   const onTouchStart = (e: React.TouchEvent) => {
     isDragging.current = true;
     setIsScrubbing(true);
+    lastXRef.current = e.touches[0].clientX;
     if (videoRef.current) videoRef.current.pause();
     handleScrub(e.touches[0].clientX);
   };
@@ -101,15 +174,13 @@ export default function CenterpieceArtwork() {
   const onTouchEnd = () => {
     isDragging.current = false;
     setIsScrubbing(false);
+    setDragDirection(0);
     if (videoRef.current) {
       videoRef.current.play().catch(() => {});
     }
   };
 
   const validProgress = Number.isFinite(progress) ? Math.max(0, Math.min(1, progress)) : 0.5;
-  const fieldColor = interpolateColor(validProgress);
-  const moonOpacity = Math.max(0, Math.min(1, (validProgress - 0.45) * 4));
-  const sunOpacity = 1 - moonOpacity;
 
   return (
     <section className="relative mx-auto w-full max-w-[720px] px-6 pt-2 pb-16">
@@ -133,7 +204,7 @@ export default function CenterpieceArtwork() {
         />
       </div>
 
-      {/* Interactive Day ↔ Night Tick-Mark Scrub Slider */}
+      {/* Interactive Day ↔ Night Tick-Mark Scrub Slider with Die-Cut Pixel Sticker Handle */}
       <div className="mt-5 flex flex-col items-center">
         <div
           ref={trackRef}
@@ -158,52 +229,18 @@ export default function CenterpieceArtwork() {
             રાત
           </span>
 
-          {/* Authentic Postage Stamp Slider Thumb */}
+          {/* Die-Cut Pixel Mascot Sticker Slider Thumb */}
           <div
-            className={`absolute top-1/2 -translate-y-1/2 -translate-x-1/2 pointer-events-none transition-transform duration-100 ${
-              isScrubbing ? "scale-105" : "group-hover:scale-105"
-            }`}
+            className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 pointer-events-none"
             style={{
               left: `${validProgress * 100}%`,
-              width: 34,
-              height: 42,
             }}
           >
-            <div className="stamp-control relative w-full h-full">
-              {/* Perforated antique paper base */}
-              <span className="stamp-paper" />
-
-              {/* Arched colored field with dynamic sky interpolation */}
-              <span
-                className="stamp-arch absolute inset-x-[5px] bottom-[5px] top-[5px]"
-                style={{ backgroundColor: fieldColor }}
-              >
-                <svg viewBox="0 0 22 30" className="absolute inset-0 w-full h-full">
-                  {/* Daytime Radiant Sun with 12 Spoke Rays */}
-                  <g style={{ opacity: sunOpacity }} fill="#FFFFFF">
-                    <circle cx="11" cy="15" r="3.2" />
-                    {Array.from({ length: 12 }, (_, t) => 30 * t).map((angle) => (
-                      <rect
-                        key={angle}
-                        x="10.4"
-                        y={angle % 60 === 0 ? 7.6 : 8.6}
-                        width="1.2"
-                        height={angle % 60 === 0 ? 2.8 : 1.8}
-                        rx="0.6"
-                        transform={`rotate(${angle} 11 15)`}
-                      />
-                    ))}
-                  </g>
-
-                  {/* Nighttime Crescent Moon */}
-                  <path
-                    style={{ opacity: moonOpacity }}
-                    fill="#FFFFFF"
-                    d="M13.6 9.6a5.8 5.8 0 1 0 0 10.8a4.6 4.6 0 0 1 0-10.8z"
-                  />
-                </svg>
-              </span>
-            </div>
+            <PixelStickerThumb
+              progress={validProgress}
+              isScrubbing={isScrubbing}
+              dragDirection={dragDirection}
+            />
           </div>
         </div>
       </div>

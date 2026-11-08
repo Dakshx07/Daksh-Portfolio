@@ -1,5 +1,12 @@
 import type { Metadata, Viewport } from "next";
+import localFont from "next/font/local";
 import "./globals.css";
+
+const geistPixelSquare = localFont({
+  src: "./fonts/GeistPixel-Square.woff2",
+  variable: "--font-geist-pixel-square",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "Daksh Hiran — Design Engineer & Systems Developer",
@@ -34,7 +41,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" className={geistPixelSquare.variable} suppressHydrationWarning>
       <head>
         {/* Anti-FOUC Theme Script: Sets html class before first paint */}
         <script

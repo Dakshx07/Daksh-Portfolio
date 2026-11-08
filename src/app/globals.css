@@ -1,5 +1,18 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: 'Geist Pixel Square';
+  src: url('/fonts/GeistPixel-Square.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@theme {
+  --font-sans: var(--font-geist-pixel-square), 'Geist Pixel Square', monospace;
+  --font-mono: var(--font-geist-pixel-square), 'Geist Pixel Square', monospace;
+}
+
 :root {
   --bg: #090A0B;
   --text-primary: #FAFAFA;
@@ -14,8 +27,8 @@
   --inspect-border: #3b82f6;
   --inspect-bg: rgba(59, 130, 246, 0.08);
   --inspect-badge: #1d4ed8;
-  --font-sans: 'Geist', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  --font-mono: 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  --font-sans: var(--font-geist-pixel-square), 'Geist Pixel Square', monospace;
+  --font-mono: var(--font-geist-pixel-square), 'Geist Pixel Square', monospace;
 }
 
 html.light {
@@ -183,4 +196,124 @@ html.light ::selection {
   top: calc(100% - 4px);
   left: 50%;
   transform: translate(-50%);
+}
+
+/* =========================================================================
+   Progressive Multi-Layer Edge Blur System (Reverse-Engineered from kshv.me)
+   ========================================================================= */
+
+.edge-blur {
+  z-index: 40;
+  pointer-events: none;
+  height: 88px;
+  position: fixed;
+  inset-inline: 0;
+}
+
+@media (max-width: 639px) {
+  .edge-blur {
+    height: 56px;
+  }
+}
+
+.edge-blur[data-edge="top"] {
+  --to: to bottom;
+  top: 0;
+}
+
+.edge-blur[data-edge="bottom"] {
+  --to: to top;
+  bottom: 0;
+}
+
+.edge-blur:after {
+  content: "";
+  background: linear-gradient(
+    var(--to),
+    color-mix(in srgb, var(--bg) 88%, transparent),
+    color-mix(in srgb, var(--bg) 42%, transparent) 45%,
+    transparent
+  );
+  position: absolute;
+  inset: 0;
+}
+
+.edge-blur > span {
+  position: absolute;
+  inset: 0;
+}
+
+.edge-blur > [data-layer="1"] {
+  -webkit-backdrop-filter: blur(1px);
+  backdrop-filter: blur(1px);
+  -webkit-mask-image: linear-gradient(var(--to), #000 40%, transparent);
+  mask-image: linear-gradient(var(--to), #000 40%, transparent);
+}
+
+.edge-blur > [data-layer="2"] {
+  -webkit-backdrop-filter: blur(3px);
+  backdrop-filter: blur(3px);
+  -webkit-mask-image: linear-gradient(var(--to), #000 22%, transparent 72%);
+  mask-image: linear-gradient(var(--to), #000 22%, transparent 72%);
+}
+
+.edge-blur > [data-layer="3"] {
+  -webkit-backdrop-filter: blur(7px);
+  backdrop-filter: blur(7px);
+  -webkit-mask-image: linear-gradient(var(--to), #000, transparent 44%);
+  mask-image: linear-gradient(var(--to), #000, transparent 44%);
+}
+
+/* =========================================================================
+   Falling Petals & Ambient Particle System (Reverse-Engineered from kshv.me)
+   ========================================================================= */
+
+.petals {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  overflow: hidden;
+}
+
+.petal {
+  opacity: 0;
+  animation: petal-fall var(--fall) linear infinite;
+  animation-delay: var(--delay);
+  position: absolute;
+  top: -28px;
+}
+
+.petal > svg {
+  animation: 2.6s ease-in-out infinite alternate petal-flip;
+  animation-delay: var(--delay);
+}
+
+@keyframes petal-fall {
+  0% {
+    opacity: 0;
+    transform: translate(0) rotate(0);
+  }
+  8% {
+    opacity: 0.9;
+  }
+  50% {
+    transform: translate(var(--drift), 52vh) rotate(200deg);
+  }
+  85% {
+    opacity: 0.85;
+  }
+  to {
+    opacity: 0;
+    transform: translate(calc(var(--drift) * -0.4), 108vh) rotate(380deg);
+  }
+}
+
+@keyframes petal-flip {
+  0% {
+    transform: scaleX(1);
+  }
+  to {
+    transform: scaleX(0.25);
+  }
 }
