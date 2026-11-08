@@ -82,10 +82,10 @@ export default function NotchNavbar({ sticker = "/stickers/nori-cool.svg" }: Not
   const [isSocialHovered, setIsSocialHovered] = useState(false);
   const leaveTimerRef = useRef<NodeJS.Timeout | null>(null);
 
-  // Smooth scroll listener:
-  // Visible at top of page (scrollY <= 45).
-  // Slides smoothly up off the screen as user scrolls down.
-  // Slides smoothly back down when returning to the top!
+  // Smooth scroll listener with Hysteresis:
+  // - Hides smoothly when user scrolls down past 50px
+  // - Re-appears smoothly ONLY when user scrolls back to the very top (<= 15px)
+  // - Deadband (15px to 50px) eliminates trackpad jitter and mid-flight animation reversals!
   useEffect(() => {
     let rafId: number | null = null;
 
@@ -93,7 +93,11 @@ export default function NotchNavbar({ sticker = "/stickers/nori-cool.svg" }: Not
       if (rafId) return;
       rafId = window.requestAnimationFrame(() => {
         const scrollY = window.scrollY || window.pageYOffset;
-        setIsVisible(scrollY <= 45);
+        if (scrollY > 50) {
+          setIsVisible(false);
+        } else if (scrollY <= 15) {
+          setIsVisible(true);
+        }
         rafId = null;
       });
     };
@@ -105,6 +109,13 @@ export default function NotchNavbar({ sticker = "/stickers/nori-cool.svg" }: Not
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
+
+  // When navbar scrolls out of view, ensure any open hover arc snaps closed
+  useEffect(() => {
+    if (!isVisible) {
+      setIsSocialHovered(false);
+    }
+  }, [isVisible]);
 
   const handleMouseEnter = () => {
     if (leaveTimerRef.current) {
@@ -128,10 +139,10 @@ export default function NotchNavbar({ sticker = "/stickers/nori-cool.svg" }: Not
 
   return (
     <header
-      className={`fixed top-0 inset-x-0 z-50 flex justify-center pointer-events-none px-4 transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+      className={`fixed top-0 inset-x-0 z-50 flex justify-center pointer-events-none px-4 transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] will-change-[transform,opacity] ${
         isVisible
           ? "translate-y-0 opacity-100"
-          : "-translate-y-full opacity-0 pointer-events-none"
+          : "-translate-y-28 opacity-0 pointer-events-none"
       }`}
     >
       {/* 
@@ -176,7 +187,7 @@ export default function NotchNavbar({ sticker = "/stickers/nori-cool.svg" }: Not
         <button
           onClick={scrollToTop}
           type="button"
-          className="group relative flex items-center gap-2 cursor-pointer p-0.5 rounded-lg transition-transform focus:outline-none"
+          className="group relative flex items-center gap-2 cursor-pointer p-0.5 rounded-lg transition-transform focus:outline-none focus:ring-0 focus-visible:outline-none"
           aria-label="Daksh - Scroll to top"
           title="Scroll to top"
         >
@@ -188,7 +199,7 @@ export default function NotchNavbar({ sticker = "/stickers/nori-cool.svg" }: Not
             draggable={false}
           />
           <span className="font-semibold text-[13px] sm:text-sm tracking-tight text-white font-sans">
-            dksh
+            daksh
           </span>
         </button>
 
@@ -206,7 +217,7 @@ export default function NotchNavbar({ sticker = "/stickers/nori-cool.svg" }: Not
             {/* The Main High-Contrast White Pill */}
             <a
               href="mailto:contact@dakshhiran.dev"
-              className="relative z-20 flex items-center gap-1.5 px-3.5 py-1 sm:px-4 sm:py-1.5 rounded-full text-[12px] sm:text-[12.5px] font-semibold bg-white text-black hover:bg-zinc-200 active:scale-95 transition-all duration-150 shadow-sm"
+              className="relative z-20 flex items-center gap-1.5 px-3.5 py-1 sm:px-4 sm:py-1.5 rounded-full text-[12px] sm:text-[12.5px] font-semibold bg-white text-black hover:bg-zinc-200 active:scale-95 transition-all duration-150 shadow-sm focus:outline-none focus:ring-0 focus-visible:outline-none"
             >
               <span>Get in touch</span>
               <svg
