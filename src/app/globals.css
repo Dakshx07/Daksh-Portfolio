@@ -10,6 +10,7 @@
   --card-bg: rgba(255, 255, 255, 0.02);
   --card-hover: rgba(255, 255, 255, 0.05);
   --ambient-glow: rgba(37, 99, 235, 0.12);
+  --select: #60a5fa;
   --inspect-border: #3b82f6;
   --inspect-bg: rgba(59, 130, 246, 0.08);
   --inspect-badge: #1d4ed8;
@@ -27,6 +28,7 @@ html.light {
   --card-bg: #FFFFFF;
   --card-hover: #F4F4F5;
   --ambient-glow: rgba(37, 99, 235, 0.06);
+  --select: #2563eb;
   --inspect-border: #2563eb;
   --inspect-bg: rgba(37, 99, 235, 0.08);
   --inspect-badge: #2563eb;
@@ -120,4 +122,65 @@ html.light ::selection {
   background: linear-gradient(to right, #6fb0dc, #ffc65a 36%, #f0663a 48%, #e8487a 58%, #4a2a96 76%, #6a78d8);
   -webkit-mask-image: repeating-linear-gradient(90deg, #000 0 1.5px, transparent 1.5px 6px);
   mask-image: repeating-linear-gradient(90deg, #000 0 1.5px, transparent 1.5px 6px);
+}
+
+/* =========================================================================
+   Figma Selection Box & Measurement System (Reverse-Engineered from kshv.me)
+   ========================================================================= */
+
+.selection-box {
+  outline: 1px solid var(--select);
+  outline-offset: 0;
+  pointer-events: none;
+  position: absolute;
+  transition: transform 0.22s cubic-bezier(0.23, 1, 0.32, 1),
+              width 0.22s cubic-bezier(0.23, 1, 0.32, 1),
+              height 0.22s cubic-bezier(0.23, 1, 0.32, 1),
+              opacity 0.18s ease-out;
+}
+
+.selection-box > i {
+  background: var(--bg);
+  border: 1px solid var(--select);
+  width: 5px;
+  height: 5px;
+  position: absolute;
+}
+
+.selection-box > i:first-of-type {
+  top: -2.5px;
+  left: -2.5px;
+}
+
+.selection-box > i:nth-of-type(2) {
+  top: -2.5px;
+  right: -2.5px;
+}
+
+.selection-box > i:nth-of-type(3) {
+  bottom: -2.5px;
+  left: -2.5px;
+}
+
+.selection-box > i:nth-of-type(4) {
+  bottom: -2.5px;
+  right: -2.5px;
+}
+
+.selection-tag {
+  background: var(--select);
+  box-shadow: 0 0 0 1.5px var(--bg);
+  color: var(--bg);
+  font-family: var(--font-mono);
+  letter-spacing: 0;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  border-radius: 3px;
+  padding: 0 4px;
+  font-size: 9.5px;
+  line-height: 12px;
+  position: absolute;
+  top: calc(100% - 4px);
+  left: 50%;
+  transform: translate(-50%);
 }
