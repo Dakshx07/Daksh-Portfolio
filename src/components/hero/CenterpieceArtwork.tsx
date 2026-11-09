@@ -212,10 +212,25 @@ export default function CenterpieceArtwork({ onProgressChange }: CenterpieceArtw
           onTouchEnd={onTouchEnd}
           className="group relative flex items-center justify-between w-full max-w-md h-16 px-3 cursor-pointer select-none"
         >
-          {/* Day Label (Japanese Kanji: 昼 - Daytime) */}
-          <span className="text-[14px] sm:text-[15px] font-medium tracking-tight text-[var(--text-muted)] select-none mr-3">
-            昼
-          </span>
+          {/* Day Label (Japanese Kanji: 昼 - Daytime, reveals "Day" on hover) */}
+          <div
+            onClick={(e) => {
+              e.stopPropagation();
+              setProgress(0);
+              onProgressChange?.(0);
+              if (videoRef.current) videoRef.current.currentTime = 0;
+            }}
+            className="group/day relative flex items-center justify-center mr-3 cursor-pointer py-1 select-none"
+          >
+            {/* Floating English Translation Badge */}
+            <div className="absolute -top-7 left-1/2 -translate-x-1/2 px-1.5 py-0.5 rounded bg-black/90 text-white dark:bg-white dark:text-black text-[10px] font-mono tracking-wider border border-white/20 dark:border-black/20 shadow-md transition-all duration-150 opacity-0 group-hover/day:opacity-100 scale-90 group-hover/day:scale-100 -translate-y-1 group-hover/day:translate-y-0 pointer-events-none whitespace-nowrap">
+              Day
+            </div>
+
+            <span className="text-[14px] sm:text-[15px] font-medium tracking-tight text-[var(--text-muted)] group-hover/day:text-[var(--text-primary)] transition-colors">
+              昼
+            </span>
+          </div>
 
           {/* Masked Sky Rail (Sunset-to-Night Gradient with 1.5px/6px Repeating Tick Mask) */}
           <div ref={railRef} className="relative flex-1 h-3 mx-2">
@@ -235,10 +250,27 @@ export default function CenterpieceArtwork({ onProgressChange }: CenterpieceArtw
             </div>
           </div>
 
-          {/* Night Label (Japanese Kanji: 夜 - Nighttime) */}
-          <span className="text-[14px] sm:text-[15px] font-medium tracking-tight text-[var(--text-muted)] select-none ml-3">
-            夜
-          </span>
+          {/* Night Label (Japanese Kanji: 夜 - Nighttime, reveals "Night" on hover) */}
+          <div
+            onClick={(e) => {
+              e.stopPropagation();
+              setProgress(1);
+              onProgressChange?.(1);
+              if (videoRef.current && Number.isFinite(videoRef.current.duration)) {
+                videoRef.current.currentTime = videoRef.current.duration;
+              }
+            }}
+            className="group/night relative flex items-center justify-center ml-3 cursor-pointer py-1 select-none"
+          >
+            {/* Floating English Translation Badge */}
+            <div className="absolute -top-7 left-1/2 -translate-x-1/2 px-1.5 py-0.5 rounded bg-black/90 text-white dark:bg-white dark:text-black text-[10px] font-mono tracking-wider border border-white/20 dark:border-black/20 shadow-md transition-all duration-150 opacity-0 group-hover/night:opacity-100 scale-90 group-hover/night:scale-100 -translate-y-1 group-hover/night:translate-y-0 pointer-events-none whitespace-nowrap">
+              Night
+            </div>
+
+            <span className="text-[14px] sm:text-[15px] font-medium tracking-tight text-[var(--text-muted)] group-hover/night:text-[var(--text-primary)] transition-colors">
+              夜
+            </span>
+          </div>
         </div>
       </div>
     </section>
