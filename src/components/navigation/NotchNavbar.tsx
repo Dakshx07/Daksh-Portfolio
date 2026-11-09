@@ -146,25 +146,75 @@ export default function NotchNavbar({ sticker = "/stickers/nori-cool.svg" }: Not
       }`}
     >
       {/* 
+        Organic Flared Sky Wings:
+        Starts thin at notch wings (~20px) -> Expands and flares into screen corners (~220px).
+        Uses exact Figma Linear Gradient: #190096 -> #0080FF -> #78D2FF -> Transparent.
+        Tangible Stipple Dither Mask ensures real pixel grain.
+        Zero glow below the notch or over the bio text.
+        Hides and reveals strictly with the notch on scroll!
+      */}
+      <div className="absolute top-0 inset-x-0 h-[180px] sm:h-[220px] md:h-[260px] pointer-events-none overflow-hidden">
+        {/* Left Flared Sky Wing */}
+        <div className="absolute top-0 left-0 right-[calc(50%+165px)] sm:right-[calc(50%+185px)] h-full pointer-events-none">
+          {/* Tangible Stipple Dither Mask Layer */}
+          <div
+            className="sky-wing-left absolute inset-0 transition-opacity duration-300"
+            style={{
+              background:
+                "linear-gradient(175deg, #190096 0%, #0080FF 40%, #78D2FF 75%, rgba(255, 255, 255, 0) 100%)",
+              opacity: 1.0,
+            }}
+          />
+          {/* Subtle Atmospheric Underglow */}
+          <div
+            className="sky-wing-left absolute inset-0 blur-lg opacity-50 transition-opacity duration-300"
+            style={{
+              background:
+                "linear-gradient(175deg, #190096 0%, #0080FF 45%, #78D2FF 85%, rgba(255, 255, 255, 0) 100%)",
+            }}
+          />
+        </div>
+
+        {/* Right Flared Sky Wing */}
+        <div className="absolute top-0 left-[calc(50%+165px)] sm:left-[calc(50%+185px)] right-0 h-full pointer-events-none">
+          {/* Tangible Stipple Dither Mask Layer */}
+          <div
+            className="sky-wing-right absolute inset-0 transition-opacity duration-300"
+            style={{
+              background:
+                "linear-gradient(185deg, #190096 0%, #0080FF 40%, #78D2FF 75%, rgba(255, 255, 255, 0) 100%)",
+              opacity: 1.0,
+            }}
+          />
+          {/* Subtle Atmospheric Underglow */}
+          <div
+            className="sky-wing-right absolute inset-0 blur-lg opacity-50 transition-opacity duration-300"
+            style={{
+              background:
+                "linear-gradient(185deg, #190096 0%, #0080FF 45%, #78D2FF 85%, rgba(255, 255, 255, 0) 100%)",
+            }}
+          />
+        </div>
+      </div>
+
+      {/* 
         The Apple / Supaste Notch Body
-        Adaptive obsidian/white container with mathematical concave wings
+        Solid pitch-black obsidian container (#000000) with mathematical concave wings
         Centered with balanced max-width to hug navigation items gracefully
       */}
-      <div className="relative pointer-events-auto flex items-center justify-between w-auto min-w-[330px] sm:min-w-[370px] h-11 sm:h-12 pl-3.5 pr-3 sm:pl-4 sm:pr-3.5 bg-[var(--notch-bg)] text-[var(--notch-text)] border-b border-x border-[var(--notch-border)] rounded-b-2xl shadow-[var(--notch-shadow)] select-none gap-4 sm:gap-6 transition-colors duration-300">
+      <div className="relative pointer-events-auto flex items-center justify-between w-auto min-w-[330px] sm:min-w-[370px] h-11 sm:h-12 pl-3.5 pr-3 sm:pl-4 sm:pr-3.5 bg-[#000000] text-white border-b border-x border-white/10 rounded-b-2xl shadow-[0_10px_35px_rgba(0,0,0,0.5)] select-none gap-4 sm:gap-6">
         {/* Left Inverted Wing (G1 continuous cubic fillet scooping into the ceiling) */}
         <div className="absolute -left-4 top-0 w-4 h-4 pointer-events-none">
           <svg className="w-4 h-4 overflow-visible" viewBox="0 0 16 16">
             <path
               d="M 0 0 H 16 V 16 C 16 7.16 8.84 0 0 0 Z"
-              fill="var(--notch-bg)"
-              className="transition-colors duration-300"
+              fill="#000000"
             />
             <path
               d="M 0 0 C 8.84 0 16 7.16 16 16"
               fill="none"
-              stroke="var(--notch-border)"
+              stroke="rgba(255,255,255,0.1)"
               strokeWidth="1"
-              className="transition-colors duration-300"
             />
           </svg>
         </div>
@@ -174,15 +224,13 @@ export default function NotchNavbar({ sticker = "/stickers/nori-cool.svg" }: Not
           <svg className="w-4 h-4 overflow-visible" viewBox="0 0 16 16">
             <path
               d="M 0 16 V 0 H 16 C 7.16 0 0 7.16 0 16 Z"
-              fill="var(--notch-bg)"
-              className="transition-colors duration-300"
+              fill="#000000"
             />
             <path
               d="M 16 0 C 7.16 0 0 7.16 0 16"
               fill="none"
-              stroke="var(--notch-border)"
+              stroke="rgba(255,255,255,0.1)"
               strokeWidth="1"
-              className="transition-colors duration-300"
             />
           </svg>
         </div>
@@ -202,8 +250,8 @@ export default function NotchNavbar({ sticker = "/stickers/nori-cool.svg" }: Not
             className="w-7 h-7 sm:w-7.5 sm:h-7.5 object-contain transition-transform duration-200 group-hover:scale-110 group-hover:-rotate-8"
             draggable={false}
           />
-          <span className="font-semibold text-[13px] sm:text-sm tracking-tight text-[var(--notch-text)] font-sans transition-colors duration-300">
-            daksh
+          <span className="font-semibold text-[13px] sm:text-sm tracking-tight text-white font-sans">
+            dksh
           </span>
         </button>
 
@@ -218,14 +266,14 @@ export default function NotchNavbar({ sticker = "/stickers/nori-cool.svg" }: Not
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
           >
-            {/* The Main High-Contrast Pill (White in dark mode, Black in light mode) */}
+            {/* The Main High-Contrast White Pill */}
             <a
               href="mailto:contact@dakshhiran.dev"
-              className="relative z-20 flex items-center gap-1.5 px-3.5 py-1 sm:px-4 sm:py-1.5 rounded-full text-[12px] sm:text-[12.5px] font-semibold bg-[var(--notch-pill-bg)] text-[var(--notch-pill-text)] hover:bg-[var(--notch-pill-hover)] active:scale-95 transition-all duration-300 shadow-sm focus:outline-none focus:ring-0 focus-visible:outline-none"
+              className="relative z-20 flex items-center gap-1.5 px-3.5 py-1 sm:px-4 sm:py-1.5 rounded-full text-[12px] sm:text-[12.5px] font-semibold bg-white text-black hover:bg-zinc-200 active:scale-95 transition-all duration-150 shadow-sm focus:outline-none focus:ring-0 focus-visible:outline-none"
             >
               <span>Get in touch</span>
               <svg
-                className="w-3 h-3 stroke-[var(--notch-pill-text)] transition-colors duration-300"
+                className="w-3 h-3 stroke-black"
                 fill="none"
                 viewBox="0 0 24 24"
                 strokeWidth="2.5"

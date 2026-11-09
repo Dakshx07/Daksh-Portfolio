@@ -2,75 +2,89 @@
 
 import { useState, useRef, useEffect, useCallback } from "react";
 
-// Sky keyframe palette from day to night
-const SKY_PALETTE: [number, [number, number, number]][] = [
-  [0, [111, 176, 220]],     // Daylight sky blue #6fb0dc
-  [0.36, [255, 198, 90]],   // Golden sun amber #ffc65a
-  [0.48, [240, 102, 58]],   // Coral red #f0663a
-  [0.58, [232, 72, 122]],   // Sunset magenta #e8487a
-  [0.76, [74, 42, 150]],    // Deep purple #4a2a96
-  [1, [11, 18, 56]],        // Midnight navy #0b1238
-];
-
-function interpolateColor(t: number): string {
-  const clamped = Number.isFinite(t) ? Math.max(0, Math.min(1, t)) : 0.5;
-  const idx = SKY_PALETTE.findIndex(([stop]) => stop >= clamped);
-  if (idx <= 0) return `rgb(${SKY_PALETTE[0][1].join(", ")})`;
-  const [s0, c0] = SKY_PALETTE[idx - 1];
-  const [s1, c1] = SKY_PALETTE[idx];
-  const ratio = (clamped - s0) / (s1 - s0);
-  const r = Math.round(c0[0] + (c1[0] - c0[0]) * ratio);
-  const g = Math.round(c0[1] + (c1[1] - c0[1]) * ratio);
-  const b = Math.round(c0[2] + (c1[2] - c0[2]) * ratio);
-  return `rgb(${r}, ${g}, ${b})`;
+// Format 0-10s video time into clean MM:SS
+function formatTimecode(seconds: number): string {
+  const s = Math.max(0, Math.min(10, Math.round(seconds)));
+  return `00:${s.toString().padStart(2, "0")}`;
 }
 
-// Die-Cut Pixel Sticker Slider Handle (Stick It Up aesthetic)
-function PixelStickerThumb({
-  progress,
+// Precision Hardware Playhead Needle
+// Stationed BELOW the line of control, with the pointed tip facing UPWARDS towards the rail
+function PlayheadThumb({
   isScrubbing,
-  dragDirection,
+  timecode,
 }: {
-  progress: number;
   isScrubbing: boolean;
-  dragDirection: number;
+  timecode: string;
 }) {
-  const isNight = progress >= 0.5;
-  const tiltDeg = isScrubbing ? (dragDirection >= 0 ? 8 : -8) : 0;
-
   return (
-    <div
-      className={`relative select-none pointer-events-none transition-transform duration-200 ${
-        isScrubbing ? "scale-110" : "group-hover:scale-105"
-      }`}
-      style={{
-        width: 44,
-        height: 44,
-        transform: `rotate(${tiltDeg}deg)`,
-        filter: "drop-shadow(0 4px 8px rgba(0, 0, 0, 0.35)) drop-shadow(0 1px 2px rgba(0, 0, 0, 0.2))",
-      }}
-    >
-      {/* Day Pixel Mascot: nori-cool (sunglasses) */}
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src="/stickers/nori-cool.svg"
-        alt="Day Mascot"
-        draggable={false}
-        className={`absolute inset-0 w-full h-full object-contain transition-opacity duration-250 ease-out ${
-          isNight ? "opacity-0 scale-95" : "opacity-100 scale-100"
+    <div className="relative flex flex-col items-center select-none pointer-events-none -translate-x-1/2">
+      {/* Hardware Playhead Needle: Pointed Tip Facing UP + Square Body Below */}
+      <div
+        className={`transition-transform duration-150 ${
+          isScrubbing ? "scale-110" : "group-hover:scale-105"
         }`}
-      />
+        style={{
+          filter: "drop-shadow(0 4px 6px rgba(0, 0, 0, 0.5)) drop-shadow(0 1px 2px rgba(0, 0, 0, 0.35))",
+        }}
+      >
+        <svg
+          width="20"
+          height="24"
+          viewBox="0 0 20 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          className="overflow-visible"
+        >
+          {/* Main Playhead Needle Body: Pointed Tip on Top (pointing up into the rail), Square Body Below */}
+          <path
+            d="M 10 2 L 2 9.5 V 21 C 2 21.8 2.6 22.5 3.5 22.5 H 16.5 C 17.4 22.5 18 21.8 18 21 V 9.5 Z"
+            fill="#FFFFFF"
+            stroke="rgba(0, 0, 0, 0.3)"
+            strokeWidth="1.2"
+          />
 
-      {/* Night Pixel Mascot: pip-wizard (wizard hat & wand) */}
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src="/stickers/pip-wizard.svg"
-        alt="Night Mascot"
-        draggable={false}
-        className={`absolute inset-0 w-full h-full object-contain transition-opacity duration-250 ease-out ${
-          isNight ? "opacity-100 scale-100" : "opacity-0 scale-95"
+          {/* Center Indicator Slit */}
+          <line
+            x1="10"
+            y1="8"
+            x2="10"
+            y2="17"
+            stroke="#18181B"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+          />
+
+          {/* Micro Tactile Grip Lines */}
+          <line
+            x1="6"
+            y1="11"
+            x2="6"
+            y2="17"
+            stroke="#A1A1AA"
+            strokeWidth="1"
+            strokeLinecap="round"
+          />
+          <line
+            x1="14"
+            y1="11"
+            x2="14"
+            y2="17"
+            stroke="#A1A1AA"
+            strokeWidth="1"
+            strokeLinecap="round"
+          />
+        </svg>
+      </div>
+
+      {/* Floating Micro Timecode Pill: visible on hover / active scrub, sits below the needle */}
+      <div
+        className={`absolute top-full mt-1.5 px-1.5 py-0.5 rounded bg-black/90 text-[10px] font-mono tracking-wider text-white border border-white/20 shadow-md transition-all duration-150 whitespace-nowrap ${
+          isScrubbing ? "opacity-100 scale-100 translate-y-0.5" : "opacity-0 group-hover:opacity-100 scale-95"
         }`}
-      />
+      >
+        {timecode}
+      </div>
     </div>
   );
 }
@@ -80,43 +94,33 @@ interface CenterpieceArtworkProps {
 }
 
 export default function CenterpieceArtwork({ onProgressChange }: CenterpieceArtworkProps = {}) {
-  const [progress, setProgress] = useState(0.5); // 0.0 (દિન) to 1.0 (રાત)
+  // Preset strictly in the center (0.5 = 5.0 seconds midpoint) by default
+  const [progress, setProgress] = useState(0.5);
   const [isScrubbing, setIsScrubbing] = useState(false);
-  const [dragDirection, setDragDirection] = useState(0); // 1 = right, -1 = left
-  const lastXRef = useRef(0);
   const videoRef = useRef<HTMLVideoElement>(null);
   const isDragging = useRef(false);
-  const trackRef = useRef<HTMLDivElement>(null);
+  const railRef = useRef<HTMLDivElement>(null);
 
-  // Auto-play and verify readyState on mount and after refresh
+  // Auto-play video on mount
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
     video.play().catch(() => {});
   }, []);
 
-  // Sync playback time to slider progress when not dragging
-  const handleTimeUpdate = () => {
-    const video = videoRef.current;
-    if (!isDragging.current && video && Number.isFinite(video.duration) && video.duration > 0) {
-      const p = Math.max(0, Math.min(1, video.currentTime / video.duration));
-      setProgress(p);
-      onProgressChange?.(p);
-    }
-  };
-
   const handleScrub = useCallback((clientX: number) => {
-    if (!trackRef.current) return;
-    const rect = trackRef.current.getBoundingClientRect();
+    if (!railRef.current) return;
+    const rect = railRef.current.getBoundingClientRect();
     const clampedX = Math.max(0, Math.min(clientX - rect.left, rect.width));
-    const p = Math.max(0, Math.min(1, clampedX / rect.width));
+    let p = Math.max(0, Math.min(1, clampedX / rect.width));
+
+    // Magnetic snap to center (0.50) and boundaries (0.0, 1.0)
+    if (Math.abs(p - 0.5) < 0.02) p = 0.5;
+    else if (p < 0.015) p = 0;
+    else if (p > 0.985) p = 1.0;
+
     setProgress(p);
     onProgressChange?.(p);
-
-    // Track direction for dynamic vinyl tilt
-    if (clientX > lastXRef.current) setDragDirection(1);
-    else if (clientX < lastXRef.current) setDragDirection(-1);
-    lastXRef.current = clientX;
 
     if (videoRef.current && Number.isFinite(videoRef.current.duration) && videoRef.current.duration > 0) {
       videoRef.current.currentTime = p * videoRef.current.duration;
@@ -132,7 +136,6 @@ export default function CenterpieceArtwork({ onProgressChange }: CenterpieceArtw
   const onMouseUp = useCallback(() => {
     isDragging.current = false;
     setIsScrubbing(false);
-    setDragDirection(0);
     window.removeEventListener("mousemove", onMouseMove);
     window.removeEventListener("mouseup", onMouseUp);
     if (videoRef.current) {
@@ -143,7 +146,6 @@ export default function CenterpieceArtwork({ onProgressChange }: CenterpieceArtw
   const onMouseDown = (e: React.MouseEvent) => {
     isDragging.current = true;
     setIsScrubbing(true);
-    lastXRef.current = e.clientX;
     if (videoRef.current) videoRef.current.pause();
     handleScrub(e.clientX);
     window.addEventListener("mousemove", onMouseMove);
@@ -160,7 +162,6 @@ export default function CenterpieceArtwork({ onProgressChange }: CenterpieceArtw
   const onTouchStart = (e: React.TouchEvent) => {
     isDragging.current = true;
     setIsScrubbing(true);
-    lastXRef.current = e.touches[0].clientX;
     if (videoRef.current) videoRef.current.pause();
     handleScrub(e.touches[0].clientX);
   };
@@ -174,21 +175,20 @@ export default function CenterpieceArtwork({ onProgressChange }: CenterpieceArtw
   const onTouchEnd = () => {
     isDragging.current = false;
     setIsScrubbing(false);
-    setDragDirection(0);
     if (videoRef.current) {
       videoRef.current.play().catch(() => {});
     }
   };
 
   const validProgress = Number.isFinite(progress) ? Math.max(0, Math.min(1, progress)) : 0.5;
+  const currentTimecode = formatTimecode(validProgress * 10);
 
   return (
     <section className="relative mx-auto w-full max-w-[720px] px-6 pt-2 pb-16">
       {/* 
-        Video Container with Keshav's Reverse-Engineered Stipple Dither Mask 
-        Solidly framed with poster fallback to guarantee it never disappears on refresh
+        Video Container with Stipple Dither Mask 
       */}
-      <div className="scenery relative w-full aspect-[4/3] sm:aspect-[3/2] overflow-hidden select-none bg-black">
+      <div className="scenery relative w-full aspect-[4/3] sm:aspect-[3/2] overflow-hidden select-none bg-black rounded-lg">
         {/* High-Definition ASCII Tiles Video */}
         <video
           ref={videoRef}
@@ -199,49 +199,46 @@ export default function CenterpieceArtwork({ onProgressChange }: CenterpieceArtw
           muted
           playsInline
           preload="auto"
-          onTimeUpdate={handleTimeUpdate}
           className="w-full h-full object-cover"
         />
       </div>
 
-      {/* Interactive Day ↔ Night Tick-Mark Scrub Slider with Die-Cut Pixel Sticker Handle */}
+      {/* Interactive Day ↔ Night Tick-Mark Scrub Slider */}
       <div className="mt-5 flex flex-col items-center">
         <div
-          ref={trackRef}
           onMouseDown={onMouseDown}
           onTouchStart={onTouchStart}
           onTouchMove={onTouchMove}
           onTouchEnd={onTouchEnd}
-          className="group relative flex items-center justify-between w-full max-w-md h-12 px-3 cursor-pointer select-none"
+          className="group relative flex items-center justify-between w-full max-w-md h-16 px-3 cursor-pointer select-none"
         >
-          {/* Day Label (Gujarati) */}
-          <span className="text-[15px] font-medium tracking-tight text-[var(--text-muted)] select-none mr-3">
-            દિન
+          {/* Day Label (Japanese Kanji: 昼 - Daytime) */}
+          <span className="text-[14px] sm:text-[15px] font-medium tracking-tight text-[var(--text-muted)] select-none mr-3">
+            昼
           </span>
 
           {/* Masked Sky Rail (Sunset-to-Night Gradient with 1.5px/6px Repeating Tick Mask) */}
-          <div className="relative flex-1 h-3 mx-2">
+          <div ref={railRef} className="relative flex-1 h-3 mx-2">
             <div className="sky-rail absolute inset-0 w-full h-full rounded-sm" />
+
+            {/* Custom Precision Hardware Playhead Needle - Stationed BELOW the Rail, Pointing UP */}
+            <div
+              className="absolute top-full mt-[2px] -translate-x-1/2 pointer-events-none"
+              style={{
+                left: `${validProgress * 100}%`,
+              }}
+            >
+              <PlayheadThumb
+                isScrubbing={isScrubbing}
+                timecode={currentTimecode}
+              />
+            </div>
           </div>
 
-          {/* Night Label (Gujarati) */}
-          <span className="text-[15px] font-medium tracking-tight text-[var(--text-muted)] select-none ml-3">
-            રાત
+          {/* Night Label (Japanese Kanji: 夜 - Nighttime) */}
+          <span className="text-[14px] sm:text-[15px] font-medium tracking-tight text-[var(--text-muted)] select-none ml-3">
+            夜
           </span>
-
-          {/* Die-Cut Pixel Mascot Sticker Slider Thumb */}
-          <div
-            className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 pointer-events-none"
-            style={{
-              left: `${validProgress * 100}%`,
-            }}
-          >
-            <PixelStickerThumb
-              progress={validProgress}
-              isScrubbing={isScrubbing}
-              dragDirection={dragDirection}
-            />
-          </div>
         </div>
       </div>
     </section>

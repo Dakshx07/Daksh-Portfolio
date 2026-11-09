@@ -89,7 +89,8 @@ export default function HeroText() {
         )}
 
         <p>
-          I&apos;m Daksh, a <SnapWord id="role">creative developer</SnapWord> &{" "}
+          I&apos;m <SnapWord id="name">Daksh</SnapWord>, a{" "}
+          <SnapWord id="role">creative developer</SnapWord> &{" "}
           <SnapWord id="engineer">software engineer</SnapWord> from India.
         </p>
 

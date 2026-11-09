@@ -36,6 +36,9 @@
   --notch-pill-bg: #090A0B;
   --notch-pill-text: #FFFFFF;
   --notch-pill-hover: #27272A;
+  --sky-curtain-from: rgba(56, 189, 248, 0.28);
+  --sky-curtain-via: rgba(37, 99, 235, 0.16);
+  --sky-curtain-to: rgba(30, 58, 138, 0.03);
 }
 
 html.light {
@@ -59,6 +62,9 @@ html.light {
   --notch-pill-bg: #FFFFFF;
   --notch-pill-text: #000000;
   --notch-pill-hover: #E4E4E7;
+  --sky-curtain-from: rgba(111, 176, 220, 0.32);
+  --sky-curtain-via: rgba(147, 197, 253, 0.18);
+  --sky-curtain-to: rgba(224, 242, 254, 0.04);
 }
 
 * {
@@ -114,6 +120,29 @@ html.light ::selection {
 .scenery {
   -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 400' preserveAspectRatio='none'%3E%3Cfilter id='f' x='-10%25' y='-10%25' width='120%25' height='120%25' color-interpolation-filters='sRGB'%3E%3CfeGaussianBlur in='SourceGraphic' stdDeviation='15' result='b'/%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2' seed='4' result='n'/%3E%3CfeColorMatrix in='n' type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1.4 0 0 0 -.2' result='g'/%3E%3CfeComposite in='b' in2='g' operator='arithmetic' k1='1.2' k2='.74' k3='0' k4='0'/%3E%3C/filter%3E%3Crect x='32' y='32' width='536' height='336' rx='48' filter='url(%23f)'/%3E%3C/svg%3E");
   mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 400' preserveAspectRatio='none'%3E%3Cfilter id='f' x='-10%25' y='-10%25' width='120%25' height='120%25' color-interpolation-filters='sRGB'%3E%3CfeGaussianBlur in='SourceGraphic' stdDeviation='15' result='b'/%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2' seed='4' result='n'/%3E%3CfeColorMatrix in='n' type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1.4 0 0 0 -.2' result='g'/%3E%3CfeComposite in='b' in2='g' operator='arithmetic' k1='1.2' k2='.74' k3='0' k4='0'/%3E%3C/filter%3E%3Crect x='32' y='32' width='536' height='336' rx='48' filter='url(%23f)'/%3E%3C/svg%3E");
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+}
+
+/* =========================================================================
+   Organic Flared Sky Wings (Flanking Notch: Small at Notch -> Growing to Corners)
+   With Keshav's Reverse-Engineered Stipple Dither Mask
+   ========================================================================= */
+
+.sky-wing-left {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 200' preserveAspectRatio='none'%3E%3Cfilter id='f' x='-10%25' y='-10%25' width='120%25' height='120%25' color-interpolation-filters='sRGB'%3E%3CfeGaussianBlur in='SourceGraphic' stdDeviation='12' result='b'/%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2' seed='4' result='n'/%3E%3CfeColorMatrix in='n' type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1.45 0 0 0 -.22' result='g'/%3E%3CfeComposite in='b' in2='g' operator='arithmetic' k1='1.2' k2='.74' k3='0' k4='0'/%3E%3C/filter%3E%3Cpath d='M -20 -20 H 620 V 22 C 500 28 360 55 220 95 C 100 130 30 155 -20 165 Z' fill='%23000' filter='url(%23f)'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 200' preserveAspectRatio='none'%3E%3Cfilter id='f' x='-10%25' y='-10%25' width='120%25' height='120%25' color-interpolation-filters='sRGB'%3E%3CfeGaussianBlur in='SourceGraphic' stdDeviation='12' result='b'/%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2' seed='4' result='n'/%3E%3CfeColorMatrix in='n' type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1.45 0 0 0 -.22' result='g'/%3E%3CfeComposite in='b' in2='g' operator='arithmetic' k1='1.2' k2='.74' k3='0' k4='0'/%3E%3C/filter%3E%3Cpath d='M -20 -20 H 620 V 22 C 500 28 360 55 220 95 C 100 130 30 155 -20 165 Z' fill='%23000' filter='url(%23f)'/%3E%3C/svg%3E");
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+}
+
+.sky-wing-right {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 200' preserveAspectRatio='none'%3E%3Cfilter id='f' x='-10%25' y='-10%25' width='120%25' height='120%25' color-interpolation-filters='sRGB'%3E%3CfeGaussianBlur in='SourceGraphic' stdDeviation='12' result='b'/%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2' seed='4' result='n'/%3E%3CfeColorMatrix in='n' type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1.45 0 0 0 -.22' result='g'/%3E%3CfeComposite in='b' in2='g' operator='arithmetic' k1='1.2' k2='.74' k3='0' k4='0'/%3E%3C/filter%3E%3Cpath d='M -20 -20 H 620 V 165 C 570 155 500 130 380 95 C 240 55 100 28 -20 22 Z' fill='%23000' filter='url(%23f)'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 200' preserveAspectRatio='none'%3E%3Cfilter id='f' x='-10%25' y='-10%25' width='120%25' height='120%25' color-interpolation-filters='sRGB'%3E%3CfeGaussianBlur in='SourceGraphic' stdDeviation='12' result='b'/%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2' seed='4' result='n'/%3E%3CfeColorMatrix in='n' type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1.45 0 0 0 -.22' result='g'/%3E%3CfeComposite in='b' in2='g' operator='arithmetic' k1='1.2' k2='.74' k3='0' k4='0'/%3E%3C/filter%3E%3Cpath d='M -20 -20 H 620 V 165 C 570 155 500 130 380 95 C 240 55 100 28 -20 22 Z' fill='%23000' filter='url(%23f)'/%3E%3C/svg%3E");
   -webkit-mask-size: 100% 100%;
   mask-size: 100% 100%;
   -webkit-mask-repeat: no-repeat;
