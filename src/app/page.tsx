@@ -8,6 +8,7 @@ import HeroText from "@/components/hero/HeroText";
 import CenterpieceArtwork from "@/components/hero/CenterpieceArtwork";
 import FallingPetals from "@/components/hero/FallingPetals";
 import PullCordToggle from "@/components/ui/PullCordToggle";
+import GitHubContributionGraph from "@/components/activity/GitHubContributionGraph";
 
 export default function Home() {
   const [sliderProgress, setSliderProgress] = useState(0.5);
@@ -35,6 +36,9 @@ export default function Home() {
 
       {/* Section 2: Centerpiece Artwork with Feathered Dither Vignette & Day ↔ Night Scrub Slider */}
       <CenterpieceArtwork onProgressChange={setSliderProgress} />
+
+      {/* Section 3: Akoder-Style Live GitHub Contribution Heatmap Grid (Dakshx07) */}
+      <GitHubContributionGraph username="Dakshx07" />
     </main>
   );
 }

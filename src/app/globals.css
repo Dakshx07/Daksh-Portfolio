@@ -223,6 +223,41 @@ html.light ::selection {
   right: -2.5px;
 }
 
+.selection-box-header {
+  outline: 1px solid var(--select);
+  outline-offset: 0;
+  position: relative;
+  display: inline-block;
+}
+
+.selection-box-header > i {
+  background: var(--bg);
+  border: 1px solid var(--select);
+  width: 5px;
+  height: 5px;
+  position: absolute;
+}
+
+.selection-box-header > .handle-tl {
+  top: -2.5px;
+  left: -2.5px;
+}
+
+.selection-box-header > .handle-tr {
+  top: -2.5px;
+  right: -2.5px;
+}
+
+.selection-box-header > .handle-bl {
+  bottom: -2.5px;
+  left: -2.5px;
+}
+
+.selection-box-header > .handle-br {
+  bottom: -2.5px;
+  right: -2.5px;
+}
+
 .selection-tag {
   background: var(--select);
   box-shadow: 0 0 0 1.5px var(--bg);

@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
+import { JellyBlobMascot } from "feral-blob";
+import "feral-blob/blob.css";
 
 interface NotchNavbarProps {
   sticker?: string;
@@ -235,21 +237,21 @@ export default function NotchNavbar({ sticker = "/stickers/nori-cool.svg" }: Not
           </svg>
         </div>
 
-        {/* Left: nori-cool Mascot Sticker & 'daksh' Wordmark in Geist Pixel Square */}
+        {/* Left: Interactive FeralUI Jelly Blob Mascot & 'daksh' Wordmark */}
         <button
           onClick={scrollToTop}
           type="button"
-          className="group relative flex items-center gap-2 cursor-pointer p-0.5 rounded-lg transition-transform focus:outline-none focus:ring-0 focus-visible:outline-none"
+          className="group relative flex items-center gap-2 cursor-pointer p-0.5 rounded-lg transition-transform focus:outline-none focus:ring-0 focus-visible:outline-none select-none"
           aria-label="Daksh - Scroll to top"
           title="Scroll to top"
         >
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={sticker}
-            alt="nori-cool mascot"
-            className="w-7 h-7 sm:w-7.5 sm:h-7.5 object-contain transition-transform duration-200 group-hover:scale-110 group-hover:-rotate-8"
-            draggable={false}
-          />
+          <div className="w-7 h-7 sm:w-7.5 sm:h-7.5 flex items-center justify-center -my-1 transform group-hover:scale-115 transition-transform duration-200">
+            <JellyBlobMascot
+              mood="wave"
+              eyeStyle="v1"
+              className="w-full h-full pointer-events-none"
+            />
+          </div>
           <span className="font-semibold text-[13px] sm:text-sm tracking-tight text-white font-sans">
             daksh
           </span>

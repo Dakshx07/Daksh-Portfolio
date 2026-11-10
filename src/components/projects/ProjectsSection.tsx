@@ -1,79 +1,138 @@
 "use client";
 
 import { useState } from "react";
+import { JellyBlobMascot, type JellyBlobMood } from "feral-blob";
+import "feral-blob/blob.css";
 
 interface Project {
   id: string;
   number: string;
   title: string;
-  subtitle: string;
-  year: string;
   category: string;
   description: string;
   tech: string[];
-  links: { label: string; href: string }[];
+  link: string;
+  gradient: string;
+  accent: string;
+  previewGraphic: React.ReactNode;
 }
 
-const SELECTED_PROJECTS: Project[] = [
+const PROJECTS: Project[] = [
   {
     id: "agent-spm",
     number: "01",
     title: "Agent SPM",
-    subtitle: "Autonomous Agent Skills Package Manager & CLI Registry",
-    year: "2026",
     category: "SYSTEMS / CLI",
     description:
-      "Architectural package hub and sandboxed resolution engine for autonomous AI agent skills. Built with Rust and TypeScript to validate, sandbox, and hot-link agent tools across isolated runtime environments with zero dependency collisions.",
-    tech: ["TypeScript", "Rust", "Node.js", "CLI", "AST Parsing"],
-    links: [
-      { label: "GitHub ↗", href: "https://github.com/Dakshx07" },
-      { label: "Documentation ↗", href: "https://github.com/Dakshx07" },
-    ],
+      "Autonomous agent skills package manager & sandboxed resolution engine built with Rust and TypeScript.",
+    tech: ["TypeScript", "Rust", "Node.js", "AST"],
+    link: "https://github.com/Dakshx07",
+    gradient: "from-blue-600/20 via-indigo-900/10 to-transparent",
+    accent: "#3b82f6",
+    previewGraphic: (
+      <div className="w-full h-full flex flex-col justify-between p-4 bg-gradient-to-br from-blue-950/40 via-zinc-950 to-zinc-950">
+        <div className="flex items-center justify-between text-[10px] font-mono text-blue-400/80">
+          <span>SPM_CORE_V2.1</span>
+          <span className="w-2 h-2 rounded-full bg-blue-500 animate-pulse" />
+        </div>
+        <div className="space-y-1.5 font-mono text-[11px] text-zinc-300">
+          <div className="text-zinc-500 text-[10px]">$ npx agent-spm resolve</div>
+          <div className="text-blue-400 font-semibold">✓ 14 tools linked (0 collisions)</div>
+          <div className="text-zinc-400 text-[10px]">Memory footprint: &lt;18MB sandboxed</div>
+        </div>
+        <div className="flex gap-1.5">
+          <span className="px-2 py-0.5 rounded bg-blue-500/10 border border-blue-500/20 text-[10px] font-mono text-blue-300">Rust</span>
+          <span className="px-2 py-0.5 rounded bg-indigo-500/10 border border-indigo-500/20 text-[10px] font-mono text-indigo-300">CLI</span>
+        </div>
+      </div>
+    ),
   },
   {
     id: "sentinel",
     number: "02",
     title: "Sentinel",
-    subtitle: "Autonomous Codebase Security & Hardening Engine",
-    year: "2025",
     category: "AI / SECURITY",
     description:
-      "Red-team static analysis scanner identifying privilege escalation, memory leaks, and broken access controls across enterprise codebases. Generates verified AST patch plans and enforces automated CI/CD security gates.",
-    tech: ["Next.js", "Python", "AST Engine", "OpenAI", "Tailwind CSS"],
-    links: [
-      { label: "GitHub ↗", href: "https://github.com/Dakshx07" },
-      { label: "Live Demo ↗", href: "https://github.com/Dakshx07" },
-    ],
+      "Red-team AST static analysis scanner and automated CI/CD code hardening patch engine.",
+    tech: ["Python", "AST Engine", "Next.js", "Tailwind"],
+    link: "https://github.com/Dakshx07",
+    gradient: "from-emerald-600/20 via-teal-900/10 to-transparent",
+    accent: "#10b981",
+    previewGraphic: (
+      <div className="w-full h-full flex flex-col justify-between p-4 bg-gradient-to-br from-emerald-950/40 via-zinc-950 to-zinc-950">
+        <div className="flex items-center justify-between text-[10px] font-mono text-emerald-400/80">
+          <span>SENTINEL_SCANNER</span>
+          <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+        </div>
+        <div className="space-y-1.5 font-mono text-[11px] text-zinc-300">
+          <div className="text-zinc-500 text-[10px]">$ sentinel --audit AST</div>
+          <div className="text-emerald-400 font-semibold">✓ 0 privilege escalations</div>
+          <div className="text-zinc-400 text-[10px]">Automated patch plan verified</div>
+        </div>
+        <div className="flex gap-1.5">
+          <span className="px-2 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/20 text-[10px] font-mono text-emerald-300">Python</span>
+          <span className="px-2 py-0.5 rounded bg-teal-500/10 border border-teal-500/20 text-[10px] font-mono text-teal-300">Security</span>
+        </div>
+      </div>
+    ),
   },
   {
     id: "orbies",
     number: "03",
     title: "Orbies",
-    subtitle: "Mobile Community Gathering & RSVP Protocol",
-    year: "2025",
     category: "MOBILE / PROTOCOL",
     description:
-      "Cross-platform mobile application engineered with React Native and Reanimated 3. Features gesture-driven event discovery, offline ticket pass sync, and sub-100ms real-time RSVP state machines backed by Go microservices.",
-    tech: ["React Native", "Expo", "Reanimated 3", "Go", "PostgreSQL"],
-    links: [
-      { label: "App Store ↗", href: "https://github.com/Dakshx07" },
-      { label: "GitHub ↗", href: "https://github.com/Dakshx07" },
-    ],
+      "Sub-100ms real-time community RSVP protocol and offline-first event ticket pass sync.",
+    tech: ["React Native", "Expo", "Reanimated 3", "Go"],
+    link: "https://github.com/Dakshx07",
+    gradient: "from-purple-600/20 via-pink-900/10 to-transparent",
+    accent: "#a855f7",
+    previewGraphic: (
+      <div className="w-full h-full flex flex-col justify-between p-4 bg-gradient-to-br from-purple-950/40 via-zinc-950 to-zinc-950">
+        <div className="flex items-center justify-between text-[10px] font-mono text-purple-400/80">
+          <span>ORBIES_PASS_SYNC</span>
+          <span className="w-2 h-2 rounded-full bg-purple-500 animate-pulse" />
+        </div>
+        <div className="space-y-1.5 font-mono text-[11px] text-zinc-300">
+          <div className="text-purple-300 font-semibold">Offline Pass Verification</div>
+          <div className="text-zinc-400 text-[10px]">60fps gesture physics • Reanimated 3</div>
+          <div className="text-zinc-500 text-[10px]">Latency: 42ms state propagation</div>
+        </div>
+        <div className="flex gap-1.5">
+          <span className="px-2 py-0.5 rounded bg-purple-500/10 border border-purple-500/20 text-[10px] font-mono text-purple-300">Mobile</span>
+          <span className="px-2 py-0.5 rounded bg-pink-500/10 border border-pink-500/20 text-[10px] font-mono text-pink-300">Go</span>
+        </div>
+      </div>
+    ),
   },
   {
     id: "ayuchain",
     number: "04",
     title: "AyuChain",
-    subtitle: "AI & Distributed Prescription Verification Ledger",
-    year: "2024",
     category: "BLOCKCHAIN / VISION",
     description:
-      "Tamper-proof medical ledger combining OCR prescription parsing with Polygon blockchain audit trails, eliminating counterfeit pharmacy claims across 40+ decentralized clinics.",
-    tech: ["Solidity", "Polygon", "Python OCR", "Fastify", "Next.js"],
-    links: [
-      { label: "GitHub ↗", href: "https://github.com/Dakshx07" },
-      { label: "Protocol Spec ↗", href: "https://github.com/Dakshx07" },
-    ],
+      "AI OCR prescription verification and tamper-proof blockchain audit ledger across clinics.",
+    tech: ["Solidity", "Polygon", "Python OCR", "Fastify"],
+    link: "https://github.com/Dakshx07",
+    gradient: "from-amber-600/20 via-orange-900/10 to-transparent",
+    accent: "#f59e0b",
+    previewGraphic: (
+      <div className="w-full h-full flex flex-col justify-between p-4 bg-gradient-to-br from-amber-950/40 via-zinc-950 to-zinc-950">
+        <div className="flex items-center justify-between text-[10px] font-mono text-amber-400/80">
+          <span>AYUCHAIN_LEDGER</span>
+          <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse" />
+        </div>
+        <div className="space-y-1.5 font-mono text-[11px] text-zinc-300">
+          <div className="text-amber-400 font-semibold">Polygon Block #48192801</div>
+          <div className="text-zinc-400 text-[10px]">Tamper-proof pharmacy audit trail</div>
+          <div className="text-zinc-500 text-[10px]">40+ decentralized clinics active</div>
+        </div>
+        <div className="flex gap-1.5">
+          <span className="px-2 py-0.5 rounded bg-amber-500/10 border border-amber-500/20 text-[10px] font-mono text-amber-300">Polygon</span>
+          <span className="px-2 py-0.5 rounded bg-orange-500/10 border border-orange-500/20 text-[10px] font-mono text-orange-300">OCR</span>
+        </div>
+      </div>
+    ),
   },
 ];
 
@@ -115,170 +174,132 @@ const OPEN_SOURCE_REPOS = [
   },
 ];
 
+const MOODS: JellyBlobMood[] = ["curious", "happy", "wave", "love", "surprised"];
+
 export default function ProjectsSection() {
-  const [activeProject, setActiveProject] = useState<string | null>(null);
+  const [blobMoodIndex, setBlobMoodIndex] = useState(0);
+
+  const cycleMood = () => {
+    setBlobMoodIndex((prev) => (prev + 1) % MOODS.length);
+  };
 
   return (
-    <section className="relative mx-auto w-full max-w-[720px] px-6 pt-12 pb-28 text-[var(--text-primary)]">
-      {/* ── 01 / SELECTED WORKS ── */}
-      <div className="mb-14">
-        {/* Section Label (kshv.me style) */}
-        <div className="flex items-center justify-between pb-4 border-b border-[var(--border)]">
-          <div className="flex items-center gap-2">
-            <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse" />
-            <span className="font-mono text-[11px] sm:text-xs tracking-widest text-[var(--text-muted)] uppercase">
-              01 / Selected Works
-            </span>
+    <section className="relative mx-auto w-full max-w-[720px] px-6 pt-16 pb-28 text-[var(--text-primary)]">
+      {/* ── 01 / SELECTED WORKS HEADER (Figma Box Default Active + FeralUI Blob) ── */}
+      <div className="mb-10">
+        <div className="flex items-center gap-3.5 mb-2">
+          {/* Interactive FeralUI Jelly Blob Companion */}
+          <button
+            onClick={cycleMood}
+            type="button"
+            className="w-8 h-8 cursor-pointer transform hover:scale-110 active:scale-95 transition-transform focus:outline-none select-none"
+            title="Click to poke the blob!"
+            aria-label="Interactive Blob Mascot"
+          >
+            <JellyBlobMascot
+              mood={MOODS[blobMoodIndex]}
+              eyeStyle="v1"
+              className="w-full h-full pointer-events-none"
+            />
+          </button>
+
+          {/* Header Title with Authentically Active Figma Selection Box by Default */}
+          <div className="relative inline-block selection-box-header">
+            {/* 4 Corner Resize Handles */}
+            <i className="handle-tl" />
+            <i className="handle-tr" />
+            <i className="handle-bl" />
+            <i className="handle-br" />
+
+            <h2 className="font-mono text-xs sm:text-[13px] tracking-wider text-[var(--select)] font-semibold px-2 py-0.5 select-none">
+              01 / SELECTED WORKS
+            </h2>
+
+            {/* Figma Live Coordinate Tag */}
+            <span className="selection-tag">184 × 22</span>
           </div>
-          <span className="font-mono text-[11px] text-[var(--text-muted)]">
-            2024 — 2026
-          </span>
         </div>
 
-        {/* Project Rows */}
-        <div className="divide-y divide-[var(--border)]">
-          {SELECTED_PROJECTS.map((project) => {
-            const isHovered = activeProject === project.id;
-
-            return (
-              <article
-                key={project.id}
-                onMouseEnter={() => setActiveProject(project.id)}
-                onMouseLeave={() => setActiveProject(null)}
-                className="group py-8 transition-colors duration-200"
-              >
-                {/* Header: Number, Title & Category */}
-                <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1 mb-2.5">
-                  <div className="flex items-baseline gap-3">
-                    <span className="font-mono text-xs text-[var(--text-muted)] opacity-60">
-                      {project.number}
-                    </span>
-                    <h3 className="font-sans font-semibold text-lg sm:text-[19px] tracking-tight text-[var(--text-primary)] group-hover:text-blue-500 transition-colors duration-150">
-                      {project.title}
-                    </h3>
-                  </div>
-
-                  <span className="font-mono text-[11px] tracking-wider text-[var(--text-muted)] uppercase pl-6 sm:pl-0">
-                    {project.category}
-                  </span>
-                </div>
-
-                {/* Subtitle / Role */}
-                <p className="text-[13.5px] font-medium text-[var(--text-secondary)] mb-3 pl-6">
-                  {project.subtitle}
-                </p>
-
-                {/* Description */}
-                <p className="text-[14px] leading-relaxed text-[var(--text-muted)] mb-4 pl-6 max-w-[620px]">
-                  {project.description}
-                </p>
-
-                {/* Tech Pills & Live Action Links */}
-                <div className="flex flex-wrap items-center justify-between gap-y-3 gap-x-4 pl-6 pt-1">
-                  {/* Tech stack badges */}
-                  <div className="flex flex-wrap items-center gap-1.5">
-                    {project.tech.map((t) => (
-                      <span
-                        key={t}
-                        className="font-mono text-[10.5px] px-2 py-0.5 rounded bg-[var(--card-hover)] text-[var(--text-secondary)] border border-[var(--border)] select-none"
-                      >
-                        {t}
-                      </span>
-                    ))}
-                  </div>
-
-                  {/* Links */}
-                  <div className="flex items-center gap-3">
-                    {project.links.map((link) => (
-                      <a
-                        key={link.label}
-                        href={link.href}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1 font-mono text-[11.5px] text-[var(--text-primary)] hover:text-blue-500 transition-colors duration-150 underline underline-offset-4 decoration-[var(--border)] hover:decoration-blue-500"
-                      >
-                        {link.label}
-                      </a>
-                    ))}
-                  </div>
-                </div>
-              </article>
-            );
-          })}
-        </div>
+        <p className="text-xs sm:text-[13px] text-[var(--text-muted)] font-sans mt-3">
+          Independent systems, developer tooling & production protocols.
+        </p>
       </div>
 
-      {/* ── 02 / OPEN SOURCE & UPSTREAM CONTRIBUTIONS ── */}
-      <div>
-        {/* Section Label */}
-        <div className="flex items-center justify-between pb-4 border-b border-[var(--border)] mb-6">
+      {/* ── 2-COLUMN PROJECT GRID ── */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-6 mb-16">
+        {PROJECTS.map((project) => (
+          <article key={project.id} className="flex flex-col group">
+            {/* Clickable Image Container (Redirects directly on click, NO arrow icon) */}
+            <a
+              href={project.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`Open ${project.title}`}
+              className="relative aspect-[16/10] w-full rounded-xl border border-[var(--border)] overflow-hidden bg-zinc-950/70 hover:border-blue-500/50 hover:shadow-[0_8px_25px_rgba(37,99,235,0.18)] transition-all duration-200 cursor-pointer block select-none"
+            >
+              {/* Subtle Stipple Dither Vignette */}
+              <div className="scenery absolute inset-0 opacity-20 pointer-events-none" />
+
+              {/* Graphic Preview */}
+              <div className="w-full h-full transform group-hover:scale-[1.02] transition-transform duration-250 ease-out">
+                {project.previewGraphic}
+              </div>
+            </a>
+
+            {/* Title & 2-Liner Description Below Image */}
+            <div className="mt-3 flex flex-col">
+              <div className="flex items-baseline justify-between gap-2 mb-1">
+                <h3 className="font-sans font-semibold text-base sm:text-[17px] text-[var(--text-primary)] group-hover:text-blue-500 transition-colors duration-150">
+                  {project.title}
+                </h3>
+                <span className="font-mono text-[10px] text-[var(--text-muted)] tracking-wider">
+                  {project.category}
+                </span>
+              </div>
+              <p className="text-xs sm:text-[13px] text-[var(--text-secondary)] leading-relaxed line-clamp-2">
+                {project.description}
+              </p>
+            </div>
+          </article>
+        ))}
+      </div>
+
+      {/* ── 02 / UPSTREAM & OPEN SOURCE (124 Merged PRs) ── */}
+      <div className="pt-8 border-t border-[var(--border)]">
+        <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-2">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-            <span className="font-mono text-[11px] sm:text-xs tracking-widest text-[var(--text-muted)] uppercase">
+            <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse" />
+            <h2 className="font-mono text-xs sm:text-[13px] tracking-wider text-[var(--text-muted)] uppercase">
               02 / Upstream & Open Source
-            </span>
+            </h2>
           </div>
-          <span className="font-mono text-[11px] text-[var(--text-muted)]">
+          <span className="font-mono text-[11px] text-blue-400 font-semibold bg-blue-500/10 border border-blue-500/20 px-2 py-0.5 rounded-full">
             124 Merged PRs
           </span>
         </div>
 
-        {/* Metric Banner (kshv.me style) */}
-        <div className="p-3.5 mb-6 rounded-lg bg-[var(--card-hover)] border border-[var(--border)] flex flex-wrap items-center justify-between gap-2 text-[12px] font-mono text-[var(--text-secondary)]">
-          <span className="font-medium text-[var(--text-primary)]">
-            124 MERGED PRS • 42 REPOSITORIES
-          </span>
-          <span className="text-emerald-500 font-medium">
-            CAREER-OPS ORG MEMBER
-          </span>
-        </div>
-
-        {/* Contribution Rows */}
         <div className="divide-y divide-[var(--border)]">
           {OPEN_SOURCE_REPOS.map((repo) => (
-            <div
+            <a
               key={repo.name}
-              className="py-4.5 group flex flex-col sm:flex-row sm:items-baseline justify-between gap-2"
+              href={repo.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="py-4 flex flex-col sm:flex-row sm:items-baseline justify-between gap-2 hover:bg-[var(--card-hover)] px-2 -mx-2 rounded-lg transition-colors group block"
             >
-              <div className="flex-1">
-                <div className="flex items-baseline gap-2.5 mb-1">
-                  <a
-                    href={repo.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="font-medium text-[15px] text-[var(--text-primary)] group-hover:text-blue-500 transition-colors duration-150"
-                  >
-                    {repo.name}
-                  </a>
-                  <span className="font-mono text-[11px] px-1.5 py-0.2 rounded bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
-                    {repo.prs}
-                  </span>
-                </div>
-                <p className="text-[13px] leading-relaxed text-[var(--text-muted)] max-w-[540px]">
-                  {repo.desc}
-                </p>
+              <div className="flex items-baseline gap-3">
+                <span className="font-sans font-medium text-sm text-[var(--text-primary)] group-hover:text-blue-500 transition-colors">
+                  {repo.name}
+                </span>
+                <span className="font-mono text-[11px] text-blue-400/90 font-medium">
+                  {repo.prs}
+                </span>
               </div>
-
-              <span className="font-mono text-[10.5px] text-[var(--text-muted)] uppercase self-start sm:self-auto">
-                {repo.tag}
-              </span>
-            </div>
+              <p className="text-xs text-[var(--text-muted)] sm:max-w-[420px] leading-relaxed">
+                {repo.desc}
+              </p>
+            </a>
           ))}
-        </div>
-
-        {/* Full Showcase Link */}
-        <div className="mt-8 pt-4 border-t border-[var(--border)] flex justify-between items-center text-xs font-mono">
-          <span className="text-[var(--text-muted)]">
-            Active maintainer & contributor
-          </span>
-          <a
-            href="https://github.com/Dakshx07"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-[var(--text-primary)] hover:text-blue-500 transition-colors duration-150 underline underline-offset-4 decoration-[var(--border)] hover:decoration-blue-500"
-          >
-            Explore all repositories on GitHub →
-          </a>
         </div>
       </div>
     </section>
