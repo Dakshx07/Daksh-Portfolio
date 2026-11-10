@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
-import ThemeToggle from "@/components/ui/ThemeToggle";
 
 interface NotchNavbarProps {
   sticker?: string;
@@ -146,8 +145,9 @@ export default function NotchNavbar({ sticker = "/stickers/nori-cool.svg" }: Not
       }`}
     >
       {/* 
-        Organic Flared Sky Wings:
-        Starts thin at notch wings (~20px) -> Expands and flares into screen corners (~220px).
+        Organic Flared Sky Wings (Exact Original Curves & Shapes):
+        Starts thin at notch wings (~22px) -> Expands and flares into screen corners (~220px).
+        Directly touches the notch wings with zero gap.
         Uses exact Figma Linear Gradient: #190096 -> #0080FF -> #78D2FF -> Transparent.
         Tangible Stipple Dither Mask ensures real pixel grain.
         Zero glow below the notch or over the bio text.
@@ -155,7 +155,7 @@ export default function NotchNavbar({ sticker = "/stickers/nori-cool.svg" }: Not
       */}
       <div className="absolute top-0 inset-x-0 h-[180px] sm:h-[220px] md:h-[260px] pointer-events-none overflow-hidden">
         {/* Left Flared Sky Wing */}
-        <div className="absolute top-0 left-0 right-[calc(50%+165px)] sm:right-[calc(50%+185px)] h-full pointer-events-none">
+        <div className="absolute top-0 left-0 right-[calc(50%+100px)] sm:right-[calc(50%+115px)] h-full pointer-events-none">
           {/* Tangible Stipple Dither Mask Layer */}
           <div
             className="sky-wing-left absolute inset-0 transition-opacity duration-300"
@@ -176,7 +176,7 @@ export default function NotchNavbar({ sticker = "/stickers/nori-cool.svg" }: Not
         </div>
 
         {/* Right Flared Sky Wing */}
-        <div className="absolute top-0 left-[calc(50%+165px)] sm:left-[calc(50%+185px)] right-0 h-full pointer-events-none">
+        <div className="absolute top-0 left-[calc(50%+100px)] sm:left-[calc(50%+115px)] right-0 h-full pointer-events-none">
           {/* Tangible Stipple Dither Mask Layer */}
           <div
             className="sky-wing-right absolute inset-0 transition-opacity duration-300"
@@ -199,10 +199,10 @@ export default function NotchNavbar({ sticker = "/stickers/nori-cool.svg" }: Not
 
       {/* 
         The Apple / Supaste Notch Body
-        Solid pitch-black obsidian container (#000000) with mathematical concave wings
+        Ultra-compact obsidian container (#000000) with mathematical concave wings
         Centered with balanced max-width to hug navigation items gracefully
       */}
-      <div className="relative pointer-events-auto flex items-center justify-between w-auto min-w-[330px] sm:min-w-[370px] h-11 sm:h-12 pl-3.5 pr-3 sm:pl-4 sm:pr-3.5 bg-[#000000] text-white border-b border-x border-white/10 rounded-b-2xl shadow-[0_10px_35px_rgba(0,0,0,0.5)] select-none gap-4 sm:gap-6">
+      <div className="relative pointer-events-auto flex items-center justify-between w-auto min-w-[240px] sm:min-w-[260px] h-11 sm:h-12 pl-3.5 pr-3 sm:pl-4 sm:pr-3 bg-[#000000] text-white border-b border-x border-white/10 rounded-b-2xl shadow-[0_10px_35px_rgba(0,0,0,0.5)] select-none gap-3 sm:gap-5">
         {/* Left Inverted Wing (G1 continuous cubic fillet scooping into the ceiling) */}
         <div className="absolute -left-4 top-0 w-4 h-4 pointer-events-none">
           <svg className="w-4 h-4 overflow-visible" viewBox="0 0 16 16">
@@ -251,15 +251,12 @@ export default function NotchNavbar({ sticker = "/stickers/nori-cool.svg" }: Not
             draggable={false}
           />
           <span className="font-semibold text-[13px] sm:text-sm tracking-tight text-white font-sans">
-            dksh
+            daksh
           </span>
         </button>
 
-        {/* Right Controls: Morphicons Theme Toggle & Semi-Circle Radial Fan-Out Bloom */}
-        <div className="flex items-center gap-2 sm:gap-2.5">
-          {/* Morphicons.com Spring Morphing Sun <-> Moon Switcher */}
-          <ThemeToggle />
-
+        {/* Right Controls: Semi-Circle Radial Fan-Out Bloom */}
+        <div className="flex items-center">
           {/* "Get in touch" CTA with Curved Semi-Circular Social Bloom */}
           <div
             className="relative"
