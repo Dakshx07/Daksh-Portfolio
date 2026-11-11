@@ -8,6 +8,7 @@ import HeroText from "@/components/hero/HeroText";
 import CenterpieceArtwork from "@/components/hero/CenterpieceArtwork";
 import FallingPetals from "@/components/hero/FallingPetals";
 import PullCordToggle from "@/components/ui/PullCordToggle";
+import ProjectsSection from "@/components/projects/ProjectsSection";
 import GitHubContributionGraph from "@/components/activity/GitHubContributionGraph";
 
 export default function Home() {
@@ -37,7 +38,10 @@ export default function Home() {
       {/* Section 2: Centerpiece Artwork with Feathered Dither Vignette & Day ↔ Night Scrub Slider */}
       <CenterpieceArtwork onProgressChange={setSliderProgress} />
 
-      {/* Section 3: Akoder-Style Live GitHub Contribution Heatmap Grid (Dakshx07) */}
+      {/* Section 3: kshv.me-Style 2-Column Projects Showcase (Indian Stamp Badge + Real Covers + 2-Line Summaries) */}
+      <ProjectsSection />
+
+      {/* Section 4: Akoder-Style Live GitHub Contribution Heatmap Grid (Dakshx07) */}
       <GitHubContributionGraph username="Dakshx07" />
     </main>
   );

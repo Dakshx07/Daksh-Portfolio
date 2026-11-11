@@ -237,7 +237,7 @@ export default function NotchNavbar({ sticker = "/stickers/nori-cool.svg" }: Not
           </svg>
         </div>
 
-        {/* Left: Interactive FeralUI Jelly Blob Mascot & 'daksh' Wordmark */}
+        {/* Left: Interactive FeralUI Jelly Blob Mascot (in Signature Sky Gradient Blue) & 'daksh' Wordmark */}
         <button
           onClick={scrollToTop}
           type="button"
@@ -245,7 +245,7 @@ export default function NotchNavbar({ sticker = "/stickers/nori-cool.svg" }: Not
           aria-label="Daksh - Scroll to top"
           title="Scroll to top"
         >
-          <div className="w-7 h-7 sm:w-7.5 sm:h-7.5 flex items-center justify-center -my-1 transform group-hover:scale-115 transition-transform duration-200">
+          <div className="jelly-blue-gradient w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center -my-2 transform group-hover:scale-115 transition-transform duration-200">
             <JellyBlobMascot
               mood="wave"
               eyeStyle="v1"

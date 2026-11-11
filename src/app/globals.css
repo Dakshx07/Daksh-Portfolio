@@ -223,6 +223,79 @@ html.light ::selection {
   right: -2.5px;
 }
 
+/* =========================================================================
+   FeralUI Jelly Blob - Signature Sky Gradient Skin
+   Using Figma Colors: #78D2FF -> #0080FF -> #190096
+   ========================================================================= */
+
+.jelly-blue-gradient {
+  --jelly-body-top: #78D2FF;
+  --jelly-body-mid: #0080FF;
+  --jelly-body-deep: #190096;
+  --jelly-body-rim: #9de2ff;
+  --jelly-outline: #120070;
+  --jelly-outline-light: #0080FF;
+  --jelly-arm-light: #78D2FF;
+  --jelly-arm-mid: #0080FF;
+  --jelly-arm-deep: #190096;
+  --jelly-belly-glow: rgba(120, 210, 255, 0.55);
+  --jelly-eye-sparkle: #78D2FF;
+  --jelly-cheek-light: rgba(120, 210, 255, 0.35);
+  --jelly-cheek: rgba(0, 128, 255, 0.25);
+  --jelly-cheek-deep: rgba(25, 0, 150, 0.25);
+}
+
+.jelly-sunset-gradient {
+  --jelly-body-top: #FED7AA;
+  --jelly-body-mid: #F97316;
+  --jelly-body-deep: #9A3412;
+  --jelly-body-rim: #FFEDD5;
+  --jelly-outline: #7C2D12;
+  --jelly-outline-light: #EA580C;
+  --jelly-arm-light: #FDBA74;
+  --jelly-arm-mid: #FB923C;
+  --jelly-arm-deep: #C2410C;
+  --jelly-belly-glow: rgba(254, 215, 170, 0.6);
+  --jelly-eye-sparkle: #FED7AA;
+  --jelly-cheek-light: rgba(254, 215, 170, 0.4);
+  --jelly-cheek: rgba(249, 115, 22, 0.3);
+  --jelly-cheek-deep: rgba(154, 52, 18, 0.3);
+}
+
+.jelly-purple-gradient {
+  --jelly-body-top: #E9D5FF;
+  --jelly-body-mid: #A855F7;
+  --jelly-body-deep: #581C87;
+  --jelly-body-rim: #F3E8FF;
+  --jelly-outline: #3B0764;
+  --jelly-outline-light: #9333EA;
+  --jelly-arm-light: #D8B4FE;
+  --jelly-arm-mid: #C084FC;
+  --jelly-arm-deep: #7E22CE;
+  --jelly-belly-glow: rgba(233, 213, 255, 0.6);
+  --jelly-eye-sparkle: #E9D5FF;
+  --jelly-cheek-light: rgba(233, 213, 255, 0.4);
+  --jelly-cheek: rgba(168, 85, 247, 0.3);
+  --jelly-cheek-deep: rgba(88, 28, 135, 0.3);
+}
+
+.jelly-lightblue-gradient {
+  --jelly-body-top: #E0F2FE;
+  --jelly-body-mid: #7DD3FC;
+  --jelly-body-deep: #0284C7;
+  --jelly-body-rim: #F0F9FF;
+  --jelly-outline: #0369A1;
+  --jelly-outline-light: #38BDF8;
+  --jelly-arm-light: #BAE6FD;
+  --jelly-arm-mid: #38BDF8;
+  --jelly-arm-deep: #0284C7;
+  --jelly-belly-glow: rgba(186, 230, 253, 0.65);
+  --jelly-eye-sparkle: #E0F2FE;
+  --jelly-cheek-light: rgba(186, 230, 253, 0.45);
+  --jelly-cheek: rgba(56, 189, 248, 0.3);
+  --jelly-cheek-deep: rgba(2, 132, 199, 0.25);
+}
+
 .selection-box-header {
   outline: 1px solid var(--select);
   outline-offset: 0;

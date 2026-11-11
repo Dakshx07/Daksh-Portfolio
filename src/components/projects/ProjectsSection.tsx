@@ -1,306 +1,184 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
+import Image from "next/image";
 import { JellyBlobMascot, type JellyBlobMood } from "feral-blob";
-import "feral-blob/blob.css";
 
 interface Project {
   id: string;
-  number: string;
   title: string;
-  category: string;
   description: string;
-  tech: string[];
+  image: string;
   link: string;
-  gradient: string;
-  accent: string;
-  previewGraphic: React.ReactNode;
 }
 
 const PROJECTS: Project[] = [
   {
     id: "agent-spm",
-    number: "01",
     title: "Agent SPM",
-    category: "SYSTEMS / CLI",
     description:
-      "Autonomous agent skills package manager & sandboxed resolution engine built with Rust and TypeScript.",
-    tech: ["TypeScript", "Rust", "Node.js", "AST"],
-    link: "https://github.com/Dakshx07",
-    gradient: "from-blue-600/20 via-indigo-900/10 to-transparent",
-    accent: "#3b82f6",
-    previewGraphic: (
-      <div className="w-full h-full flex flex-col justify-between p-4 bg-gradient-to-br from-blue-950/40 via-zinc-950 to-zinc-950">
-        <div className="flex items-center justify-between text-[10px] font-mono text-blue-400/80">
-          <span>SPM_CORE_V2.1</span>
-          <span className="w-2 h-2 rounded-full bg-blue-500 animate-pulse" />
-        </div>
-        <div className="space-y-1.5 font-mono text-[11px] text-zinc-300">
-          <div className="text-zinc-500 text-[10px]">$ npx agent-spm resolve</div>
-          <div className="text-blue-400 font-semibold">✓ 14 tools linked (0 collisions)</div>
-          <div className="text-zinc-400 text-[10px]">Memory footprint: &lt;18MB sandboxed</div>
-        </div>
-        <div className="flex gap-1.5">
-          <span className="px-2 py-0.5 rounded bg-blue-500/10 border border-blue-500/20 text-[10px] font-mono text-blue-300">Rust</span>
-          <span className="px-2 py-0.5 rounded bg-indigo-500/10 border border-indigo-500/20 text-[10px] font-mono text-indigo-300">CLI</span>
-        </div>
-      </div>
-    ),
+      "Autonomous skills package manager & CLI registry for AI agents with sandboxed execution.",
+    image: "/assets/images/projects/Covers/AgentSPM.jpg",
+    link: "https://agent-spm.com/",
   },
   {
     id: "sentinel",
-    number: "02",
     title: "Sentinel",
-    category: "AI / SECURITY",
     description:
-      "Red-team AST static analysis scanner and automated CI/CD code hardening patch engine.",
-    tech: ["Python", "AST Engine", "Next.js", "Tailwind"],
-    link: "https://github.com/Dakshx07",
-    gradient: "from-emerald-600/20 via-teal-900/10 to-transparent",
-    accent: "#10b981",
-    previewGraphic: (
-      <div className="w-full h-full flex flex-col justify-between p-4 bg-gradient-to-br from-emerald-950/40 via-zinc-950 to-zinc-950">
-        <div className="flex items-center justify-between text-[10px] font-mono text-emerald-400/80">
-          <span>SENTINEL_SCANNER</span>
-          <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-        </div>
-        <div className="space-y-1.5 font-mono text-[11px] text-zinc-300">
-          <div className="text-zinc-500 text-[10px]">$ sentinel --audit AST</div>
-          <div className="text-emerald-400 font-semibold">✓ 0 privilege escalations</div>
-          <div className="text-zinc-400 text-[10px]">Automated patch plan verified</div>
-        </div>
-        <div className="flex gap-1.5">
-          <span className="px-2 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/20 text-[10px] font-mono text-emerald-300">Python</span>
-          <span className="px-2 py-0.5 rounded bg-teal-500/10 border border-teal-500/20 text-[10px] font-mono text-teal-300">Security</span>
-        </div>
-      </div>
-    ),
+      "Autonomous codebase security scanner and AST patch planner for automated CI/CD hardening.",
+    image: "/assets/images/projects/Covers/Sentinel.avif",
+    link: "https://sentinell-ai.netlify.app/",
   },
   {
     id: "orbies",
-    number: "03",
     title: "Orbies",
-    category: "MOBILE / PROTOCOL",
     description:
-      "Sub-100ms real-time community RSVP protocol and offline-first event ticket pass sync.",
-    tech: ["React Native", "Expo", "Reanimated 3", "Go"],
-    link: "https://github.com/Dakshx07",
-    gradient: "from-purple-600/20 via-pink-900/10 to-transparent",
-    accent: "#a855f7",
-    previewGraphic: (
-      <div className="w-full h-full flex flex-col justify-between p-4 bg-gradient-to-br from-purple-950/40 via-zinc-950 to-zinc-950">
-        <div className="flex items-center justify-between text-[10px] font-mono text-purple-400/80">
-          <span>ORBIES_PASS_SYNC</span>
-          <span className="w-2 h-2 rounded-full bg-purple-500 animate-pulse" />
-        </div>
-        <div className="space-y-1.5 font-mono text-[11px] text-zinc-300">
-          <div className="text-purple-300 font-semibold">Offline Pass Verification</div>
-          <div className="text-zinc-400 text-[10px]">60fps gesture physics • Reanimated 3</div>
-          <div className="text-zinc-500 text-[10px]">Latency: 42ms state propagation</div>
-        </div>
-        <div className="flex gap-1.5">
-          <span className="px-2 py-0.5 rounded bg-purple-500/10 border border-purple-500/20 text-[10px] font-mono text-purple-300">Mobile</span>
-          <span className="px-2 py-0.5 rounded bg-pink-500/10 border border-pink-500/20 text-[10px] font-mono text-pink-300">Go</span>
-        </div>
-      </div>
-    ),
+      "Volunteering & local community event platform with gesture discovery and real-time RSVPs.",
+    image: "/assets/images/projects/Covers/Orbies.avif",
+    link: "https://orbies.in/",
   },
   {
     id: "ayuchain",
-    number: "04",
     title: "AyuChain",
-    category: "BLOCKCHAIN / VISION",
     description:
-      "AI OCR prescription verification and tamper-proof blockchain audit ledger across clinics.",
-    tech: ["Solidity", "Polygon", "Python OCR", "Fastify"],
-    link: "https://github.com/Dakshx07",
-    gradient: "from-amber-600/20 via-orange-900/10 to-transparent",
-    accent: "#f59e0b",
-    previewGraphic: (
-      <div className="w-full h-full flex flex-col justify-between p-4 bg-gradient-to-br from-amber-950/40 via-zinc-950 to-zinc-950">
-        <div className="flex items-center justify-between text-[10px] font-mono text-amber-400/80">
-          <span>AYUCHAIN_LEDGER</span>
-          <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse" />
-        </div>
-        <div className="space-y-1.5 font-mono text-[11px] text-zinc-300">
-          <div className="text-amber-400 font-semibold">Polygon Block #48192801</div>
-          <div className="text-zinc-400 text-[10px]">Tamper-proof pharmacy audit trail</div>
-          <div className="text-zinc-500 text-[10px]">40+ decentralized clinics active</div>
-        </div>
-        <div className="flex gap-1.5">
-          <span className="px-2 py-0.5 rounded bg-amber-500/10 border border-amber-500/20 text-[10px] font-mono text-amber-300">Polygon</span>
-          <span className="px-2 py-0.5 rounded bg-orange-500/10 border border-orange-500/20 text-[10px] font-mono text-orange-300">OCR</span>
-        </div>
-      </div>
-    ),
+      "AI prescription verification and tamper-proof healthcare ledger across 40+ clinics.",
+    image: "/assets/images/projects/Covers/AyuChain.avif",
+    link: "https://github.com/lakshitsonii/medichain",
   },
 ];
 
-const OPEN_SOURCE_REPOS = [
-  {
-    name: "Nhost",
-    prs: "13 Merged PRs",
-    desc: "Engineered dashboard UI primitives, high-throughput table grid actions, Combobox v2 migrations, and private storage authenticated downloads.",
-    tag: "CORE DASHBOARD",
-    link: "https://github.com/nhost/nhost",
-  },
-  {
-    name: "Career-Ops",
-    prs: "3 Merged PRs",
-    desc: "Official Organization Member. Implemented loopback proxy security under trusted egress, deduplication tracker, and session resilience.",
-    tag: "SECURITY / CORE",
-    link: "https://github.com/career-ops",
-  },
-  {
-    name: "Jitsi Meet",
-    prs: "3 Merged PRs",
-    desc: "Fixed WebRTC video grid aspect ratio hysteresis, eliminating layout thrashing and rendering freezes during active speaker switches.",
-    tag: "WEBRTC / AUDIO",
-    link: "https://github.com/jitsi/jitsi-meet",
-  },
-  {
-    name: "Supercompress",
-    prs: "6 Merged PRs",
-    desc: "Query-aware token compression algorithms for LLM context windows, reducing inference latency and context overflow on long sessions.",
-    tag: "AI TOOLING",
-    link: "https://github.com/Dakshx07",
-  },
-  {
-    name: "Processing Foundation",
-    prs: "1 Merged PR",
-    desc: "Security validation for file rename extensions, whitelist enforcement, and path traversal mitigation across desktop IDE builds.",
-    tag: "GSOC / SECURITY",
-    link: "https://github.com/processing",
-  },
+const MOOD_CYCLE: JellyBlobMood[] = [
+  "curious",
+  "happy",
+  "wave",
+  "love",
+  "shy",
+  "surprised",
 ];
-
-const MOODS: JellyBlobMood[] = ["curious", "happy", "wave", "love", "surprised"];
 
 export default function ProjectsSection() {
-  const [blobMoodIndex, setBlobMoodIndex] = useState(0);
+  const [blobMood, setBlobMood] = useState<JellyBlobMood>("curious");
+  const [moodIndex, setMoodIndex] = useState(0);
+  const headingBoxRef = useRef<HTMLDivElement>(null);
+  const [dimensions, setDimensions] = useState({ width: 78, height: 26 });
 
-  const cycleMood = () => {
-    setBlobMoodIndex((prev) => (prev + 1) % MOODS.length);
+  // Update dynamic Figma box dimensions for the "Projects" heading
+  const updateDimensions = useCallback(() => {
+    if (headingBoxRef.current) {
+      const rect = headingBoxRef.current.getBoundingClientRect();
+      setDimensions({
+        width: Math.round(rect.width),
+        height: Math.round(rect.height),
+      });
+    }
+  }, []);
+
+  useEffect(() => {
+    updateDimensions();
+    if (typeof document !== "undefined" && document.fonts) {
+      document.fonts.ready.then(updateDimensions);
+    }
+    const ro = new ResizeObserver(updateDimensions);
+    if (headingBoxRef.current) ro.observe(headingBoxRef.current);
+    window.addEventListener("resize", updateDimensions);
+    return () => {
+      ro.disconnect();
+      window.removeEventListener("resize", updateDimensions);
+    };
+  }, [updateDimensions]);
+
+  // Click / poke reaction for the project mascot blob
+  const handleBlobPoke = () => {
+    const nextIdx = (moodIndex + 1) % MOOD_CYCLE.length;
+    setMoodIndex(nextIdx);
+    setBlobMood(MOOD_CYCLE[nextIdx]);
   };
 
   return (
-    <section className="relative mx-auto w-full max-w-[720px] px-6 pt-16 pb-28 text-[var(--text-primary)]">
-      {/* ── 01 / SELECTED WORKS HEADER (Figma Box Default Active + FeralUI Blob) ── */}
-      <div className="mb-10">
-        <div className="flex items-center gap-3.5 mb-2">
-          {/* Interactive FeralUI Jelly Blob Companion */}
-          <button
-            onClick={cycleMood}
-            type="button"
-            className="w-8 h-8 cursor-pointer transform hover:scale-110 active:scale-95 transition-transform focus:outline-none select-none"
-            title="Click to poke the blob!"
-            aria-label="Interactive Blob Mascot"
-          >
-            <JellyBlobMascot
-              mood={MOODS[blobMoodIndex]}
-              eyeStyle="v1"
-              className="w-full h-full pointer-events-none"
-            />
-          </button>
+    <section className="relative mx-auto w-full max-w-[580px] px-4 sm:px-0 pt-8 pb-16 sm:pb-20 text-[var(--text-primary)]">
+      {/* ── SECTION HEADER (Light Blue Mascot + Figma Box Header) ── */}
+      <div className="flex items-center gap-3.5 mb-6 select-none">
+        {/* FeralUI Blob Mascot with Light Bluish Palette & Perfect Proportions */}
+        <button
+          type="button"
+          onClick={handleBlobPoke}
+          className="relative w-10 h-10 sm:w-11 sm:h-11 cursor-pointer flex-shrink-0 jelly-lightblue-gradient hover:scale-105 active:scale-95 transition-transform duration-150 p-0 bg-transparent border-0 outline-none"
+          title="Click to interact with the project blob!"
+          aria-label="Interact with project mascot blob"
+        >
+          <JellyBlobMascot
+            mood={blobMood}
+            eyeStyle="v1"
+            className="w-full h-full"
+            onPoke={handleBlobPoke}
+          />
+        </button>
 
-          {/* Header Title with Authentically Active Figma Selection Box by Default */}
-          <div className="relative inline-block selection-box-header">
-            {/* 4 Corner Resize Handles */}
+        {/* Section Heading with Figma Selection Box by Default & Increased Text Size */}
+        <div className="relative inline-flex items-center">
+          <div
+            ref={headingBoxRef}
+            className="selection-box-header px-2 py-0.5 rounded-[1px]"
+          >
+            {/* 4 Corner Handles of Figma Inspector */}
             <i className="handle-tl" />
             <i className="handle-tr" />
             <i className="handle-bl" />
             <i className="handle-br" />
 
-            <h2 className="font-mono text-xs sm:text-[13px] tracking-wider text-[var(--select)] font-semibold px-2 py-0.5 select-none">
-              01 / SELECTED WORKS
+            <h2 className="font-sans font-medium text-[20px] sm:text-[22px] tracking-tight text-[var(--text-primary)] leading-tight">
+              Projects
             </h2>
 
-            {/* Figma Live Coordinate Tag */}
-            <span className="selection-tag">184 × 22</span>
+            {/* Floating Figma Dimension Inspector Tag (Default Active) */}
+            <span className="selection-tag">
+              {dimensions.width} × {dimensions.height}
+            </span>
           </div>
         </div>
-
-        <p className="text-xs sm:text-[13px] text-[var(--text-muted)] font-sans mt-3">
-          Independent systems, developer tooling & production protocols.
-        </p>
       </div>
 
-      {/* ── 2-COLUMN PROJECT GRID ── */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-6 mb-16">
+      {/* ── 2-COLUMN PROJECT GRID (kshv.me scale: max-w-[580px], borderless images, refined typography) ── */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 sm:gap-x-5 gap-y-6 sm:gap-y-7">
         {PROJECTS.map((project) => (
-          <article key={project.id} className="flex flex-col group">
-            {/* Clickable Image Container (Redirects directly on click, NO arrow icon) */}
+          <article key={project.id} className="flex flex-col">
+            {/* Clickable Borderless Image Container (Exact kshv.me proportions) */}
             <a
               href={project.link}
               target="_blank"
               rel="noopener noreferrer"
               aria-label={`Open ${project.title}`}
-              className="relative aspect-[16/10] w-full rounded-xl border border-[var(--border)] overflow-hidden bg-zinc-950/70 hover:border-blue-500/50 hover:shadow-[0_8px_25px_rgba(37,99,235,0.18)] transition-all duration-200 cursor-pointer block select-none"
+              className="relative aspect-[16/10] w-full rounded-[14px] sm:rounded-[16px] overflow-hidden bg-neutral-900 block select-none"
             >
-              {/* Subtle Stipple Dither Vignette */}
-              <div className="scenery absolute inset-0 opacity-20 pointer-events-none" />
-
-              {/* Graphic Preview */}
-              <div className="w-full h-full transform group-hover:scale-[1.02] transition-transform duration-250 ease-out">
-                {project.previewGraphic}
-              </div>
+              <Image
+                src={project.image}
+                alt={`${project.title} preview`}
+                fill
+                sizes="(max-width: 640px) 100vw, 290px"
+                className="object-cover"
+              />
             </a>
 
-            {/* Title & 2-Liner Description Below Image */}
-            <div className="mt-3 flex flex-col">
-              <div className="flex items-baseline justify-between gap-2 mb-1">
-                <h3 className="font-sans font-semibold text-base sm:text-[17px] text-[var(--text-primary)] group-hover:text-blue-500 transition-colors duration-150">
+            {/* Title (kshv.me typography: no hover color shift, steady) */}
+            <div className="mt-2.5 mb-1">
+              <a
+                href={project.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-block"
+              >
+                <h3 className="font-sans font-medium text-[14.5px] sm:text-[15px] text-[var(--text-primary)] tracking-[-0.01em] leading-tight">
                   {project.title}
                 </h3>
-                <span className="font-mono text-[10px] text-[var(--text-muted)] tracking-wider">
-                  {project.category}
-                </span>
-              </div>
-              <p className="text-xs sm:text-[13px] text-[var(--text-secondary)] leading-relaxed line-clamp-2">
-                {project.description}
-              </p>
+              </a>
             </div>
+
+            {/* Curated 2-liner description with kshv.me line-height and letter-spacing */}
+            <p className="text-[13px] text-[var(--text-secondary)] leading-[1.45] tracking-[-0.01em]">
+              {project.description}
+            </p>
           </article>
         ))}
-      </div>
-
-      {/* ── 02 / UPSTREAM & OPEN SOURCE (124 Merged PRs) ── */}
-      <div className="pt-8 border-t border-[var(--border)]">
-        <div className="flex items-center justify-between mb-6">
-          <div className="flex items-center gap-2">
-            <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse" />
-            <h2 className="font-mono text-xs sm:text-[13px] tracking-wider text-[var(--text-muted)] uppercase">
-              02 / Upstream & Open Source
-            </h2>
-          </div>
-          <span className="font-mono text-[11px] text-blue-400 font-semibold bg-blue-500/10 border border-blue-500/20 px-2 py-0.5 rounded-full">
-            124 Merged PRs
-          </span>
-        </div>
-
-        <div className="divide-y divide-[var(--border)]">
-          {OPEN_SOURCE_REPOS.map((repo) => (
-            <a
-              key={repo.name}
-              href={repo.link}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="py-4 flex flex-col sm:flex-row sm:items-baseline justify-between gap-2 hover:bg-[var(--card-hover)] px-2 -mx-2 rounded-lg transition-colors group block"
-            >
-              <div className="flex items-baseline gap-3">
-                <span className="font-sans font-medium text-sm text-[var(--text-primary)] group-hover:text-blue-500 transition-colors">
-                  {repo.name}
-                </span>
-                <span className="font-mono text-[11px] text-blue-400/90 font-medium">
-                  {repo.prs}
-                </span>
-              </div>
-              <p className="text-xs text-[var(--text-muted)] sm:max-w-[420px] leading-relaxed">
-                {repo.desc}
-              </p>
-            </a>
-          ))}
-        </div>
       </div>
     </section>
   );

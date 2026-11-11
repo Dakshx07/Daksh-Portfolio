@@ -174,9 +174,7 @@ export default function GitHubContributionGraph({
   };
 
   return (
-    <section className="relative w-full py-12 select-none">
-      {/* Top Dashed Hairline Border (Matching Akoder Screenshot) */}
-
+    <section className="relative w-full py-10 select-none border-y border-dashed border-neutral-800 dark:border-neutral-800">
       <div className="relative mx-auto w-full max-w-[760px] px-4 sm:px-6">
         {/* Scrollable Heatmap Viewport (Auto-scrolled to latest end on mobile, fits width on desktop) */}
         <div
