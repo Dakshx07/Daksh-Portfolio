@@ -10,6 +10,14 @@
   font-display: swap;
 }
 
+@font-face {
+  font-family: 'Caveat';
+  src: url('/fonts/Caveat-SemiBold.ttf') format('truetype');
+  font-weight: 400 700;
+  font-style: normal;
+  font-display: swap;
+}
+
 @theme {
   --font-sans: var(--font-geist-pixel-square), 'Geist Pixel Square', monospace;
   --font-mono: var(--font-geist-pixel-square), 'Geist Pixel Square', monospace;
@@ -650,5 +658,50 @@ html:not(.light) .liquid-glass {
   }
   to {
     transform: scaleX(0.25);
+  }
+}
+
+@keyframes drawSignatureStroke {
+  0% {
+    stroke-dashoffset: var(--stroke-len, 380);
+    opacity: 0;
+  }
+  6% {
+    opacity: 1;
+  }
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+}
+
+@keyframes writeLetter {
+  0% {
+    opacity: 0;
+    transform: translateY(6px) scale(0.9);
+    filter: blur(3px);
+  }
+  60% {
+    opacity: 0.95;
+    filter: blur(0px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0px);
+  }
+}
+
+@keyframes drawUnderline {
+  0% {
+    stroke-dashoffset: 240;
+    opacity: 0;
+  }
+  12% {
+    opacity: 1;
+  }
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 1;
   }
 }

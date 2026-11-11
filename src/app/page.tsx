@@ -11,6 +11,7 @@ import PullCordToggle from "@/components/ui/PullCordToggle";
 import ProjectsSection from "@/components/projects/ProjectsSection";
 import OpenSourceSection from "@/components/sections/OpenSourceSection";
 import GitHubContributionGraph from "@/components/activity/GitHubContributionGraph";
+import SignatureSection from "@/components/sections/SignatureSection";
 import FooterSection from "@/components/sections/FooterSection";
 
 export default function Home() {
@@ -49,7 +50,10 @@ export default function Home() {
       {/* Section 5: Open Source Contributions with Animated Progress Line & Emerald Blob */}
       <OpenSourceSection />
 
-      {/* Section 6: Footer with Contact Table, Live Handwritten Signature (No Diya), & Dock */}
+      {/* Section 6: Handwritten Calligraphic Signature Animation */}
+      <SignatureSection />
+
+      {/* Section 7: Bayer Dither Earth Horizon & Satellite Scene */}
       <FooterSection />
     </main>
   );
