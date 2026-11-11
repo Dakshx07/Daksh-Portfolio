@@ -4,12 +4,20 @@ import { useState, useRef, useEffect, useCallback } from "react";
 import Image from "next/image";
 import { JellyBlobMascot, type JellyBlobMood } from "feral-blob";
 
+interface ProjectStoreLink {
+  id: string;
+  title: string;
+  link: string;
+  icon: React.ReactNode;
+}
+
 interface Project {
   id: string;
   title: string;
   description: string;
   image: string;
   link: string;
+  stores?: ProjectStoreLink[];
 }
 
 const PROJECTS: Project[] = [
@@ -21,14 +29,7 @@ const PROJECTS: Project[] = [
     image: "/assets/images/projects/Covers/AgentSPM.jpg",
     link: "https://agent-spm.com/",
   },
-  {
-    id: "sentinel",
-    title: "Sentinel",
-    description:
-      "Autonomous codebase security scanner and AST patch planner for automated CI/CD hardening.",
-    image: "/assets/images/projects/Covers/Sentinel.avif",
-    link: "https://sentinell-ai.netlify.app/",
-  },
+  
   {
     id: "orbies",
     title: "Orbies",
@@ -36,6 +37,36 @@ const PROJECTS: Project[] = [
       "Volunteering & local community event platform with gesture discovery and real-time RSVPs.",
     image: "/assets/images/projects/Covers/Orbies.avif",
     link: "https://orbies.in/",
+    stores: [
+      {
+        id: "apple",
+        title: "Available on Apple App Store",
+        link: "https://orbies.in/",
+        icon: (
+          <svg className="w-[15px] h-[15px] fill-current" viewBox="0 0 24 24">
+            <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.37c.62-.75 1.04-1.8 0.93-2.85-.9.04-1.99.6-2.63 1.35-.56.65-.96 1.7-0.85 2.72 1.01.08 2.03-.52 2.55-1.22z" />
+          </svg>
+        ),
+      },
+      {
+        id: "google-play",
+        title: "Available on Google Play Store",
+        link: "https://orbies.in/",
+        icon: (
+          <svg className="w-[14px] h-[14px] fill-current" viewBox="0 0 512 512">
+            <path d="M325.3 234.3L104.6 13l280.8 161.2-60.1 60.1zM47 0C34 6.8 25.3 19.2 25.3 35.3v441.3c0 16.1 8.7 28.5 21.7 35.3l256.6-256L47 0zm425.2 225.6l-58.9-34.1-65.7 64.5 65.7 64.5 60.1-34.1c18-14.3 18-46.5-1.2-60.8zM104.6 499l280.8-161.2-60.1-60.1L104.6 499z" />
+          </svg>
+        ),
+      },
+    ],
+  },
+  {
+    id: "sentinel",
+    title: "Sentinel",
+    description:
+      "Autonomous codebase security scanner and AST patch planner for automated CI/CD hardening.",
+    image: "/assets/images/projects/Covers/Sentinel.avif",
+    link: "https://sentinell-ai.netlify.app/",
   },
   {
     id: "ayuchain",
@@ -159,8 +190,8 @@ export default function ProjectsSection() {
               />
             </a>
 
-            {/* Title (kshv.me typography: no hover color shift, steady) */}
-            <div className="mt-2.5 mb-1">
+            {/* Title & Standalone Store Logos */}
+            <div className="mt-2.5 mb-1 flex items-center justify-between gap-2">
               <a
                 href={project.link}
                 target="_blank"
@@ -171,6 +202,25 @@ export default function ProjectsSection() {
                   {project.title}
                 </h3>
               </a>
+
+              {/* Standalone Store Logos (Apple App Store & Google Play for Orbies) */}
+              {project.stores && (
+                <div className="flex items-center gap-2 flex-shrink-0 text-zinc-400 dark:text-zinc-500">
+                  {project.stores.map((s) => (
+                    <a
+                      key={s.id}
+                      href={s.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="hover:text-[var(--text-primary)] transition-all duration-150 hover:scale-110 flex items-center justify-center p-0.5"
+                      title={s.title}
+                      aria-label={s.title}
+                    >
+                      {s.icon}
+                    </a>
+                  ))}
+                </div>
+              )}
             </div>
 
             {/* Curated 2-liner description with kshv.me line-height and letter-spacing */}

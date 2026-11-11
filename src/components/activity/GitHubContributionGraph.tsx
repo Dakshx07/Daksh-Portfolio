@@ -174,16 +174,16 @@ export default function GitHubContributionGraph({
   };
 
   return (
-    <section className="relative w-full py-10 select-none border-y border-dashed border-neutral-800 dark:border-neutral-800">
-      <div className="relative mx-auto w-full max-w-[760px] px-4 sm:px-6">
+    <section className="relative mx-auto w-full max-w-[580px] px-4 sm:px-0 py-8 select-none">
+      <div className="relative w-full">
         {/* Scrollable Heatmap Viewport (Auto-scrolled to latest end on mobile, fits width on desktop) */}
         <div
           ref={scrollContainerRef}
           className="relative overflow-x-auto pb-4 scrollbar-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
         >
-          <div className="min-w-[680px] w-full flex flex-col items-center">
+          <div className="min-w-[540px] sm:min-w-full w-full flex flex-col items-center">
             {/* Top Month Labels */}
-            <div className="relative h-5 mb-2.5 w-full font-mono text-[11px] text-zinc-400">
+            <div className="relative h-5 mb-2 w-full font-mono text-[10.5px] sm:text-[11px] text-zinc-400">
               {monthLabels.map(({ month, colIndex }) => (
                 <span
                   key={`${month}-${colIndex}`}
@@ -195,16 +195,16 @@ export default function GitHubContributionGraph({
               ))}
             </div>
 
-            {/* 7-Row x 52-Column Grid of Circular Dots */}
-            <div className="flex gap-[3.5px] sm:gap-[3.8px] justify-between w-full">
+            {/* 7-Row x 52-Column Grid of Circular Dots (Scaled to fit 580px layout) */}
+            <div className="flex gap-[2px] sm:gap-[2.5px] justify-between w-full">
               {weeks.map((week, weekIdx) => (
-                <div key={weekIdx} className="flex flex-col gap-[3.5px] sm:gap-[3.8px]">
+                <div key={weekIdx} className="flex flex-col gap-[2px] sm:gap-[2.5px]">
                   {week.map((day, dayIdx) => {
                     if (day.level === -1) {
                       return (
                         <div
                           key={`pad-${dayIdx}`}
-                          className="w-2.5 h-2.5 sm:w-[11px] sm:h-[11px] rounded-full opacity-0 pointer-events-none"
+                          className="w-2 h-2 sm:w-[8px] sm:h-[8px] rounded-full opacity-0 pointer-events-none"
                         />
                       );
                     }
@@ -224,7 +224,7 @@ export default function GitHubContributionGraph({
                           });
                         }}
                         onMouseLeave={() => setHoveredDay(null)}
-                        className={`w-2.5 h-2.5 sm:w-[11px] sm:h-[11px] rounded-full cursor-pointer transition-transform duration-150 hover:scale-140 hover:z-20 ${colorClass} ${
+                        className={`w-2 h-2 sm:w-[8px] sm:h-[8px] rounded-full cursor-pointer transition-transform duration-150 hover:scale-140 hover:z-20 ${colorClass} ${
                           isLoading ? "animate-pulse" : ""
                         }`}
                       />
@@ -234,15 +234,15 @@ export default function GitHubContributionGraph({
               ))}
             </div>
 
-            {/* Bottom Legend (Matching Akoder Screenshot) */}
-            <div className="flex items-center justify-center gap-2 mt-7 font-mono text-[11.5px] text-zinc-400">
+            {/* Bottom Legend */}
+            <div className="flex items-center justify-center gap-2 mt-5 font-mono text-[11px] text-zinc-400">
               <span>Less</span>
-              <div className="flex items-center gap-1.5 mx-1.5">
-                <span className="w-2.5 h-2.5 rounded-full bg-[#27272a]" />
-                <span className="w-2.5 h-2.5 rounded-full bg-[#1d4ed8]" />
-                <span className="w-2.5 h-2.5 rounded-full bg-[#2563eb]" />
-                <span className="w-2.5 h-2.5 rounded-full bg-[#3b82f6]" />
-                <span className="w-2.5 h-2.5 rounded-full bg-[#60a5fa]" />
+              <div className="flex items-center gap-1.5 mx-1">
+                <span className="w-2 h-2 rounded-full bg-[#27272a]" />
+                <span className="w-2 h-2 rounded-full bg-[#1d4ed8]" />
+                <span className="w-2 h-2 rounded-full bg-[#2563eb]" />
+                <span className="w-2 h-2 rounded-full bg-[#3b82f6]" />
+                <span className="w-2 h-2 rounded-full bg-[#60a5fa]" />
               </div>
               <span>More</span>
             </div>
