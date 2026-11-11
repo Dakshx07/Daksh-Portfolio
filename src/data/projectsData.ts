@@ -16,7 +16,7 @@ export const PROJECTS_DATA: ProjectItem[] = [
     id: "agent-spm",
     title: "Agent SPM",
     date: "01 2026",
-    coverImage: "/assets/images/projects/Covers/AgentSPM.avif",
+    coverImage: "/assets/images/projects/Covers/AgentSPM.jpg",
     alt: "Agent SPM project preview",
     liveUrl: "https://agent-spm.com/",
     githubUrl: "https://agent-spm.com/",

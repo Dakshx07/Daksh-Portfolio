@@ -1,19 +1,707 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(html:not(.light), html:not(.light) *));
+
+@font-face {
+  font-family: 'Geist Pixel Square';
+  src: url('/fonts/GeistPixel-Square.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Caveat';
+  src: url('/fonts/Caveat-SemiBold.ttf') format('truetype');
+  font-weight: 400 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@theme {
+  --font-sans: var(--font-geist-pixel-square), 'Geist Pixel Square', monospace;
+  --font-mono: var(--font-geist-pixel-square), 'Geist Pixel Square', monospace;
+}
+
 :root {
-  --background: #0a0a0a;
-  --foreground: #ffffff;
+  --bg: #090A0B;
+  --text-primary: #FAFAFA;
+  --text-secondary: #A1A1AA;
+  --text-muted: #71717A;
+  --border: rgba(255, 255, 255, 0.08);
+  --border-hover: rgba(255, 255, 255, 0.18);
+  --card-bg: rgba(255, 255, 255, 0.02);
+  --card-hover: rgba(255, 255, 255, 0.05);
+  --ambient-glow: rgba(37, 99, 235, 0.12);
+  --select: #60a5fa;
+  --inspect-border: #3b82f6;
+  --inspect-bg: rgba(59, 130, 246, 0.08);
+  --inspect-badge: #1d4ed8;
+  --font-sans: var(--font-geist-pixel-square), 'Geist Pixel Square', monospace;
+  --font-mono: var(--font-geist-pixel-square), 'Geist Pixel Square', monospace;
+  --notch-bg: #FFFFFF;
+  --notch-border: rgba(0, 0, 0, 0.08);
+  --notch-text: #090A0B;
+  --notch-shadow: 0 10px 35px rgba(0, 0, 0, 0.35);
+  --notch-pill-bg: #090A0B;
+  --notch-pill-text: #FFFFFF;
+  --notch-pill-hover: #27272A;
+  --sky-curtain-from: rgba(56, 189, 248, 0.28);
+  --sky-curtain-via: rgba(37, 99, 235, 0.16);
+  --sky-curtain-to: rgba(30, 58, 138, 0.03);
+}
+
+html.light {
+  --bg: #FAFAFA;
+  --text-primary: #090A0B;
+  --text-secondary: #52525B;
+  --text-muted: #71717A;
+  --border: rgba(0, 0, 0, 0.08);
+  --border-hover: rgba(0, 0, 0, 0.18);
+  --card-bg: #FFFFFF;
+  --card-hover: #F4F4F5;
+  --ambient-glow: rgba(37, 99, 235, 0.06);
+  --select: #2563eb;
+  --inspect-border: #2563eb;
+  --inspect-bg: rgba(37, 99, 235, 0.08);
+  --inspect-badge: #2563eb;
+  --notch-bg: #000000;
+  --notch-border: rgba(255, 255, 255, 0.1);
+  --notch-text: #FFFFFF;
+  --notch-shadow: 0 10px 35px rgba(0, 0, 0, 0.15);
+  --notch-pill-bg: #FFFFFF;
+  --notch-pill-text: #000000;
+  --notch-pill-hover: #E4E4E7;
+  --sky-curtain-from: rgba(111, 176, 220, 0.32);
+  --sky-curtain-via: rgba(147, 197, 253, 0.18);
+  --sky-curtain-to: rgba(224, 242, 254, 0.04);
+  --footer-earth-deep: 15 45 95;
+  --footer-earth-ocean: 30 100 195;
+  --footer-earth-light: 96 165 250;
+  --footer-earth-cloud: 219 234 254;
+}
+
+/* =========================================================================
+   Interactive Multi-Font System
+   ========================================================================= */
+
+html[data-font="geist-pixel"] {
+  --font-sans: var(--font-geist-pixel-square), 'Geist Pixel Square', monospace;
+  --font-mono: var(--font-geist-pixel-square), 'Geist Pixel Square', monospace;
+}
+
+html[data-font="sans"] {
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+html[data-font="mono"] {
+  --font-sans: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+html[data-font="serif"] {
+  --font-sans: Georgia, Cambria, "Times New Roman", Times, serif;
+  --font-mono: Georgia, Cambria, serif;
 }
 
 * {
   box-sizing: border-box;
-  margin: 0;
-  padding: 0;
 }
 
-html, body {
-  background: #0a0a0a;
-  color: #ffffff;
-  width: 100%;
-  min-height: 100%;
+html {
+  background-color: var(--bg);
+  color: var(--text-primary);
+  color-scheme: dark;
+  scroll-behavior: smooth;
+  font-family: var(--font-sans);
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+html.light {
+  color-scheme: light;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text-primary);
+  min-height: 100vh;
   overflow-x: hidden;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
+code, kbd, samp, pre, .font-mono {
+  font-family: var(--font-mono);
+}
+
+::selection {
+  background-color: #27272a;
+  color: #fafafa;
+}
+
+html.light ::selection {
+  background-color: #e4e4e7;
+  color: #090a0b;
+}
+
+:focus-visible {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+/* =========================================================================
+   Keshav Scenery Stipple Dither Mask & Indian Postage Stamp System
+   ========================================================================= */
+
+.scenery {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 400' preserveAspectRatio='none'%3E%3Cfilter id='f' x='-10%25' y='-10%25' width='120%25' height='120%25' color-interpolation-filters='sRGB'%3E%3CfeGaussianBlur in='SourceGraphic' stdDeviation='15' result='b'/%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2' seed='4' result='n'/%3E%3CfeColorMatrix in='n' type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1.4 0 0 0 -.2' result='g'/%3E%3CfeComposite in='b' in2='g' operator='arithmetic' k1='1.2' k2='.74' k3='0' k4='0'/%3E%3C/filter%3E%3Crect x='32' y='32' width='536' height='336' rx='48' filter='url(%23f)'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 400' preserveAspectRatio='none'%3E%3Cfilter id='f' x='-10%25' y='-10%25' width='120%25' height='120%25' color-interpolation-filters='sRGB'%3E%3CfeGaussianBlur in='SourceGraphic' stdDeviation='15' result='b'/%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2' seed='4' result='n'/%3E%3CfeColorMatrix in='n' type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1.4 0 0 0 -.2' result='g'/%3E%3CfeComposite in='b' in2='g' operator='arithmetic' k1='1.2' k2='.74' k3='0' k4='0'/%3E%3C/filter%3E%3Crect x='32' y='32' width='536' height='336' rx='48' filter='url(%23f)'/%3E%3C/svg%3E");
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+}
+
+/* =========================================================================
+   Organic Flared Sky Wings (Flanking Notch: Small at Notch -> Growing to Corners)
+   With Keshav's Reverse-Engineered Stipple Dither Mask
+   ========================================================================= */
+
+.sky-wing-left {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 200' preserveAspectRatio='none'%3E%3Cfilter id='f' x='-10%25' y='-10%25' width='120%25' height='120%25' color-interpolation-filters='sRGB'%3E%3CfeGaussianBlur in='SourceGraphic' stdDeviation='12' result='b'/%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2' seed='4' result='n'/%3E%3CfeColorMatrix in='n' type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1.45 0 0 0 -.22' result='g'/%3E%3CfeComposite in='b' in2='g' operator='arithmetic' k1='1.2' k2='.74' k3='0' k4='0'/%3E%3C/filter%3E%3Cpath d='M -20 -20 H 620 V 22 C 500 28 360 55 220 95 C 100 130 30 155 -20 165 Z' fill='%23000' filter='url(%23f)'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 200' preserveAspectRatio='none'%3E%3Cfilter id='f' x='-10%25' y='-10%25' width='120%25' height='120%25' color-interpolation-filters='sRGB'%3E%3CfeGaussianBlur in='SourceGraphic' stdDeviation='12' result='b'/%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2' seed='4' result='n'/%3E%3CfeColorMatrix in='n' type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1.45 0 0 0 -.22' result='g'/%3E%3CfeComposite in='b' in2='g' operator='arithmetic' k1='1.2' k2='.74' k3='0' k4='0'/%3E%3C/filter%3E%3Cpath d='M -20 -20 H 620 V 22 C 500 28 360 55 220 95 C 100 130 30 155 -20 165 Z' fill='%23000' filter='url(%23f)'/%3E%3C/svg%3E");
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+}
+
+.sky-wing-right {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 200' preserveAspectRatio='none'%3E%3Cfilter id='f' x='-10%25' y='-10%25' width='120%25' height='120%25' color-interpolation-filters='sRGB'%3E%3CfeGaussianBlur in='SourceGraphic' stdDeviation='12' result='b'/%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2' seed='4' result='n'/%3E%3CfeColorMatrix in='n' type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1.45 0 0 0 -.22' result='g'/%3E%3CfeComposite in='b' in2='g' operator='arithmetic' k1='1.2' k2='.74' k3='0' k4='0'/%3E%3C/filter%3E%3Cpath d='M -20 -20 H 620 V 165 C 570 155 500 130 380 95 C 240 55 100 28 -20 22 Z' fill='%23000' filter='url(%23f)'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 200' preserveAspectRatio='none'%3E%3Cfilter id='f' x='-10%25' y='-10%25' width='120%25' height='120%25' color-interpolation-filters='sRGB'%3E%3CfeGaussianBlur in='SourceGraphic' stdDeviation='12' result='b'/%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2' seed='4' result='n'/%3E%3CfeColorMatrix in='n' type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1.45 0 0 0 -.22' result='g'/%3E%3CfeComposite in='b' in2='g' operator='arithmetic' k1='1.2' k2='.74' k3='0' k4='0'/%3E%3C/filter%3E%3Cpath d='M -20 -20 H 620 V 165 C 570 155 500 130 380 95 C 240 55 100 28 -20 22 Z' fill='%23000' filter='url(%23f)'/%3E%3C/svg%3E");
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+}
+
+.stamp-control {
+  isolation: isolate;
+  filter: drop-shadow(0 1px 1px rgba(30, 20, 0, 0.2)) drop-shadow(0 3px 8px rgba(30, 20, 0, 0.15));
+}
+
+:root {
+  --stamp-paper: #fff3da;
+  --plaque: #ffffff;
+  --plaque-edge: rgba(0, 0, 0, 0.12);
+  --tint: color-mix(in srgb, var(--select) 14%, transparent);
+  --footer-earth-deep: 19 54 103;
+  --footer-earth-ocean: 35 112 190;
+  --footer-earth-light: 169 220 249;
+  --footer-earth-cloud: 246 251 255;
+}
+
+.liquid-glass {
+  -webkit-backdrop-filter: blur(14px) saturate(180%);
+  backdrop-filter: blur(14px) saturate(180%);
+  transition: background-color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+html.light .liquid-glass {
+  background-color: rgba(255, 255, 255, 0.85);
+  box-shadow:
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.95),
+    inset 0 -1px 0 0 rgba(0, 0, 0, 0.06),
+    0 8px 24px -8px rgba(0, 0, 0, 0.12);
+  border: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+html:not(.light) .liquid-glass {
+  background-color: rgba(15, 23, 42, 0.65);
+  box-shadow:
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.35),
+    inset 0 -1px 0 0 rgba(255, 255, 255, 0.14),
+    0 10px 28px -12px rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.stamp {
+  --hole: 2.2px;
+  --pitch: 7px;
+  --rim: 6px;
+  -webkit-mask-image: linear-gradient(#000 0 0), radial-gradient(circle at center, transparent var(--hole), #000 calc(var(--hole) + 0.5px));
+  mask-image: linear-gradient(#000 0 0), radial-gradient(circle at center, transparent var(--hole), #000 calc(var(--hole) + 0.5px));
+  -webkit-mask-size: calc(100% - var(--rim)) calc(100% - var(--rim)), var(--pitch) var(--pitch);
+  mask-size: calc(100% - var(--rim)) calc(100% - var(--rim)), var(--pitch) var(--pitch);
+  -webkit-mask-position: 50%, 50%;
+  mask-position: 50%, 50%;
+  -webkit-mask-repeat: no-repeat, round;
+  mask-repeat: no-repeat, round;
+}
+
+.notched, .plaque {
+  --notch: polygon(
+    var(--n) 0,
+    calc(100% - var(--n)) 0,
+    calc(100% - var(--n)) var(--n),
+    100% var(--n),
+    100% calc(100% - var(--n)),
+    calc(100% - var(--n)) calc(100% - var(--n)),
+    calc(100% - var(--n)) 100%,
+    var(--n) 100%,
+    var(--n) calc(100% - var(--n)),
+    0 calc(100% - var(--n)),
+    0 var(--n),
+    var(--n) var(--n)
+  );
+}
+
+.notched {
+  --n: 3px;
+  clip-path: var(--notch);
+}
+
+.plaque {
+  --n: 5px;
+  isolation: isolate;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.08)) drop-shadow(0 4px 12px rgba(0, 0, 0, 0.06));
+  position: relative;
+}
+
+.plaque:before, .plaque:after {
+  content: "";
+  clip-path: var(--notch);
+  pointer-events: none;
+  position: absolute;
+}
+
+.plaque:before {
+  z-index: -2;
+  background: var(--plaque-edge);
+  inset: 0;
+}
+
+.plaque:after {
+  z-index: -1;
+  background: var(--plaque);
+  inset: 1px;
+}
+
+.stamp-paper {
+  background: var(--stamp-paper, #fff3da);
+  --r: 2.2px;
+  --p: 7.5px;
+  -webkit-mask-image: linear-gradient(#000 0 0), radial-gradient(circle at center, transparent var(--r), #000 calc(var(--r) + 0.4px));
+  mask-image: linear-gradient(#000 0 0), radial-gradient(circle at center, transparent var(--r), #000 calc(var(--r) + 0.4px));
+  -webkit-mask-size: calc(100% - 7px) calc(100% - 7px), var(--p) var(--p);
+  mask-size: calc(100% - 7px) calc(100% - 7px), var(--p) var(--p);
+  position: absolute;
+  inset: 0;
+  -webkit-mask-position: 50%;
+  mask-position: 50%;
+  -webkit-mask-repeat: no-repeat, round;
+  mask-repeat: no-repeat, round;
+}
+
+.stamp-arch {
+  border-radius: 50% 50% 3px 3px / 42% 42% 3px 3px;
+}
+
+.sky-rail {
+  background: linear-gradient(to right, #6fb0dc, #ffc65a 36%, #f0663a 48%, #e8487a 58%, #4a2a96 76%, #6a78d8);
+  -webkit-mask-image: repeating-linear-gradient(90deg, #000 0 1.5px, transparent 1.5px 6px);
+  mask-image: repeating-linear-gradient(90deg, #000 0 1.5px, transparent 1.5px 6px);
+}
+
+/* =========================================================================
+   Figma Selection Box & Measurement System (Reverse-Engineered from kshv.me)
+   ========================================================================= */
+
+.selection-box {
+  outline: 1px solid var(--select);
+  outline-offset: 0;
+  pointer-events: none;
+  position: absolute;
+  transition: transform 0.22s cubic-bezier(0.23, 1, 0.32, 1),
+              width 0.22s cubic-bezier(0.23, 1, 0.32, 1),
+              height 0.22s cubic-bezier(0.23, 1, 0.32, 1),
+              opacity 0.18s ease-out;
+}
+
+.selection-box > i {
+  background: var(--bg);
+  border: 1px solid var(--select);
+  width: 5px;
+  height: 5px;
+  position: absolute;
+}
+
+.selection-box > i:first-of-type {
+  top: -2.5px;
+  left: -2.5px;
+}
+
+.selection-box > i:nth-of-type(2) {
+  top: -2.5px;
+  right: -2.5px;
+}
+
+.selection-box > i:nth-of-type(3) {
+  bottom: -2.5px;
+  left: -2.5px;
+}
+
+.selection-box > i:nth-of-type(4) {
+  bottom: -2.5px;
+  right: -2.5px;
+}
+
+/* =========================================================================
+   FeralUI Jelly Blob - Signature Sky Gradient Skin
+   Using Figma Colors: #78D2FF -> #0080FF -> #190096
+   ========================================================================= */
+
+.jelly-blue-gradient {
+  --jelly-body-top: #78D2FF;
+  --jelly-body-mid: #0080FF;
+  --jelly-body-deep: #190096;
+  --jelly-body-rim: #9de2ff;
+  --jelly-outline: #120070;
+  --jelly-outline-light: #0080FF;
+  --jelly-arm-light: #78D2FF;
+  --jelly-arm-mid: #0080FF;
+  --jelly-arm-deep: #190096;
+  --jelly-belly-glow: rgba(120, 210, 255, 0.55);
+  --jelly-eye-sparkle: #78D2FF;
+  --jelly-cheek-light: rgba(120, 210, 255, 0.35);
+  --jelly-cheek: rgba(0, 128, 255, 0.25);
+  --jelly-cheek-deep: rgba(25, 0, 150, 0.25);
+}
+
+.jelly-sunset-gradient {
+  --jelly-body-top: #FED7AA;
+  --jelly-body-mid: #F97316;
+  --jelly-body-deep: #9A3412;
+  --jelly-body-rim: #FFEDD5;
+  --jelly-outline: #7C2D12;
+  --jelly-outline-light: #EA580C;
+  --jelly-arm-light: #FDBA74;
+  --jelly-arm-mid: #FB923C;
+  --jelly-arm-deep: #C2410C;
+  --jelly-belly-glow: rgba(254, 215, 170, 0.6);
+  --jelly-eye-sparkle: #FED7AA;
+  --jelly-cheek-light: rgba(254, 215, 170, 0.4);
+  --jelly-cheek: rgba(249, 115, 22, 0.3);
+  --jelly-cheek-deep: rgba(154, 52, 18, 0.3);
+}
+
+.jelly-purple-gradient {
+  --jelly-body-top: #E9D5FF;
+  --jelly-body-mid: #A855F7;
+  --jelly-body-deep: #581C87;
+  --jelly-body-rim: #F3E8FF;
+  --jelly-outline: #3B0764;
+  --jelly-outline-light: #9333EA;
+  --jelly-arm-light: #D8B4FE;
+  --jelly-arm-mid: #C084FC;
+  --jelly-arm-deep: #7E22CE;
+  --jelly-belly-glow: rgba(233, 213, 255, 0.6);
+  --jelly-eye-sparkle: #E9D5FF;
+  --jelly-cheek-light: rgba(233, 213, 255, 0.4);
+  --jelly-cheek: rgba(168, 85, 247, 0.3);
+  --jelly-cheek-deep: rgba(88, 28, 135, 0.3);
+}
+
+.jelly-lightblue-gradient {
+  --jelly-body-top: #E0F2FE;
+  --jelly-body-mid: #7DD3FC;
+  --jelly-body-deep: #0284C7;
+  --jelly-body-rim: #F0F9FF;
+  --jelly-outline: #0369A1;
+  --jelly-outline-light: #38BDF8;
+  --jelly-arm-light: #BAE6FD;
+  --jelly-arm-mid: #38BDF8;
+  --jelly-arm-deep: #0284C7;
+  --jelly-belly-glow: rgba(186, 230, 253, 0.65);
+  --jelly-eye-sparkle: #E0F2FE;
+  --jelly-cheek-light: rgba(186, 230, 253, 0.45);
+  --jelly-cheek: rgba(56, 189, 248, 0.3);
+  --jelly-cheek-deep: rgba(2, 132, 199, 0.25);
+}
+
+.jelly-emerald-gradient {
+  --jelly-body-top: #A7F3D0;
+  --jelly-body-mid: #10B981;
+  --jelly-body-deep: #065F46;
+  --jelly-body-rim: #D1FAE5;
+  --jelly-outline: #064E3B;
+  --jelly-outline-light: #10B981;
+  --jelly-arm-light: #6EE7B7;
+  --jelly-arm-mid: #34D399;
+  --jelly-arm-deep: #059669;
+  --jelly-belly-glow: rgba(167, 243, 208, 0.6);
+  --jelly-eye-sparkle: #A7F3D0;
+  --jelly-cheek-light: rgba(167, 243, 208, 0.4);
+  --jelly-cheek: rgba(16, 185, 129, 0.25);
+  --jelly-cheek-deep: rgba(6, 95, 70, 0.25);
+}
+
+@keyframes timelinePulse {
+  0% {
+    top: -15%;
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  80% {
+    opacity: 1;
+  }
+  100% {
+    top: 105%;
+    opacity: 0;
+  }
+}
+
+.timeline-beam {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 48px;
+  background: linear-gradient(180deg, transparent, rgba(56, 189, 248, 0.8), rgba(16, 185, 129, 0.9), transparent);
+  animation: timelinePulse 2.8s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes dashStream {
+  from {
+    stroke-dashoffset: 24;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.timeline-stream {
+  stroke-dasharray: 4 6;
+  animation: dashStream 1.4s linear infinite;
+}
+
+.selection-box-header {
+  outline: 1px solid var(--select);
+  outline-offset: 0;
+  position: relative;
+  display: inline-block;
+}
+
+.selection-box-header > i {
+  background: var(--bg);
+  border: 1px solid var(--select);
+  width: 5px;
+  height: 5px;
+  position: absolute;
+}
+
+.selection-box-header > .handle-tl {
+  top: -2.5px;
+  left: -2.5px;
+}
+
+.selection-box-header > .handle-tr {
+  top: -2.5px;
+  right: -2.5px;
+}
+
+.selection-box-header > .handle-bl {
+  bottom: -2.5px;
+  left: -2.5px;
+}
+
+.selection-box-header > .handle-br {
+  bottom: -2.5px;
+  right: -2.5px;
+}
+
+.selection-tag {
+  background: var(--select);
+  box-shadow: 0 0 0 1.5px var(--bg);
+  color: var(--bg);
+  font-family: var(--font-mono);
+  letter-spacing: 0;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  border-radius: 3px;
+  padding: 0 4px;
+  font-size: 9.5px;
+  line-height: 12px;
+  position: absolute;
+  top: calc(100% - 4px);
+  left: 50%;
+  transform: translate(-50%);
+}
+
+/* =========================================================================
+   Progressive Multi-Layer Edge Blur System (Reverse-Engineered from kshv.me)
+   ========================================================================= */
+
+.edge-blur {
+  z-index: 40;
+  pointer-events: none;
+  height: 88px;
+  position: fixed;
+  inset-inline: 0;
+}
+
+@media (max-width: 639px) {
+  .edge-blur {
+    height: 56px;
+  }
+}
+
+.edge-blur[data-edge="top"] {
+  --to: to bottom;
+  top: 0;
+}
+
+.edge-blur[data-edge="bottom"] {
+  --to: to top;
+  bottom: 0;
+}
+
+.edge-blur:after {
+  content: "";
+  background: linear-gradient(
+    var(--to),
+    color-mix(in srgb, var(--bg) 88%, transparent),
+    color-mix(in srgb, var(--bg) 42%, transparent) 45%,
+    transparent
+  );
+  position: absolute;
+  inset: 0;
+}
+
+.edge-blur > span {
+  position: absolute;
+  inset: 0;
+}
+
+.edge-blur > [data-layer="1"] {
+  -webkit-backdrop-filter: blur(1px);
+  backdrop-filter: blur(1px);
+  -webkit-mask-image: linear-gradient(var(--to), #000 40%, transparent);
+  mask-image: linear-gradient(var(--to), #000 40%, transparent);
+}
+
+.edge-blur > [data-layer="2"] {
+  -webkit-backdrop-filter: blur(3px);
+  backdrop-filter: blur(3px);
+  -webkit-mask-image: linear-gradient(var(--to), #000 22%, transparent 72%);
+  mask-image: linear-gradient(var(--to), #000 22%, transparent 72%);
+}
+
+.edge-blur > [data-layer="3"] {
+  -webkit-backdrop-filter: blur(7px);
+  backdrop-filter: blur(7px);
+  -webkit-mask-image: linear-gradient(var(--to), #000, transparent 44%);
+  mask-image: linear-gradient(var(--to), #000, transparent 44%);
+}
+
+/* =========================================================================
+   Falling Petals & Ambient Particle System (Reverse-Engineered from kshv.me)
+   ========================================================================= */
+
+.petals {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  overflow: hidden;
+}
+
+.petal {
+  opacity: 0;
+  animation: petal-fall var(--fall) linear infinite;
+  animation-delay: var(--delay);
+  position: absolute;
+  top: -28px;
+}
+
+.petal > svg {
+  animation: 2.6s ease-in-out infinite alternate petal-flip;
+  animation-delay: var(--delay);
+}
+
+@keyframes petal-fall {
+  0% {
+    opacity: 0;
+    transform: translate(0) rotate(0);
+  }
+  8% {
+    opacity: 0.9;
+  }
+  50% {
+    transform: translate(var(--drift), 52vh) rotate(200deg);
+  }
+  85% {
+    opacity: 0.85;
+  }
+  to {
+    opacity: 0;
+    transform: translate(calc(var(--drift) * -0.4), 108vh) rotate(380deg);
+  }
+}
+
+@keyframes petal-flip {
+  0% {
+    transform: scaleX(1);
+  }
+  to {
+    transform: scaleX(0.25);
+  }
+}
+
+@keyframes drawSignatureStroke {
+  0% {
+    stroke-dashoffset: var(--stroke-len, 380);
+    opacity: 0;
+  }
+  6% {
+    opacity: 1;
+  }
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+}
+
+@keyframes writeLetter {
+  0% {
+    opacity: 0;
+    transform: translateY(6px) scale(0.9);
+    filter: blur(3px);
+  }
+  60% {
+    opacity: 0.95;
+    filter: blur(0px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0px);
+  }
+}
+
+@keyframes drawUnderline {
+  0% {
+    stroke-dashoffset: 240;
+    opacity: 0;
+  }
+  12% {
+    opacity: 1;
+  }
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+}
