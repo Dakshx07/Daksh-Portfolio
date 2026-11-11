@@ -60,6 +60,14 @@ const PROJECTS: Project[] = [
       },
     ],
   },
+   {
+    id: "dotplot",
+    title: "Dotplot",
+    description:
+      "Interactive packaging showcase & bespoke brand identity studio. Dot in your journey to plot your future.",
+    image: "/assets/images/projects/Covers/Dotplot.jpg",
+    link: "https://dotplot.in/",
+  },
   {
     id: "sentinel",
     title: "Sentinel",
@@ -68,14 +76,7 @@ const PROJECTS: Project[] = [
     image: "/assets/images/projects/Covers/Sentinel.avif",
     link: "https://sentinell-ai.netlify.app/",
   },
-  {
-    id: "ayuchain",
-    title: "AyuChain",
-    description:
-      "AI prescription verification and tamper-proof healthcare ledger across 40+ clinics.",
-    image: "/assets/images/projects/Covers/AyuChain.avif",
-    link: "https://github.com/lakshitsonii/medichain",
-  },
+ 
 ];
 
 const MOOD_CYCLE: JellyBlobMood[] = [
