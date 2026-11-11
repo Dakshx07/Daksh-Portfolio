@@ -44,6 +44,34 @@ const LEVEL_COLORS: Record<number, string> = {
   4: "bg-[#60a5fa] hover:bg-[#93c5fd]", // Level 4 (Highest)
 };
 
+// 4 Real GitHub Achievement Badges from Daksh's profile
+const GITHUB_BADGES = [
+  {
+    id: "pull-shark",
+    name: "Pull Shark",
+    description: "Merged pull requests into open source projects",
+    icon: "https://raw.githubusercontent.com/Schweinepriester/github-profile-achievements/main/images/pull-shark-default.png",
+  },
+  {
+    id: "quickdraw",
+    name: "Quickdraw",
+    description: "Closed an issue or pull request within 5 minutes",
+    icon: "https://raw.githubusercontent.com/Schweinepriester/github-profile-achievements/main/images/quickdraw-default.png",
+  },
+  {
+    id: "pair-extraordinaire",
+    name: "Pair Extraordinaire",
+    description: "Co-authored commits on merged pull requests",
+    icon: "https://raw.githubusercontent.com/Schweinepriester/github-profile-achievements/main/images/pair-extraordinaire-default.png",
+  },
+  {
+    id: "yolo",
+    name: "YOLO",
+    description: "Merged a pull request without code review",
+    icon: "https://raw.githubusercontent.com/Schweinepriester/github-profile-achievements/main/images/yolo-default.png",
+  },
+];
+
 export default function GitHubContributionGraph({
   username = "Dakshx07",
 }: GitHubContributionGraphProps) {
@@ -176,6 +204,38 @@ export default function GitHubContributionGraph({
   return (
     <section className="relative mx-auto w-full max-w-[580px] px-4 sm:px-0 py-8 select-none">
       <div className="relative w-full">
+        {/* ── TOP BADGES & METRIC HEADER (GitHub Achievements in Top Left) ── */}
+        <div className="flex items-center justify-between mb-4 w-full">
+          {/* Top Left: 4 Real GitHub Achievements Badges (Clean borderless badges without popovers) */}
+          <div className="flex items-center gap-2 sm:gap-2.5">
+            {GITHUB_BADGES.map((badge) => (
+              <a
+                key={badge.id}
+                href={`https://github.com/${username}?tab=achievements`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center transition-opacity hover:opacity-80"
+              >
+                <img
+                  src={badge.icon}
+                  alt={badge.name}
+                  className="w-8 h-8 sm:w-9 sm:h-9 object-contain drop-shadow-[0_2px_8px_rgba(0,0,0,0.5)]"
+                  loading="lazy"
+                />
+              </a>
+            ))}
+          </div>
+
+          {/* Top Right: Total Year Contributions Metric */}
+          <div className="font-mono text-[11px] text-zinc-400 flex items-center gap-1.5">
+            <span className="text-[var(--text-primary)] font-medium">
+              {totalCount.toLocaleString()}
+            </span>
+            <span className="hidden sm:inline">contributions in the last year</span>
+            <span className="sm:hidden">contributions</span>
+          </div>
+        </div>
+
         {/* Scrollable Heatmap Viewport (Auto-scrolled to latest end on mobile, fits width on desktop) */}
         <div
           ref={scrollContainerRef}

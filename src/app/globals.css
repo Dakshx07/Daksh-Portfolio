@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(html:not(.light), html:not(.light) *));
+
 @font-face {
   font-family: 'Geist Pixel Square';
   src: url('/fonts/GeistPixel-Square.woff2') format('woff2');
@@ -65,6 +67,34 @@ html.light {
   --sky-curtain-from: rgba(111, 176, 220, 0.32);
   --sky-curtain-via: rgba(147, 197, 253, 0.18);
   --sky-curtain-to: rgba(224, 242, 254, 0.04);
+  --footer-earth-deep: 15 45 95;
+  --footer-earth-ocean: 30 100 195;
+  --footer-earth-light: 96 165 250;
+  --footer-earth-cloud: 219 234 254;
+}
+
+/* =========================================================================
+   Interactive Multi-Font System
+   ========================================================================= */
+
+html[data-font="geist-pixel"] {
+  --font-sans: var(--font-geist-pixel-square), 'Geist Pixel Square', monospace;
+  --font-mono: var(--font-geist-pixel-square), 'Geist Pixel Square', monospace;
+}
+
+html[data-font="sans"] {
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+html[data-font="mono"] {
+  --font-sans: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+html[data-font="serif"] {
+  --font-sans: Georgia, Cambria, "Times New Roman", Times, serif;
+  --font-mono: Georgia, Cambria, serif;
 }
 
 * {
@@ -152,6 +182,103 @@ html.light ::selection {
 .stamp-control {
   isolation: isolate;
   filter: drop-shadow(0 1px 1px rgba(30, 20, 0, 0.2)) drop-shadow(0 3px 8px rgba(30, 20, 0, 0.15));
+}
+
+:root {
+  --stamp-paper: #fff3da;
+  --plaque: #ffffff;
+  --plaque-edge: rgba(0, 0, 0, 0.12);
+  --tint: color-mix(in srgb, var(--select) 14%, transparent);
+  --footer-earth-deep: 19 54 103;
+  --footer-earth-ocean: 35 112 190;
+  --footer-earth-light: 169 220 249;
+  --footer-earth-cloud: 246 251 255;
+}
+
+.liquid-glass {
+  -webkit-backdrop-filter: blur(14px) saturate(180%);
+  backdrop-filter: blur(14px) saturate(180%);
+  transition: background-color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+html.light .liquid-glass {
+  background-color: rgba(255, 255, 255, 0.85);
+  box-shadow:
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.95),
+    inset 0 -1px 0 0 rgba(0, 0, 0, 0.06),
+    0 8px 24px -8px rgba(0, 0, 0, 0.12);
+  border: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+html:not(.light) .liquid-glass {
+  background-color: rgba(15, 23, 42, 0.65);
+  box-shadow:
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.35),
+    inset 0 -1px 0 0 rgba(255, 255, 255, 0.14),
+    0 10px 28px -12px rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.stamp {
+  --hole: 2.2px;
+  --pitch: 7px;
+  --rim: 6px;
+  -webkit-mask-image: linear-gradient(#000 0 0), radial-gradient(circle at center, transparent var(--hole), #000 calc(var(--hole) + 0.5px));
+  mask-image: linear-gradient(#000 0 0), radial-gradient(circle at center, transparent var(--hole), #000 calc(var(--hole) + 0.5px));
+  -webkit-mask-size: calc(100% - var(--rim)) calc(100% - var(--rim)), var(--pitch) var(--pitch);
+  mask-size: calc(100% - var(--rim)) calc(100% - var(--rim)), var(--pitch) var(--pitch);
+  -webkit-mask-position: 50%, 50%;
+  mask-position: 50%, 50%;
+  -webkit-mask-repeat: no-repeat, round;
+  mask-repeat: no-repeat, round;
+}
+
+.notched, .plaque {
+  --notch: polygon(
+    var(--n) 0,
+    calc(100% - var(--n)) 0,
+    calc(100% - var(--n)) var(--n),
+    100% var(--n),
+    100% calc(100% - var(--n)),
+    calc(100% - var(--n)) calc(100% - var(--n)),
+    calc(100% - var(--n)) 100%,
+    var(--n) 100%,
+    var(--n) calc(100% - var(--n)),
+    0 calc(100% - var(--n)),
+    0 var(--n),
+    var(--n) var(--n)
+  );
+}
+
+.notched {
+  --n: 3px;
+  clip-path: var(--notch);
+}
+
+.plaque {
+  --n: 5px;
+  isolation: isolate;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.08)) drop-shadow(0 4px 12px rgba(0, 0, 0, 0.06));
+  position: relative;
+}
+
+.plaque:before, .plaque:after {
+  content: "";
+  clip-path: var(--notch);
+  pointer-events: none;
+  position: absolute;
+}
+
+.plaque:before {
+  z-index: -2;
+  background: var(--plaque-edge);
+  inset: 0;
+}
+
+.plaque:after {
+  z-index: -1;
+  background: var(--plaque);
+  inset: 1px;
 }
 
 .stamp-paper {
@@ -294,6 +421,63 @@ html.light ::selection {
   --jelly-cheek-light: rgba(186, 230, 253, 0.45);
   --jelly-cheek: rgba(56, 189, 248, 0.3);
   --jelly-cheek-deep: rgba(2, 132, 199, 0.25);
+}
+
+.jelly-emerald-gradient {
+  --jelly-body-top: #A7F3D0;
+  --jelly-body-mid: #10B981;
+  --jelly-body-deep: #065F46;
+  --jelly-body-rim: #D1FAE5;
+  --jelly-outline: #064E3B;
+  --jelly-outline-light: #10B981;
+  --jelly-arm-light: #6EE7B7;
+  --jelly-arm-mid: #34D399;
+  --jelly-arm-deep: #059669;
+  --jelly-belly-glow: rgba(167, 243, 208, 0.6);
+  --jelly-eye-sparkle: #A7F3D0;
+  --jelly-cheek-light: rgba(167, 243, 208, 0.4);
+  --jelly-cheek: rgba(16, 185, 129, 0.25);
+  --jelly-cheek-deep: rgba(6, 95, 70, 0.25);
+}
+
+@keyframes timelinePulse {
+  0% {
+    top: -15%;
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  80% {
+    opacity: 1;
+  }
+  100% {
+    top: 105%;
+    opacity: 0;
+  }
+}
+
+.timeline-beam {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 48px;
+  background: linear-gradient(180deg, transparent, rgba(56, 189, 248, 0.8), rgba(16, 185, 129, 0.9), transparent);
+  animation: timelinePulse 2.8s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes dashStream {
+  from {
+    stroke-dashoffset: 24;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.timeline-stream {
+  stroke-dasharray: 4 6;
+  animation: dashStream 1.4s linear infinite;
 }
 
 .selection-box-header {

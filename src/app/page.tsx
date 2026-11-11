@@ -9,7 +9,9 @@ import CenterpieceArtwork from "@/components/hero/CenterpieceArtwork";
 import FallingPetals from "@/components/hero/FallingPetals";
 import PullCordToggle from "@/components/ui/PullCordToggle";
 import ProjectsSection from "@/components/projects/ProjectsSection";
+import OpenSourceSection from "@/components/sections/OpenSourceSection";
 import GitHubContributionGraph from "@/components/activity/GitHubContributionGraph";
+import FooterSection from "@/components/sections/FooterSection";
 
 export default function Home() {
   const [sliderProgress, setSliderProgress] = useState(0.5);
@@ -38,11 +40,17 @@ export default function Home() {
       {/* Section 2: Centerpiece Artwork with Feathered Dither Vignette & Day ↔ Night Scrub Slider */}
       <CenterpieceArtwork onProgressChange={setSliderProgress} />
 
-      {/* Section 3: kshv.me-Style 2-Column Projects Showcase (Indian Stamp Badge + Real Covers + 2-Line Summaries) */}
+      {/* Section 3: 2-Column Projects Showcase */}
       <ProjectsSection />
 
-      {/* Section 4: Akoder-Style Live GitHub Contribution Heatmap Grid (Dakshx07) */}
+      {/* Section 4: GitHub Contribution Heatmap Grid (Dakshx07) */}
       <GitHubContributionGraph username="Dakshx07" />
+
+      {/* Section 5: Open Source Contributions with Animated Progress Line & Emerald Blob */}
+      <OpenSourceSection />
+
+      {/* Section 6: Footer with Contact Table, Live Handwritten Signature (No Diya), & Dock */}
+      <FooterSection />
     </main>
   );
 }
