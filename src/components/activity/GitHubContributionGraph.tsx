@@ -35,9 +35,9 @@ const MONTH_NAMES = [
   "Dec",
 ];
 
-// Exact Akoder Blue Heatmap Palette
+// Exact Akoder Blue Heatmap Palette (Light & Dark theme aware)
 const LEVEL_COLORS: Record<number, string> = {
-  0: "bg-[#27272a] hover:bg-[#3f3f46]", // Empty / no activity
+  0: "bg-zinc-200 dark:bg-[#27272a] hover:bg-zinc-300 dark:hover:bg-[#3f3f46]", // Empty / no activity
   1: "bg-[#1d4ed8] hover:bg-[#2563eb]", // Level 1
   2: "bg-[#2563eb] hover:bg-[#3b82f6]", // Level 2
   3: "bg-[#3b82f6] hover:bg-[#60a5fa]", // Level 3
@@ -92,6 +92,20 @@ export default function GitHubContributionGraph({
       scrollContainerRef.current.scrollLeft = scrollContainerRef.current.scrollWidth;
     }
   }, [contributions]);
+
+  // Auto-dismiss tooltip on mobile tap, outside tap, or scroll
+  useEffect(() => {
+    if (!hoveredDay) return;
+    const timer = setTimeout(() => {
+      setHoveredDay(null);
+    }, 2800);
+    const handleDismiss = () => setHoveredDay(null);
+    window.addEventListener("scroll", handleDismiss, { passive: true });
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener("scroll", handleDismiss);
+    };
+  }, [hoveredDay]);
 
   useEffect(() => {
     let isMounted = true;
@@ -219,6 +233,8 @@ export default function GitHubContributionGraph({
                 <img
                   src={badge.icon}
                   alt={badge.name}
+                  width={36}
+                  height={36}
                   className="w-8 h-8 sm:w-9 sm:h-9 object-contain drop-shadow-[0_2px_8px_rgba(0,0,0,0.5)]"
                   loading="lazy"
                 />
@@ -237,74 +253,80 @@ export default function GitHubContributionGraph({
         </div>
 
         {/* Scrollable Heatmap Viewport (Auto-scrolled to latest end on mobile, fits width on desktop) */}
-        <div
-          ref={scrollContainerRef}
-          className="relative overflow-x-auto pb-4 scrollbar-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
-        >
-          <div className="min-w-[540px] sm:min-w-full w-full flex flex-col items-center">
-            {/* Top Month Labels */}
-            <div className="relative h-5 mb-2 w-full font-mono text-[10.5px] sm:text-[11px] text-zinc-400">
-              {monthLabels.map(({ month, colIndex }) => (
-                <span
-                  key={`${month}-${colIndex}`}
-                  className="absolute transform -translate-x-1"
-                  style={{ left: `${(colIndex / weeks.length) * 100}%` }}
-                >
-                  {month}
-                </span>
-              ))}
-            </div>
+        <div className="relative w-full">
+          {/* Subtle mobile edge fade masks indicating horizontal scroll affordance */}
+          <div className="pointer-events-none absolute left-0 top-0 bottom-4 w-5 bg-gradient-to-r from-[var(--bg)] to-transparent z-10 sm:hidden" />
+          <div className="pointer-events-none absolute right-0 top-0 bottom-4 w-5 bg-gradient-to-l from-[var(--bg)] to-transparent z-10 sm:hidden" />
 
-            {/* 7-Row x 52-Column Grid of Circular Dots (Scaled to fit 580px layout) */}
-            <div className="flex gap-[2px] sm:gap-[2.5px] justify-between w-full">
-              {weeks.map((week, weekIdx) => (
-                <div key={weekIdx} className="flex flex-col gap-[2px] sm:gap-[2.5px]">
-                  {week.map((day, dayIdx) => {
-                    if (day.level === -1) {
+          <div
+            ref={scrollContainerRef}
+            className="relative overflow-x-auto pb-4 scrollbar-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+          >
+            <div className="min-w-[540px] sm:min-w-full w-full flex flex-col items-center">
+              {/* Top Month Labels */}
+              <div className="relative h-5 mb-2 w-full font-mono text-[10.5px] sm:text-[11px] text-zinc-400">
+                {monthLabels.map(({ month, colIndex }) => (
+                  <span
+                    key={`${month}-${colIndex}`}
+                    className="absolute transform -translate-x-1"
+                    style={{ left: `${(colIndex / weeks.length) * 100}%` }}
+                  >
+                    {month}
+                  </span>
+                ))}
+              </div>
+
+              {/* 7-Row x 52-Column Grid of Circular Dots (Scaled to fit 580px layout) */}
+              <div className="flex gap-[2px] sm:gap-[2.5px] justify-between w-full">
+                {weeks.map((week, weekIdx) => (
+                  <div key={weekIdx} className="flex flex-col gap-[2px] sm:gap-[2.5px]">
+                    {week.map((day, dayIdx) => {
+                      if (day.level === -1) {
+                        return (
+                          <div
+                            key={`pad-${dayIdx}`}
+                            className="w-2 h-2 sm:w-[8px] sm:h-[8px] rounded-full opacity-0 pointer-events-none"
+                          />
+                        );
+                      }
+
+                      const colorClass = LEVEL_COLORS[day.level] || LEVEL_COLORS[0];
+
                       return (
                         <div
-                          key={`pad-${dayIdx}`}
-                          className="w-2 h-2 sm:w-[8px] sm:h-[8px] rounded-full opacity-0 pointer-events-none"
+                          key={day.date || dayIdx}
+                          onMouseEnter={(e) => {
+                            const rect = e.currentTarget.getBoundingClientRect();
+                            setHoveredDay({
+                              date: day.date,
+                              count: day.count,
+                              x: rect.left + rect.width / 2,
+                              y: rect.top - 8,
+                            });
+                          }}
+                          onMouseLeave={() => setHoveredDay(null)}
+                          className={`w-2 h-2 sm:w-[8px] sm:h-[8px] rounded-full cursor-pointer transition-transform duration-150 hover:scale-140 hover:z-20 ${colorClass} ${
+                            isLoading ? "animate-pulse" : ""
+                          }`}
                         />
                       );
-                    }
-
-                    const colorClass = LEVEL_COLORS[day.level] || LEVEL_COLORS[0];
-
-                    return (
-                      <div
-                        key={day.date || dayIdx}
-                        onMouseEnter={(e) => {
-                          const rect = e.currentTarget.getBoundingClientRect();
-                          setHoveredDay({
-                            date: day.date,
-                            count: day.count,
-                            x: rect.left + rect.width / 2,
-                            y: rect.top - 8,
-                          });
-                        }}
-                        onMouseLeave={() => setHoveredDay(null)}
-                        className={`w-2 h-2 sm:w-[8px] sm:h-[8px] rounded-full cursor-pointer transition-transform duration-150 hover:scale-140 hover:z-20 ${colorClass} ${
-                          isLoading ? "animate-pulse" : ""
-                        }`}
-                      />
-                    );
-                  })}
-                </div>
-              ))}
-            </div>
-
-            {/* Bottom Legend */}
-            <div className="flex items-center justify-center gap-2 mt-5 font-mono text-[11px] text-zinc-400">
-              <span>Less</span>
-              <div className="flex items-center gap-1.5 mx-1">
-                <span className="w-2 h-2 rounded-full bg-[#27272a]" />
-                <span className="w-2 h-2 rounded-full bg-[#1d4ed8]" />
-                <span className="w-2 h-2 rounded-full bg-[#2563eb]" />
-                <span className="w-2 h-2 rounded-full bg-[#3b82f6]" />
-                <span className="w-2 h-2 rounded-full bg-[#60a5fa]" />
+                    })}
+                  </div>
+                ))}
               </div>
-              <span>More</span>
+
+              {/* Bottom Legend */}
+              <div className="flex items-center justify-center gap-2 mt-5 font-mono text-[11px] text-zinc-400">
+                <span>Less</span>
+                <div className="flex items-center gap-1.5 mx-1">
+                  <span className="w-2 h-2 rounded-full bg-zinc-200 dark:bg-[#27272a]" />
+                  <span className="w-2 h-2 rounded-full bg-[#1d4ed8]" />
+                  <span className="w-2 h-2 rounded-full bg-[#2563eb]" />
+                  <span className="w-2 h-2 rounded-full bg-[#3b82f6]" />
+                  <span className="w-2 h-2 rounded-full bg-[#60a5fa]" />
+                </div>
+                <span>More</span>
+              </div>
             </div>
           </div>
         </div>

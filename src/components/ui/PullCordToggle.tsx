@@ -29,12 +29,14 @@ export default function PullCordToggle() {
 
   return (
     <div
+      className="select-none"
       style={
         {
           "--pullcord-top": "0px",
-          "--pullcord-right": "clamp(1.5rem, 5vw, 4rem)",
+          "--pullcord-right": "clamp(0.75rem, 4vw, 3.5rem)",
           "--pullcord-z": "60",
           "--pullcord-ink": isLight ? "#27272a" : "#e4e4e7",
+          touchAction: "none",
         } as React.CSSProperties
       }
     >

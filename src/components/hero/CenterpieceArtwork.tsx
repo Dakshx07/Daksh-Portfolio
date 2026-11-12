@@ -210,6 +210,7 @@ export default function CenterpieceArtwork({ onProgressChange }: CenterpieceArtw
           onTouchStart={onTouchStart}
           onTouchMove={onTouchMove}
           onTouchEnd={onTouchEnd}
+          style={{ touchAction: "none" }}
           className="group relative flex items-center justify-between w-full max-w-md h-16 px-3 cursor-pointer select-none"
         >
           {/* Day Label (Japanese Kanji: 昼 - Daytime, reveals "Day" on hover) */}

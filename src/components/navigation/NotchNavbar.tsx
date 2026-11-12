@@ -13,8 +13,10 @@ const SOCIAL_LINKS = [
   {
     name: "LinkedIn",
     href: "https://www.linkedin.com/in/daksh-hiran-9534b930b/",
-    dx: 104, // Top-right flank: fully clear of the button and navbar wing
+    dx: 104, // Top-right flank on desktop
     dy: 6,
+    dxMobile: 44, // Nested safely below pill on mobile (zero screen bleed)
+    dyMobile: 46,
     openDelay: 0,
     closeDelay: 105,
     // Authentic square brand logo with rounded corners
@@ -29,8 +31,10 @@ const SOCIAL_LINKS = [
   {
     name: "Email",
     href: "mailto:contact@dakshhiran.dev",
-    dx: 88,  // Lower-right flank: fully clear of both right and bottom pill edges
+    dx: 88, // Lower-right flank on desktop
     dy: 42,
+    dxMobile: 10,
+    dyMobile: 52,
     openDelay: 45,
     closeDelay: 70,
     // Standalone logo with NO background behind it
@@ -49,8 +53,10 @@ const SOCIAL_LINKS = [
   {
     name: "GitHub",
     href: "https://github.com/Dakshx07",
-    dx: 44,  // Bottom-right edge
+    dx: 44, // Bottom-right edge on desktop
     dy: 54,
+    dxMobile: -24,
+    dyMobile: 46,
     openDelay: 90,
     closeDelay: 35,
     shapeClass: "rounded-full bg-[#181717] border border-white/20 shadow-[0_6px_20px_rgba(0,0,0,0.6)] hover:shadow-[0_6px_22px_rgba(255,255,255,0.35)]",
@@ -64,8 +70,10 @@ const SOCIAL_LINKS = [
   {
     name: "X (Twitter)",
     href: "https://x.com/DakshHiran7",
-    dx: -2,  // Bottom-center: safe distance from theme toggle
+    dx: -2, // Bottom-center on desktop
     dy: 54,
+    dxMobile: -58,
+    dyMobile: 26,
     openDelay: 135,
     closeDelay: 0,
     shapeClass: "rounded-full bg-[#000000] border border-white/25 shadow-[0_6px_20px_rgba(0,0,0,0.6)] hover:shadow-[0_6px_22px_rgba(255,255,255,0.35)]",
@@ -81,7 +89,33 @@ const SOCIAL_LINKS = [
 export default function NotchNavbar({ sticker = "/stickers/nori-cool.svg" }: NotchNavbarProps) {
   const [isVisible, setIsVisible] = useState(true);
   const [isSocialHovered, setIsSocialHovered] = useState(false);
+  const [isSocialOpen, setIsSocialOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  const socialContainerRef = useRef<HTMLDivElement>(null);
   const leaveTimerRef = useRef<NodeJS.Timeout | null>(null);
+
+  // Detect mobile viewport for responsive arc coordinates
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 640);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
+  // Dismiss mobile open menu on outside tap
+  useEffect(() => {
+    if (!isSocialOpen) return;
+    const handleClickOutside = (e: PointerEvent) => {
+      if (
+        socialContainerRef.current &&
+        !socialContainerRef.current.contains(e.target as Node)
+      ) {
+        setIsSocialOpen(false);
+      }
+    };
+    window.addEventListener("pointerdown", handleClickOutside);
+    return () => window.removeEventListener("pointerdown", handleClickOutside);
+  }, [isSocialOpen]);
 
   // Smooth scroll listener with Hysteresis:
   // - Hides smoothly when user scrolls down past 50px
@@ -115,6 +149,7 @@ export default function NotchNavbar({ sticker = "/stickers/nori-cool.svg" }: Not
   useEffect(() => {
     if (!isVisible) {
       setIsSocialHovered(false);
+      setIsSocialOpen(false);
     }
   }, [isVisible]);
 
@@ -132,6 +167,17 @@ export default function NotchNavbar({ sticker = "/stickers/nori-cool.svg" }: Not
     leaveTimerRef.current = setTimeout(() => {
       setIsSocialHovered(false);
     }, 120);
+  };
+
+  const handlePillClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    // On mobile / touch devices, tapping "Get in touch" first reveals the social options
+    // A second tap on "Get in touch" will trigger the mailto
+    if (isMobile || (typeof window !== "undefined" && window.matchMedia("(pointer: coarse)").matches)) {
+      if (!isSocialOpen) {
+        e.preventDefault();
+        setIsSocialOpen(true);
+      }
+    }
   };
 
   const scrollToTop = () => {
@@ -261,6 +307,7 @@ export default function NotchNavbar({ sticker = "/stickers/nori-cool.svg" }: Not
         <div className="flex items-center">
           {/* "Get in touch" CTA with Curved Semi-Circular Social Bloom */}
           <div
+            ref={socialContainerRef}
             className="relative"
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
@@ -268,7 +315,8 @@ export default function NotchNavbar({ sticker = "/stickers/nori-cool.svg" }: Not
             {/* The Main High-Contrast White Pill */}
             <a
               href="mailto:contact@dakshhiran.dev"
-              className="relative z-20 flex items-center gap-1.5 px-3.5 py-1 sm:px-4 sm:py-1.5 rounded-full text-[12px] sm:text-[12.5px] font-semibold bg-white text-black hover:bg-zinc-200 active:scale-95 transition-all duration-150 shadow-sm focus:outline-none focus:ring-0 focus-visible:outline-none"
+              onClick={handlePillClick}
+              className="relative z-20 flex items-center gap-1.5 px-3.5 py-1 sm:px-4 sm:py-1.5 rounded-full text-[12px] sm:text-[12.5px] font-semibold bg-white text-black hover:bg-zinc-200 active:scale-95 transition-all duration-150 shadow-sm focus:outline-none focus:ring-0 focus-visible:outline-none cursor-pointer"
             >
               <span>Get in touch</span>
               <svg
@@ -281,45 +329,52 @@ export default function NotchNavbar({ sticker = "/stickers/nori-cool.svg" }: Not
               </svg>
             </a>
 
-            {/* Scoped Hit Bridge: STRICTLY starts at left-0 so theme toggle is never triggered */}
-            <div className="absolute left-0 -right-36 -top-3 -bottom-20 z-10 pointer-events-auto" />
+            {/* Scoped Hit Bridge: strictly on sm+ desktop to prevent mobile horizontal bleed */}
+            <div className="hidden sm:block absolute left-0 -right-36 -top-3 -bottom-20 z-10 pointer-events-auto" />
 
             {/* Curved Right-to-Bottom Social Media Fan-Out Arc (z-30 to float on top with zero clipping) */}
-            <div
-              className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-30 transition-opacity duration-200 ${
-                isSocialHovered
-                  ? "pointer-events-auto opacity-100"
-                  : "pointer-events-none opacity-0"
-              }`}
-            >
-              {SOCIAL_LINKS.map((social) => {
-                const transform = isSocialHovered
-                  ? `translate(${social.dx}px, ${social.dy}px) scale(1)`
-                  : "translate(0px, 0px) scale(0.2)";
+            {(() => {
+              const isExpanded = isSocialHovered || isSocialOpen;
+              return (
+                <div
+                  className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-30 transition-opacity duration-200 ${
+                    isExpanded
+                      ? "pointer-events-auto opacity-100"
+                      : "pointer-events-none opacity-0"
+                  }`}
+                >
+                  {SOCIAL_LINKS.map((social) => {
+                    const targetDx = isMobile ? social.dxMobile : social.dx;
+                    const targetDy = isMobile ? social.dyMobile : social.dy;
+                    const transform = isExpanded
+                      ? `translate(${targetDx}px, ${targetDy}px) scale(1)`
+                      : "translate(0px, 0px) scale(0.2)";
 
-                const delay = isSocialHovered ? social.openDelay : social.closeDelay;
+                    const delay = isExpanded ? social.openDelay : social.closeDelay;
 
-                return (
-                  <a
-                    key={social.name}
-                    href={social.href}
-                    target={social.href.startsWith("mailto:") ? undefined : "_blank"}
-                    rel={social.href.startsWith("mailto:") ? undefined : "noopener noreferrer"}
-                    aria-label={social.name}
-                    title={social.name}
-                    className={`absolute -top-4 -left-4 flex items-center justify-center w-8 h-8 ${social.shapeClass} text-white transition-all duration-300 pointer-events-auto cursor-pointer`}
-                    style={{
-                      transform,
-                      opacity: isSocialHovered ? 1 : 0,
-                      transitionTimingFunction: "cubic-bezier(0.175, 0.885, 0.32, 1.275)",
-                      transitionDelay: `${delay}ms`,
-                    }}
-                  >
-                    {social.icon}
-                  </a>
-                );
-              })}
-            </div>
+                    return (
+                      <a
+                        key={social.name}
+                        href={social.href}
+                        target={social.href.startsWith("mailto:") ? undefined : "_blank"}
+                        rel={social.href.startsWith("mailto:") ? undefined : "noopener noreferrer"}
+                        aria-label={social.name}
+                        title={social.name}
+                        className={`absolute -top-4 -left-4 flex items-center justify-center w-8 h-8 ${social.shapeClass} text-white transition-all duration-300 pointer-events-auto cursor-pointer`}
+                        style={{
+                          transform,
+                          opacity: isExpanded ? 1 : 0,
+                          transitionTimingFunction: "cubic-bezier(0.175, 0.885, 0.32, 1.275)",
+                          transitionDelay: `${delay}ms`,
+                        }}
+                      >
+                        {social.icon}
+                      </a>
+                    );
+                  })}
+                </div>
+              );
+            })()}
           </div>
         </div>
       </div>

@@ -213,7 +213,7 @@ export default function ProjectsSection() {
                       href={s.link}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="hover:text-[var(--text-primary)] transition-all duration-150 hover:scale-110 flex items-center justify-center p-0.5"
+                      className="hover:text-[var(--text-primary)] transition-all duration-150 hover:scale-110 flex items-center justify-center p-1 sm:p-0.5 min-w-[28px] min-h-[28px]"
                       title={s.title}
                       aria-label={s.title}
                     >

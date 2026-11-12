@@ -555,7 +555,10 @@ html:not(.light) .liquid-glass {
 
 @media (max-width: 639px) {
   .edge-blur {
-    height: 56px;
+    height: 48px;
+  }
+  .edge-blur > [data-layer="3"] {
+    display: none;
   }
 }
 

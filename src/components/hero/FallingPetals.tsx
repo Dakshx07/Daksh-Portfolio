@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 
 export type PetalType = "rose" | "marigold" | "jasmine";
 
@@ -50,14 +50,37 @@ interface FallingPetalsProps {
 }
 
 export default function FallingPetals({ progress, count }: FallingPetalsProps) {
+  const [isMobile, setIsMobile] = useState(false);
+  const [reducedMotion, setReducedMotion] = useState(false);
+
+  useEffect(() => {
+    const check = () => {
+      setIsMobile(window.innerWidth < 640);
+    };
+    check();
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    setReducedMotion(mq.matches);
+    const handleMotionChange = (e: MediaQueryListEvent) => setReducedMotion(e.matches);
+    mq.addEventListener("change", handleMotionChange);
+    window.addEventListener("resize", check);
+    return () => {
+      mq.removeEventListener("change", handleMotionChange);
+      window.removeEventListener("resize", check);
+    };
+  }, []);
+
   const activeCount = useMemo(() => {
+    if (reducedMotion) return 0;
     if (typeof count === "number") {
       return Math.max(0, Math.min(PRESET_PETALS.length, count));
     }
     const p = Number.isFinite(progress) ? Math.max(0, Math.min(1, progress as number)) : 0.5;
-    // Maps Day (0.0) -> 5 petals to Night (1.0) -> 24 petals dynamically with slider
+    // Mobile optimization: 3-8 petals to preserve 60/120fps & battery; Desktop: 5-24 petals
+    if (isMobile) {
+      return Math.round(3 + p * 5);
+    }
     return Math.round(5 + p * 19);
-  }, [progress, count]);
+  }, [progress, count, isMobile, reducedMotion]);
 
   const activePetals = useMemo(() => {
     return PRESET_PETALS.slice(0, activeCount);

@@ -11,7 +11,7 @@ function SnapWord({ id, children }: SnapWordProps) {
   return (
     <span
       data-snap={id}
-      className="cursor-crosshair font-medium whitespace-nowrap text-[var(--text-primary)] transition-colors duration-150"
+      className="cursor-crosshair font-medium inline text-[var(--text-primary)] transition-colors duration-150 [box-decoration-break:clone] [-webkit-box-decoration-break:clone]"
     >
       {children}
     </span>
@@ -46,9 +46,11 @@ export default function HeroText() {
     const ro = new ResizeObserver(updateBox);
     if (containerRef.current) ro.observe(containerRef.current);
     window.addEventListener("resize", updateBox);
+    window.addEventListener("orientationchange", updateBox);
     return () => {
       ro.disconnect();
       window.removeEventListener("resize", updateBox);
+      window.removeEventListener("orientationchange", updateBox);
     };
   }, [updateBox]);
 
