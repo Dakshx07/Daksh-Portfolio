@@ -4,8 +4,21 @@ import { useEffect } from "react";
 
 export default function AntiInspectProtection() {
   useEffect(() => {
+    // 0. Developer signature in console
+    try {
+      console.log(
+        "%cCrafted with passion by Daksh Hiran\n%cInterested in collaborating or building high-performance web systems? Say hi at contact@dakshhiran.dev | https://x.com/DakshHiran7",
+        "font-weight: bold; font-size: 14px; color: #38bdf8; font-family: monospace;",
+        "font-size: 11px; color: #a1a1aa; font-family: monospace;"
+      );
+    } catch {}
+
     // 1. Disable Right-Click Context Menu
     const handleContextMenu = (e: MouseEvent) => {
+      const target = e.target as HTMLElement | null;
+      if (target?.tagName === "INPUT" || target?.tagName === "TEXTAREA" || target?.isContentEditable) {
+        return true;
+      }
       e.preventDefault();
       return false;
     };
@@ -49,7 +62,7 @@ export default function AntiInspectProtection() {
       }
     };
 
-    // 3. Disable Image Dragging
+    // 3. Disable Asset Dragging
     const handleDragStart = (e: DragEvent) => {
       e.preventDefault();
       return false;

@@ -8,6 +8,7 @@ import HeroText from "@/components/hero/HeroText";
 import CenterpieceArtwork from "@/components/hero/CenterpieceArtwork";
 import FallingPetals from "@/components/hero/FallingPetals";
 import PullCordToggle from "@/components/ui/PullCordToggle";
+import AntiInspectProtection from "@/components/ui/AntiInspectProtection";
 import ProjectsSection from "@/components/projects/ProjectsSection";
 import OpenSourceSection from "@/components/sections/OpenSourceSection";
 import GitHubContributionGraph from "@/components/activity/GitHubContributionGraph";
@@ -19,6 +20,9 @@ export default function Home() {
 
   return (
     <main className="relative min-h-screen bg-[var(--bg)] text-[var(--text-primary)] transition-colors duration-250 selection:bg-blue-500/20">
+      {/* Anti-Inspect & Asset Protection Shield */}
+      <AntiInspectProtection />
+
       {/* Ceiling Hanging Pull-Cord Theme Switcher (FeralUI / Verlet Physics) */}
       <PullCordToggle />
 
