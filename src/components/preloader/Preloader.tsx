@@ -13,7 +13,6 @@ const RIGHT_JAGGED_CLIP =
 
 export default function Preloader() {
   const [isFinished, setIsFinished] = useState(false);
-  const [isAudioActive, setIsAudioActive] = useState(false);
 
   // Structural & Element Refs
   const containerRef = useRef<HTMLDivElement>(null);
@@ -40,7 +39,7 @@ export default function Preloader() {
   const partingAudioRef = useRef<HTMLAudioElement | null>(null);
   const tlRef = useRef<gsap.core.Timeline | null>(null);
 
-  // Real Wall Cracking Sound Player
+  // Real Wall Cracking Sound Player (Plays automatically by default)
   const playCrackSound = useCallback((type: "top" | "contact" | "parting") => {
     try {
       let audio: HTMLAudioElement | null = null;
@@ -51,14 +50,7 @@ export default function Preloader() {
       if (audio) {
         audio.currentTime = 0;
         audio.volume = type === "contact" ? 1.0 : type === "top" ? 0.95 : 0.85;
-        const playPromise = audio.play();
-        if (playPromise !== undefined) {
-          playPromise
-            .then(() => setIsAudioActive(true))
-            .catch(() => {
-              // Handled by user gesture
-            });
-        }
+        audio.play().catch(() => {});
       }
     } catch {
       // Audio playback fallback
@@ -108,7 +100,6 @@ export default function Preloader() {
 
     // Unmute on first interaction
     const unlockAudio = () => {
-      setIsAudioActive(true);
       if (tearAudioRef.current) tearAudioRef.current.load();
       if (impactAudioRef.current) impactAudioRef.current.load();
       if (partingAudioRef.current) partingAudioRef.current.load();
@@ -443,30 +434,6 @@ export default function Preloader() {
       className="fixed inset-0 z-[9999] bg-transparent overflow-hidden cursor-pointer select-none"
       aria-label="Creation of Adam fracture introduction animation"
     >
-      {/* ── AUDIO STATUS / UNMUTE BUTTON (Top Right) ── */}
-      <div className="absolute top-6 right-6 z-50 pointer-events-auto flex items-center gap-2">
-        <button
-          type="button"
-          onClick={(e) => {
-            e.stopPropagation();
-            setIsAudioActive(true);
-            if (impactAudioRef.current) {
-              impactAudioRef.current.currentTime = 0;
-              impactAudioRef.current.volume = 0.6;
-              impactAudioRef.current.play().catch(() => {});
-            }
-          }}
-          className="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-black/40 hover:bg-black/60 border border-white/10 backdrop-blur-md font-mono text-[11px] tracking-wider transition-all duration-200 cursor-pointer text-neutral-300 shadow-lg"
-        >
-          <span
-            className={`w-2 h-2 rounded-full ${
-              isAudioActive ? "bg-emerald-400 animate-pulse" : "bg-amber-400"
-            }`}
-          />
-          <span>{isAudioActive ? "AUDIO ON" : "CLICK FOR AUDIO"}</span>
-        </button>
-      </div>
-
       {/* ── LEFT JAGGED PANEL (Clipped along exact fracture line, slides to -100%) ── */}
       <div
         ref={leftPanelRef}
