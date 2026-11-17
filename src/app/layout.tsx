@@ -15,11 +15,12 @@ export const metadata: Metadata = {
   authors: [{ name: "Daksh Hiran", url: "https://x.com/DakshHiran7" }],
   icons: {
     icon: [
-      { url: "/icon.png?v=2", type: "image/png" },
-      { url: "/favicon.ico?v=2" },
+      { url: "/favicon.svg", type: "image/svg+xml" },
+      { url: "/icon.png?v=3", type: "image/png" },
+      { url: "/favicon.ico?v=3" },
     ],
-    shortcut: "/icon.png?v=2",
-    apple: "/icon.png?v=2",
+    shortcut: "/favicon.svg",
+    apple: "/icon.png?v=3",
   },
   openGraph: {
     title: "Daksh Hiran — Design Engineer & Systems Developer",

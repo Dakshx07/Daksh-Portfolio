@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { PullCord } from "pullcord";
 import "pullcord/pullcord.css";
+import CordMonkey from "@/components/mascots/CordMonkey";
 
 export default function PullCordToggle() {
   const [isLight, setIsLight] = useState(false);
@@ -52,6 +53,19 @@ export default function PullCordToggle() {
           stretchToggle: 18,
         }}
       />
+      {/* Interactive Hanging Monkey Mascot attached to the pull-cord */}
+      <div
+        className="fixed pointer-events-none"
+        style={{
+          top: "var(--pullcord-top, 0px)",
+          right: "var(--pullcord-right, clamp(0.75rem, 4vw, 3.5rem))",
+          zIndex: 65,
+          width: "64px",
+          height: "340px",
+        }}
+      >
+        <CordMonkey onPull={handlePull} isLight={isLight} />
+      </div>
     </div>
   );
 }

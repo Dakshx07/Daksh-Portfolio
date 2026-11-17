@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect, useCallback } from "react";
+import StarPeeker from "@/components/mascots/StarPeeker";
 
 // Format 0-10s video time into clean MM:SS
 function formatTimecode(seconds: number): string {
@@ -185,6 +186,11 @@ export default function CenterpieceArtwork({ onProgressChange }: CenterpieceArtw
 
   return (
     <section className="relative mx-auto w-full max-w-[720px] px-6 pt-2 pb-16">
+      {/* Mascot perched on the top-left bezel of the centerpiece video */}
+      <div className="absolute left-8 -top-6 sm:-top-7 z-20 pointer-events-auto">
+        <StarPeeker width={52} height={36} label="watching the loop 🎬" />
+      </div>
+
       {/* 
         Video Container with Stipple Dither Mask 
       */}

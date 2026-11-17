@@ -25,7 +25,7 @@ export default function Home() {
       <Preloader />
 
       {/* Anti-Inspect & Asset Protection Shield */}
-      {/* <AntiInspectProtection /> */}
+      <AntiInspectProtection />
 
       {/* Ceiling Hanging Pull-Cord Theme Switcher (FeralUI / Verlet Physics) */}
       <PullCordToggle />
