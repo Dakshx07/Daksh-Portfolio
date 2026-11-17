@@ -367,10 +367,12 @@ export default function Preloader() {
 
       // ─────────────────────────────────────────────────────────────
       // STAGE 7: The Jagged Sunder & Parting Reveal
-      // Real heavy stone grinding audio + complementary jagged teeth pull apart
+      // Weighted, butter-smooth monolithic stone separation (~1.2s)
       // ─────────────────────────────────────────────────────────────
-      tl.call(() => playCrackSound("parting"), undefined, "+=0.05");
+      // Short dramatic tension breath (0.12s) to register the severed screen
+      tl.call(() => playCrackSound("parting"), undefined, "+=0.12");
 
+      // Crack glow softly dissolves as the chasm expands
       tl.to(
         [
           crackTopPathRef.current,
@@ -380,36 +382,47 @@ export default function Preloader() {
         ],
         {
           opacity: 0,
-          duration: 0.25,
-          ease: "power2.in",
+          duration: 0.45,
+          ease: "power1.out",
         },
         "<"
       );
 
-      // Left Jagged Panel retreats to -100%
+      // Left Jagged Panel smoothly glides away to -100% with gentle quadratic inertia
       tl.to(
         leftPanelRef.current,
         {
           xPercent: -100,
-          duration: 0.75,
-          ease: "power3.inOut",
+          duration: 1.2,
+          ease: "power2.inOut",
         },
         "<"
       );
 
-      // Right Jagged Panel retreats to +100%
+      // Right Jagged Panel smoothly glides away to +100% with gentle quadratic inertia
       tl.to(
         rightPanelRef.current,
         {
           xPercent: 100,
-          duration: 0.75,
-          ease: "power3.inOut",
+          duration: 1.2,
+          ease: "power2.inOut",
           onComplete: () => {
             setIsFinished(true);
             document.body.style.overflow = "";
           },
         },
         "<"
+      );
+
+      // Soft opacity taper in the final 0.3s as walls clear the viewport
+      tl.to(
+        [leftPanelRef.current, rightPanelRef.current],
+        {
+          opacity: 0,
+          duration: 0.3,
+          ease: "power1.in",
+        },
+        "-=0.3"
       );
     });
 
