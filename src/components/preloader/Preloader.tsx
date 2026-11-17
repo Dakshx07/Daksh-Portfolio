@@ -254,7 +254,7 @@ export default function Preloader() {
               leftImgRef.current.style.webkitMaskImage = mask;
             }
             if (leftAsciiRef.current) {
-              leftAsciiRef.current.style.opacity = p >= 1 ? "0" : "0.85";
+              leftAsciiRef.current.style.opacity = p >= 1 ? "0" : "1";
               const mask = p < 1 ? `radial-gradient(circle at 100% 51.6%, rgba(0,0,0,0) ${Math.max(0, p125 - 5)}%, rgba(0,0,0,1) ${p125 + 2}%)` : "none";
               leftAsciiRef.current.style.maskImage = mask;
               leftAsciiRef.current.style.webkitMaskImage = mask;
@@ -277,7 +277,7 @@ export default function Preloader() {
               rightImgRef.current.style.webkitMaskImage = mask;
             }
             if (rightAsciiRef.current) {
-              rightAsciiRef.current.style.opacity = p >= 1 ? "0" : "0.85";
+              rightAsciiRef.current.style.opacity = p >= 1 ? "0" : "1";
               const mask = p < 1 ? `radial-gradient(circle at 0% 48.7%, rgba(0,0,0,0) ${Math.max(0, p125 - 5)}%, rgba(0,0,0,1) ${p125 + 2}%)` : "none";
               rightAsciiRef.current.style.maskImage = mask;
               rightAsciiRef.current.style.webkitMaskImage = mask;
@@ -481,17 +481,17 @@ export default function Preloader() {
               style={{ opacity: 0 }}
             />
 
-            {/* Layer B: Original Footer Dynamic ASCII Glyph Matrix */}
+            {/* Layer B: Dynamic Luminous ASCII Glyph Matrix */}
             <div className="absolute inset-0 flex items-center justify-end font-mono select-none overflow-hidden">
               <pre
                 ref={leftAsciiRef}
-                className="text-[#0348d8] whitespace-pre select-none pointer-events-none drop-shadow-[0_0_6px_rgba(3,72,216,0.35)]"
+                className="text-[#60a5fa] font-semibold whitespace-pre select-none pointer-events-none drop-shadow-[0_0_8px_rgba(96,165,250,0.7)] drop-shadow-[0_0_16px_rgba(56,189,248,0.4)]"
                 style={{
                   fontFamily: "'Courier New', Courier, monospace",
                   fontSize: "0.58vw",
                   lineHeight: "1.08",
                   letterSpacing: "0.5em",
-                  opacity: 0.85,
+                  opacity: 1,
                 }}
               >
                 {asciiData.left}
@@ -554,17 +554,17 @@ export default function Preloader() {
               style={{ opacity: 0 }}
             />
 
-            {/* Layer B: Original Footer Dynamic ASCII Glyph Matrix */}
+            {/* Layer B: Dynamic Luminous ASCII Glyph Matrix */}
             <div className="absolute inset-0 flex items-center justify-start font-mono select-none overflow-hidden">
               <pre
                 ref={rightAsciiRef}
-                className="text-[#0348d8] whitespace-pre select-none pointer-events-none drop-shadow-[0_0_6px_rgba(3,72,216,0.35)]"
+                className="text-[#60a5fa] font-semibold whitespace-pre select-none pointer-events-none drop-shadow-[0_0_8px_rgba(96,165,250,0.7)] drop-shadow-[0_0_16px_rgba(56,189,248,0.4)]"
                 style={{
                   fontFamily: "'Courier New', Courier, monospace",
                   fontSize: "0.58vw",
                   lineHeight: "1.08",
                   letterSpacing: "0.5em",
-                  opacity: 0.85,
+                  opacity: 1,
                 }}
               >
                 {asciiData.right}
