@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Preloader from "@/components/preloader/Preloader";
 import NotchNavbar from "@/components/navigation/NotchNavbar";
 import AmbientGlow from "@/components/ui/AmbientGlow";
 import EdgeBlur from "@/components/ui/EdgeBlur";
@@ -20,8 +21,11 @@ export default function Home() {
 
   return (
     <main className="relative min-h-screen bg-[var(--bg)] text-[var(--text-primary)] transition-colors duration-250 selection:bg-blue-500/20">
+      {/* Creation of Adam ASCII-to-Realistic Intro Preloader */}
+      <Preloader />
+
       {/* Anti-Inspect & Asset Protection Shield */}
-      <AntiInspectProtection />
+      {/* <AntiInspectProtection /> */}
 
       {/* Ceiling Hanging Pull-Cord Theme Switcher (FeralUI / Verlet Physics) */}
       <PullCordToggle />

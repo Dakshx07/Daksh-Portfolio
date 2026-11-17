@@ -43,6 +43,10 @@ export default function RootLayout({
   return (
     <html lang="en" className={geistPixelSquare.variable} suppressHydrationWarning>
       <head>
+        {/* Preload original ASCII hands preloader assets */}
+        <link rel="preload" href="/assets/images/footer/left.png" as="image" />
+        <link rel="preload" href="/assets/images/footer/right.png" as="image" />
+
         {/* Anti-FOUC Theme Script: Sets html class before first paint */}
         <script
           dangerouslySetInnerHTML={{
