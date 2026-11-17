@@ -16,6 +16,7 @@ export default function Preloader() {
 
   // Structural & Element Refs
   const containerRef = useRef<HTMLDivElement>(null);
+  const backdropRef = useRef<HTMLDivElement>(null);
   const leftPanelRef = useRef<HTMLDivElement>(null);
   const rightPanelRef = useRef<HTMLDivElement>(null);
   const leftHandRef = useRef<HTMLDivElement>(null);
@@ -127,23 +128,25 @@ export default function Preloader() {
       // Start offscreen
       gsap.set(leftHandRef.current, { x: "-60vw", opacity: 1 });
       gsap.set(rightHandRef.current, { x: "60vw", opacity: 1 });
-      gsap.set(sparkRef.current, { scale: 0, opacity: 0 });
+      if (sparkRef.current) {
+        gsap.set(sparkRef.current, { scale: 0, opacity: 0 });
+      }
 
-      // SVG crack paths initialized
+      // SVG crack paths initialized completely hidden (0 opacity until Stage 4/6)
       if (crackTopPathRef.current) {
-        const lenTop = crackTopPathRef.current.getTotalLength() || 600;
+        const lenTop = crackTopPathRef.current.getTotalLength() || 700;
         gsap.set(crackTopPathRef.current, {
           strokeDasharray: lenTop,
           strokeDashoffset: lenTop,
-          opacity: 1,
+          opacity: 0,
         });
       }
       if (crackBottomPathRef.current) {
-        const lenBottom = crackBottomPathRef.current.getTotalLength() || 600;
+        const lenBottom = crackBottomPathRef.current.getTotalLength() || 700;
         gsap.set(crackBottomPathRef.current, {
           strokeDasharray: lenBottom,
           strokeDashoffset: lenBottom,
-          opacity: 1,
+          opacity: 0,
         });
       }
       if (crackBranchesRef.current) {
@@ -299,6 +302,7 @@ export default function Preloader() {
       // ─────────────────────────────────────────────────────────────
       tl.call(() => playCrackSound("top"), undefined, "+=0.08");
 
+      tl.set(crackTopPathRef.current, { opacity: 1 }, "<");
       tl.to(
         crackTopPathRef.current,
         {
@@ -346,6 +350,7 @@ export default function Preloader() {
       // ─────────────────────────────────────────────────────────────
       // STAGE 6: Crack Sunders to the Bottom (Hands -> Bottom Edge)
       // ─────────────────────────────────────────────────────────────
+      tl.set(crackBottomPathRef.current, { opacity: 1 }, "+=0.02");
       tl.to(
         crackBottomPathRef.current,
         {
@@ -353,7 +358,7 @@ export default function Preloader() {
           duration: 0.18,
           ease: "power2.out",
         },
-        "+=0.02"
+        "<"
       );
 
       // ─────────────────────────────────────────────────────────────
@@ -362,6 +367,11 @@ export default function Preloader() {
       // ─────────────────────────────────────────────────────────────
       // Short dramatic tension breath (0.12s) to register the severed screen
       tl.call(() => playCrackSound("parting"), undefined, "+=0.12");
+
+      // Instantly dismiss solid backdrop so parting jagged gap reveals the site underneath
+      if (backdropRef.current) {
+        tl.set(backdropRef.current, { display: "none" }, "<");
+      }
 
       // Crack glow softly dissolves as the chasm expands
       tl.to(
@@ -434,6 +444,12 @@ export default function Preloader() {
       className="fixed inset-0 z-[9999] bg-transparent overflow-hidden cursor-pointer select-none"
       aria-label="Creation of Adam fracture introduction animation"
     >
+      {/* ── SOLID SEAMLESS BACKDROP (z-10 guarantees ZERO hairline gap/bleed while closed) ── */}
+      <div
+        ref={backdropRef}
+        className="absolute inset-0 w-full h-full bg-[#07080a] z-10 pointer-events-none"
+      />
+
       {/* ── LEFT JAGGED PANEL (Clipped along exact fracture line, slides to -100%) ── */}
       <div
         ref={leftPanelRef}
@@ -606,6 +622,11 @@ export default function Preloader() {
           strokeLinecap="round"
           strokeLinejoin="round"
           filter="url(#crack-glow)"
+          style={{
+            opacity: 0,
+            strokeDasharray: 700,
+            strokeDashoffset: 700,
+          }}
         />
 
         {/* Bottom Fracture Path (y: 500 to 1000) */}
@@ -618,6 +639,11 @@ export default function Preloader() {
           strokeLinecap="round"
           strokeLinejoin="round"
           filter="url(#crack-glow)"
+          style={{
+            opacity: 0,
+            strokeDasharray: 700,
+            strokeDashoffset: 700,
+          }}
         />
 
         {/* Micro Branch Fissures */}
@@ -632,7 +658,10 @@ export default function Preloader() {
       {/* ── MINIMALIST HIGH-CRAFT CONTACT SPARK (Exact Center: 50vw, 50vh) ── */}
       <div
         ref={sparkRef}
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none z-40 flex items-center justify-center"
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none z-40 flex items-center justify-center opacity-0"
+        style={{
+          opacity: 0,
+        }}
       >
         {/* Hair-Thin Horizontal Micro-Streak */}
         <div className="absolute w-8 h-[1px] bg-gradient-to-r from-transparent via-white to-transparent opacity-90 shadow-[0_0_8px_rgba(255,255,255,0.8)]" />
